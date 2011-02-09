@@ -94,13 +94,14 @@ There is an example project on github implementing it called [formtastic-cocoon-
 
 ### Using simple_form
 
-There is only line that needs to change, instead of writing `semantic_fields_for` you write `simple_fields_for`.
+This is almost identical to formtastic, instead of writing `semantic_fields_for` you write `simple_fields_for`.
 
-I will provide a full example (and a sample project) later.
+There is an example project on github implementing it called [cocoon_simple_form_demo](https://github.com/nathanvda/cocoon_simple_form_demo).
+
 
 ### Using standard rails forms
 
-I provide a full example (and a sample project) later.
+I will provide a full example (and a sample project) later.
 
 ## How it works
 
@@ -142,7 +143,8 @@ There is no limit to the amount of nesting, though.
 
 ## Todo
 
-* complete the sample projects for simple_form and normal rails forms
+* complete the sample projects -for simple_form- and normal rails forms
+* add more sample relations: has_many :through, belongs_to, ...
 * complete the test-coverage
 
 ## Copyright
