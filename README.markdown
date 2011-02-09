@@ -1,35 +1,39 @@
-# formtastic-cocoon
+# cocoon
 
-Formtastic-cocoon is a Rails3 gem, extending formtastic, to allow easier handling of nested forms.
+cocoon is a Rails3 gem to allow easier handling of nested forms.
 
 Nested forms are forms that handle nested models and attributes in one form.
 For example a project with its tasks, an invoice with its ordered items.
 
+It is formbuilder-agnostic, so it works with standard Rails, or Formtastic or simple_form.
+
 ## Prerequisites
 
-As this gem extends formtastic and uses jQuery, it is only useful to use this gem in a rails3
-project where you are already using formtastic and jQuery.
+This gem uses jQuery, it is most useful to use this gem in a rails3
+project where you are already using jQuery.
 
-I have a sample project where I demonstrate both.
+Furthermore i would advice you to use either formtastic or simple_form.
+
+I have a sample project where I demonstrate the use of cocoon with formtastic.
 
 ## Installation
 
 Inside your `Gemfile` add the following:
 
-    gem "formtastic_cocoon"
+    gem "cocoon"
 
 Run the installation task:
 
-    rails g formtastic_cocoon:install
+    rails g cocoon:install
 
 This will install the needed javascript file.
 Inside your `application.html.haml` you will need to add below the default javascripts:
 
-    = javascript_include_tag :formtastic_cocoon
+    = javascript_include_tag :cocoon
 
 or using erb, you write
 
-    <%= javascript_include_tag :formtastic_cocoon %>
+    <%= javascript_include_tag :cocoon %>
 
 That is all you need to do to start using it!
 
@@ -58,6 +62,10 @@ What we want to achieve is to get a form where we can add and remove the tasks d
 What we need for this, is that the fields for a new/existing `task` are defined in a partial
 view called `_task_fields.html`.
 
+We will show the sample usage with the different possible form-builders.
+
+### Using formtastic
+
 Inside our `projects/_form` partial we then write:
 
     - f.inputs do
@@ -83,6 +91,16 @@ and inside the `_task_fields` partial we write:
 That is all there is to it!
 
 There is an example project on github implementing it called [formtastic-cocoon-demo](https://github.com/nathanvda/formtastic-cocoon-demo).
+
+### Using simple_form
+
+There is only line that needs to change, instead of writing `semantic_fields_for` you write `simple_fields_for`.
+
+I will provide a full example (and a sample project) later.
+
+### Using standard rails forms
+
+I provide a full example (and a sample project) later.
 
 ## How it works
 
@@ -121,6 +139,12 @@ There is no limit to the amount of nesting, though.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+
+## Todo
+
+* complete the sample projects for simple_form and normal rails forms
+* complete the test-coverage
+
 ## Copyright
 
-Copyright (c) 2010 nathanvda. See LICENSE for details.
+Copyright (c) 2010 Nathan Van der Auwera. See LICENSE for details.
