@@ -3,17 +3,27 @@ module Cocoon
 
 
     # this will show a link to remove the current association. This should be placed inside the partial.
-    #
+    # either you give
     # - *name* : the text of the link
     # - *f* : the form this link should be placed in
     # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
-    # - *&block*:        see <tt>link_to</tt>
+    #
+    # or you use the form without *name* with a *&block*
+    # - *f* : the form this link should be placed in
+    # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
+    # - *&block*:        the output of the block will be show in the link, see <tt>link_to</tt>
     
-    def link_to_remove_association(name, f, html_options = {}, &block)
+    def link_to_remove_association(*args, &block)
       if block_given?
-        name = capture(&block)
+        f            = args.first
+        html_options = args.second || {}
+        name         = capture(&block)
         link_to_remove_association(name, f, html_options)
       else
+        name         = args[0]
+        f            = args[1]
+        html_options = args[2] || {}
+
         is_dynamic = f.object.new_record?
         html_options[:class] = [html_options[:class], "remove_fields #{is_dynamic ? 'dynamic' : 'existing'}"].compact.join(' ')
         f.hidden_field(:_destroy) + link_to(name, '#', html_options)
@@ -35,11 +45,18 @@ module Cocoon
     # - *html_options*:  html options to be passed to <tt>link_to</tt> (see <tt>link_to</tt>)
     # - *&block*:        see <tt>link_to</tt>
 
-    def link_to_add_association(name, f, association, html_options = {}, &block)
+    def link_to_add_association(*args, &block)
       if block_given?
-        name = capture(&block)
-        link_to_add_association(name, f, association, html_options)
+        f            = args[0]
+        association  = args[1]
+        html_options = args[2] || {}
+        link_to_add_association(capture(&block), f, association, html_options)
       else
+        name         = args[0]
+        f            = args[1]
+        association  = args[2]
+        html_options = args[3] || {}
+
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
 
