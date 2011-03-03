@@ -112,16 +112,30 @@ I define two helper functions:
 This function will add a link to your markup that will, when clicked, dynamically add a new partial form for the given association.
 This should be placed below the `semantic_fields_for`.
 
-It takes three parameters:
+It takes four parameters:
 
 - name: the text to show in the link
-- f: referring to the containing formtastic form-object
+- f: referring to the containing form-object
 - association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
+- html_options: extra html-options (see `link_to`)
+  There are two extra options that allow to conrol the placement of the new link-data:
+  - `data-association-insertion-node` : the jquery selector of the node
+  - `data-association-insertion-position` : insert the new data `before` or `after` the given node.
+
+Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
 ### link_to_remove_association
 
 This function will add a link to your markup that will, when clicked, dynamically remove the surrounding partial form.
 This should be placed inside the partial `_<association-object-singular>_fields`.
+
+It takes three parameters:
+
+- name: the text to show in the link
+- f: referring to the containing form-object
+- html_options: extra html-options (see `link_to`)
+
+Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
 ### Partial
 
