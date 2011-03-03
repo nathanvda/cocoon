@@ -6,9 +6,18 @@ module Cocoon
     #
     # - *name* : the text of the link
     # - *f* : the form this link should be placed in
-    def link_to_remove_association(name, f)
-      is_dynamic = f.object.new_record?
-      f.hidden_field(:_destroy) + link_to(name, '#', :class => "remove_fields #{is_dynamic ? 'dynamic' : 'existing'}")
+    # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
+    # - *&block*:        see <tt>link_to</tt>
+    
+    def link_to_remove_association(name, f, html_options = {}, &block)
+      if block_given?
+        name = capture(&block)
+        link_to_remove_association(name, f, html_options)
+      else
+        is_dynamic = f.object.new_record?
+        html_options[:class] = [html_options[:class], "remove_fields #{is_dynamic ? 'dynamic' : 'existing'}"].compact.join(' ')
+        f.hidden_field(:_destroy) + link_to(name, '#', html_options)
+      end
     end
 
     # :nodoc:
@@ -23,14 +32,25 @@ module Cocoon
     # - *name* :         the text to show in the link
     # - *f* :            the form this should come in (the formtastic form)
     # - *association* :  the associated objects, e.g. :tasks, this should be the name of the <tt>has_many</tt> relation.
-    #
-    def link_to_add_association(name, f, association)
-      new_object = f.object.class.reflect_on_association(association).klass.new
-      model_name = new_object.class.name.underscore
-      hidden_div = content_tag('div', :id => "#{model_name}_fields_template", :style => "display:none;") do
-        render_association(association, f, new_object)
+    # - *html_options*:  html options to be passed to <tt>link_to</tt> (see <tt>link_to</tt>)
+    # - *&block*:        see <tt>link_to</tt>
+
+    def link_to_add_association(name, f, association, html_options = {}, &block)
+      if block_given?
+        name = capture(&block)
+        link_to_add_association(name, f, association, html_options)
+      else
+        html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
+        html_options[:'data-association'] = association.to_s.singularize
+
+        new_object = f.object.class.reflect_on_association(association).klass.new
+        model_name = new_object.class.name.underscore
+        hidden_div = content_tag('div', :id => "#{model_name}_fields_template", :style => "display:none;") do
+          render_association(association, f, new_object)
+        end
+
+        hidden_div.html_safe + link_to(name, '#', html_options )
       end
-      hidden_div.html_safe + link_to(name, '#', :class => 'add_fields', :'data-association' => association.to_s.singularize)
     end
 
   end
