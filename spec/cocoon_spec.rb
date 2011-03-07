@@ -18,16 +18,71 @@ describe Cocoon do
       @tester.stub(:render_association).and_return('form')
     end
 
-    it "should accept a name without a block" do
-      result = @tester.link_to_add_association('add something', @form_obj, :comments)
-      result.to_s.should == '<div id="comment_fields_template" style="display:none;">form</div><a href="#" class="add_fields" data-association="comment">add something</a>'
+    context "without a block" do
+      it "should accept a name" do
+        result = @tester.link_to_add_association('add something', @form_obj, :comments)
+        result.to_s.should == '<div id="comment_fields_template" style="display:none;">form</div><a href="#" class="add_fields" data-association="comment">add something</a>'
+      end
+
+      it "should accept html options and pass them to link_to" do
+        result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
+        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"something silly add_fields\" data-association=\"comment\">add something</a>"
+      end
     end
 
-    it "should work with a block" do
-      result = @tester.link_to_add_association(@form_obj, :comments) do
-        "some long name"
+    context "with a block" do
+      it "the block gives the link text" do
+        result = @tester.link_to_add_association(@form_obj, :comments) do
+          "some long name"
+        end
+        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"add_fields\" data-association=\"comment\">some long name</a>"
       end
-      result.to_s.should == '<div id="comment_fields_template" style="display:none;">form</div><a href="#" class="add_fields" data-association="comment">some long name</a>'
+
+      it "should accept html options and pass them to link_to" do
+        result = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
+          "some long name"
+        end
+        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"floppy disk add_fields\" data-association=\"comment\">some long name</a>"
+      end
+
+    end
+
+  end
+
+  context "link_to_remove_association" do
+    before(:each) do
+      @tester = TestClass.new
+      @post = Post.new
+      @form_obj = stub(:object => @post, :object_name => @post.class.name)
+    end
+
+    context  "without a block" do
+      it "should accept a name" do
+        result = @tester.link_to_remove_association('remove something', @form_obj)
+        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"remove_fields dynamic\">remove something</a>"
+      end
+
+      it "should accept html options and pass them to link_to" do
+        result = @tester.link_to_remove_association('remove something', @form_obj, {:class => 'add_some_class', :'data-something' => 'bla'})
+        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove something</a>"
+      end
+
+    end
+
+    context "with a block" do
+      it "the block gives the name" do
+        result = @tester.link_to_remove_association(@form_obj) do
+          "remove some long name"
+        end
+        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"remove_fields dynamic\">remove some long name</a>"
+      end
+
+      it "should accept html options and pass them to link_to" do
+        result = @tester.link_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) do
+          "remove some long name"
+        end
+        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove some long name</a>"
+      end
     end
   end
 
