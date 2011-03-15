@@ -61,12 +61,9 @@ module Cocoon
         html_options[:'data-association'] = association.to_s.singularize
 
         new_object = f.object.class.reflect_on_association(association).klass.new
-        model_name = new_object.class.name.underscore
-        hidden_div = content_tag('div', :id => "#{model_name}_fields_template", :style => "display:none;") do
-          render_association(association, f, new_object)
-        end
+        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object))
 
-        hidden_div.html_safe + link_to(name, '#', html_options )
+        link_to(name, '#', html_options )
       end
     end
 

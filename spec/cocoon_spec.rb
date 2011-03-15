@@ -15,18 +15,18 @@ describe Cocoon do
       @tester = TestClass.new
       @post = Post.new
       @form_obj = stub(:object => @post)
-      @tester.stub(:render_association).and_return('form')
+      @tester.stub(:render_association).and_return('form<tag>')
     end
 
     context "without a block" do
       it "should accept a name" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments)
-        result.to_s.should == '<div id="comment_fields_template" style="display:none;">form</div><a href="#" class="add_fields" data-association="comment">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-template="form&amp;lt;tag&amp;gt;">add something</a>'
       end
 
       it "should accept html options and pass them to link_to" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
-        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"something silly add_fields\" data-association=\"comment\">add something</a>"
+        result.to_s.should == '<a href="#" class="something silly add_fields" data-association="comment" data-template="form&amp;lt;tag&amp;gt;">add something</a>'
       end
     end
 
@@ -35,14 +35,14 @@ describe Cocoon do
         result = @tester.link_to_add_association(@form_obj, :comments) do
           "some long name"
         end
-        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"add_fields\" data-association=\"comment\">some long name</a>"
+        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-template="form&amp;lt;tag&amp;gt;">some long name</a>'
       end
 
       it "should accept html options and pass them to link_to" do
         result = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
           "some long name"
         end
-        result.to_s.should == "<div id=\"comment_fields_template\" style=\"display:none;\">form</div><a href=\"#\" class=\"floppy disk add_fields\" data-association=\"comment\">some long name</a>"
+        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-template="form&amp;lt;tag&amp;gt;">some long name</a>'
       end
 
     end
