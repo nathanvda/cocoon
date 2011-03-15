@@ -157,9 +157,8 @@ There is no limit to the amount of nesting, though.
 
 ## Todo
 
-* complete the sample projects -for simple_form- and normal rails forms
 * add more sample relations: has_many :through, belongs_to, ...
-* complete the test-coverage
+* improve the tests (test the javascript too)(if anybody wants to lend a hand ...?)
 
 ## Copyright
 
