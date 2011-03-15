@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cocoon}
-  s.version = "1.0.2"
+  s.version = "1.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Van der Auwera"]
-  s.date = %q{2011-03-06}
+  s.date = %q{2011-03-15}
   s.description = %q{Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven.}
   s.email = %q{nathan@dixis.com}
   s.extra_rdoc_files = [
@@ -32,6 +32,8 @@ Gem::Specification.new do |s|
      "spec/dummy/Rakefile",
      "spec/dummy/app/controllers/application_controller.rb",
      "spec/dummy/app/helpers/application_helper.rb",
+     "spec/dummy/app/models/comment.rb",
+     "spec/dummy/app/models/post.rb",
      "spec/dummy/app/views/layouts/application.html.erb",
      "spec/dummy/config.ru",
      "spec/dummy/config/application.rb",
@@ -48,6 +50,9 @@ Gem::Specification.new do |s|
      "spec/dummy/config/initializers/session_store.rb",
      "spec/dummy/config/locales/en.yml",
      "spec/dummy/config/routes.rb",
+     "spec/dummy/db/migrate/20110306212208_create_posts.rb",
+     "spec/dummy/db/migrate/20110306212250_create_comments.rb",
+     "spec/dummy/db/schema.rb",
      "spec/dummy/public/404.html",
      "spec/dummy/public/422.html",
      "spec/dummy/public/500.html",
@@ -71,6 +76,8 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/spec_helper.rb",
      "spec/dummy/app/controllers/application_controller.rb",
+     "spec/dummy/app/models/comment.rb",
+     "spec/dummy/app/models/post.rb",
      "spec/dummy/app/helpers/application_helper.rb",
      "spec/dummy/config/environment.rb",
      "spec/dummy/config/initializers/session_store.rb",
@@ -84,6 +91,9 @@ Gem::Specification.new do |s|
      "spec/dummy/config/application.rb",
      "spec/dummy/config/routes.rb",
      "spec/dummy/config/boot.rb",
+     "spec/dummy/db/schema.rb",
+     "spec/dummy/db/migrate/20110306212208_create_posts.rb",
+     "spec/dummy/db/migrate/20110306212250_create_comments.rb",
      "spec/cocoon_spec.rb",
      "spec/integration/navigation_spec.rb"
   ]
