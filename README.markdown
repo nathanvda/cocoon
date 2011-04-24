@@ -124,6 +124,15 @@ It takes four parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
+There is an option to add a callback on insertion. The callback can be added as follows:
+
+    $("#todo_tasks a.add_fields").
+      data("insertion-callback",
+         function() {
+           $(this).find("textarea").autoResize({extraSpace:0}).change();
+         });
+
+
 ### link_to_remove_association
 
 This function will add a link to your markup that will, when clicked, dynamically remove the surrounding partial form.
