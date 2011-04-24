@@ -59,6 +59,7 @@ module Cocoon
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
+        html_options[:'data-associations'] = association.to_s.pluralize
 
         new_object = f.object.class.reflect_on_association(association).klass.new
         html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object))
