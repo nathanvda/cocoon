@@ -62,7 +62,7 @@ module Cocoon
         html_options[:'data-associations'] = association.to_s.pluralize
 
         new_object = f.object.class.reflect_on_association(association).klass.new
-        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object))
+        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object)).html_safe
 
         link_to(name, '#', html_options )
       end
