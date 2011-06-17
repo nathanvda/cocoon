@@ -21,12 +21,12 @@ describe Cocoon do
     context "without a block" do
       it "should accept a name" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&amp;lt;tag&amp;gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">add something</a>'
       end
 
       it "should accept html options and pass them to link_to" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
-        result.to_s.should == '<a href="#" class="something silly add_fields" data-association="comment" data-associations="comments" data-template="form&amp;lt;tag&amp;gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="something silly add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">add something</a>'
       end
     end
 
@@ -35,14 +35,14 @@ describe Cocoon do
         result = @tester.link_to_add_association(@form_obj, :comments) do
           "some long name"
         end
-        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&amp;lt;tag&amp;gt;">some long name</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
       end
 
       it "should accept html options and pass them to link_to" do
         result = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
           "some long name"
         end
-        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="form&amp;lt;tag&amp;gt;">some long name</a>'
+        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
       end
 
     end
@@ -50,7 +50,7 @@ describe Cocoon do
     context "with an irregular plural" do
       it "should use the correct plural" do
         result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&amp;lt;tag&amp;gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
       end
 
     end
