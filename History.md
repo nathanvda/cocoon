@@ -1,5 +1,16 @@
 # Change History / Release Notes
 
+## Version 1.0.6 (19/06/2011)
+
+* The javascript has been improved to consistently use `e.preventDefault` instead of returning false.
+
+Run
+
+    rails g cocoon:install
+
+to copy the new `cocoon.js` to your `public/javascripts` folder.
+
+
 ## Version 1.0.5 (17/06/2011)
 
 * This release make sure that the `link_to_add_association` generates a correctly clickable
