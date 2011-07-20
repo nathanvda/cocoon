@@ -39,7 +39,6 @@ GEM
       bundler (~> 1.0)
       git (>= 1.2.5)
       rake
-    json_pure (1.5.2)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -96,8 +95,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack (>= 3.0.0)
   jeweler
-  json_pure
-  rails (= 3.0.8)
+  rails (~> 3.0.0)
   rspec (>= 2.0.0.rc)
   rspec-rails (>= 2.0.0.beta)
   simplecov
