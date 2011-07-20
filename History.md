@@ -1,5 +1,16 @@
 # Change History / Release Notes
 
+## Version 1.0.7 (20/06/2011)
+
+Apparently, the gem 1.0.6 which was generated with ruby 1.9.2 gave the following error upon install:
+
+      uninitialized constant Psych::Syck (NameError)
+
+This is related to this bug: http://rubyforge.org/tracker/?group_id=126&atid=575&func=detail&aid=29163
+
+This should be fixed in the next release of rubygems, the fix should be to build the gem with ruby 1.8.7.
+Let's hope this works.
+
 ## Version 1.0.6 (19/06/2011)
 
 * The javascript has been improved to consistently use `e.preventDefault` instead of returning false.
