@@ -1,15 +1,13 @@
 source "http://rubygems.org"
 
-gem "rails", "3.0.8"
-#gem "capybara", ">= 0.4.0"
-gem "sqlite3-ruby", :require => "sqlite3"
-
-gem "json_pure"
 
 group :development, :test do
+  gem "rails", ">=3.0.0"
+  gem "sqlite3-ruby", :require => "sqlite3"
+  gem "json_pure"
   gem "jeweler"
-  gem "rspec-rails", ">= 2.0.0.beta"
-  gem "rspec",       ">= 2.0.0.rc"
+  gem "rspec-rails", ">= 2.6.0"
+  gem "rspec",       ">= 2.6.0"
   gem "actionpack",  ">=3.0.0"
   gem "simplecov", :require => false
 end
