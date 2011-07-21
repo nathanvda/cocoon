@@ -1,5 +1,9 @@
 # Change History / Release Notes
 
+## Version 1.0.8
+
+* Loosened the gem dependencies.
+
 ## Version 1.0.7 (20/06/2011)
 
 Apparently, the gem 1.0.6 which was generated with ruby 1.9.2 gave the following error upon install:

@@ -97,8 +97,8 @@ DEPENDENCIES
   actionpack (>= 3.0.0)
   jeweler
   json_pure
-  rails (= 3.0.8)
-  rspec (>= 2.0.0.rc)
-  rspec-rails (>= 2.0.0.beta)
+  rails (>= 3.0.0)
+  rspec (>= 2.6.0)
+  rspec-rails (>= 2.6.0)
   simplecov
   sqlite3-ruby
