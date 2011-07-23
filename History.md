@@ -1,5 +1,9 @@
 # Change History / Release Notes
 
+## Version 1.0.10
+
+* Fuck! Built the gem with 1.9.2 again. Built the gem again with 1.8.7.
+
 ## Version 1.0.9
 
 * is now rails 3.1 compatible. If you are not using Rails 3.1 yet, this should have no effect.
