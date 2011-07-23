@@ -1,5 +1,11 @@
 # Change History / Release Notes
 
+## Version 1.0.9
+
+* is now rails 3.1 compatible. If you are not using Rails 3.1 yet, this should have no effect.
+  For rails 3.1 the cocoon.js no longer needs to be installed using the `rails g cocoon:install`. It is
+  automatically used from the gem.
+
 ## Version 1.0.8
 
 * Loosened the gem dependencies.

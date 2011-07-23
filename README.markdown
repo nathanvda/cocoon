@@ -24,7 +24,7 @@ Inside your `Gemfile` add the following:
 
     gem "cocoon"
 
-Run the installation task:
+If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):
 
     rails g cocoon:install
 
