@@ -1,7 +1,7 @@
 require 'cocoon/view_helpers'
 
 module Cocoon
-  class Railtie < ::Rails::Railtie
+  class Engine < ::Rails::Engine
 
     config.before_initialize do
       config.action_view.javascript_expansions[:cocoon] = %w(cocoon)
