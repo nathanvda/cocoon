@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cocoon}
-  s.version = "1.0.8"
+  s.version = "1.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Van der Auwera"]
-  s.date = %q{2011-07-21}
+  s.date = %q{2011-07-24}
   s.description = %q{Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven.}
   s.email = %q{nathan@dixis.com}
   s.extra_rdoc_files = [
@@ -24,11 +24,11 @@ Gem::Specification.new do |s|
     "README.markdown",
     "Rakefile",
     "VERSION",
+    "app/assets/javascripts/cocoon.js",
     "cocoon.gemspec",
     "lib/cocoon.rb",
     "lib/cocoon/view_helpers.rb",
     "lib/generators/cocoon/install/install_generator.rb",
-    "lib/generators/cocoon/install/templates/cocoon.js",
     "spec/cocoon_spec.rb",
     "spec/dummy/Rakefile",
     "spec/dummy/app/controllers/application_controller.rb",
@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
     "spec/dummy/public/javascripts/rails.js",
     "spec/dummy/public/stylesheets/.gitkeep",
     "spec/dummy/script/rails",
+    "spec/generators/install_generator_spec.rb",
     "spec/integration/navigation_spec.rb",
     "spec/spec_helper.rb"
   ]
@@ -88,6 +89,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, [">= 2.6.0"])
       s.add_development_dependency(%q<actionpack>, [">= 3.0.0"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
+      s.add_development_dependency(%q<generator_spec>, [">= 0"])
       s.add_development_dependency(%q<rspec>, [">= 2.0.0"])
     else
       s.add_dependency(%q<rails>, [">= 3.0.0"])
@@ -98,6 +100,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, [">= 2.6.0"])
       s.add_dependency(%q<actionpack>, [">= 3.0.0"])
       s.add_dependency(%q<simplecov>, [">= 0"])
+      s.add_dependency(%q<generator_spec>, [">= 0"])
       s.add_dependency(%q<rspec>, [">= 2.0.0"])
     end
   else
@@ -109,6 +112,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, [">= 2.6.0"])
     s.add_dependency(%q<actionpack>, [">= 3.0.0"])
     s.add_dependency(%q<simplecov>, [">= 0"])
+    s.add_dependency(%q<generator_spec>, [">= 0"])
     s.add_dependency(%q<rspec>, [">= 2.0.0"])
   end
 end
