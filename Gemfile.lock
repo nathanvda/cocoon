@@ -33,6 +33,9 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    generator_spec (0.8.3)
+      rails (~> 3.0)
+      rspec-rails
     git (1.2.5)
     i18n (0.5.0)
     jeweler (1.6.2)
@@ -95,6 +98,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack (>= 3.0.0)
+  generator_spec
   jeweler
   json_pure
   rails (>= 3.0.0)

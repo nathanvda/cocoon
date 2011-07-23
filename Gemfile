@@ -10,6 +10,8 @@ group :development, :test do
   gem "rspec",       ">= 2.6.0"
   gem "actionpack",  ">=3.0.0"
   gem "simplecov", :require => false
+
+  gem "generator_spec"
 end
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
