@@ -38,7 +38,7 @@ GEM
       rspec-rails
     git (1.2.5)
     i18n (0.5.0)
-    jeweler (1.6.2)
+    jeweler (1.6.4)
       bundler (~> 1.0)
       git (>= 1.2.5)
       rake
