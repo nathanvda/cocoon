@@ -24,6 +24,15 @@ Inside your `Gemfile` add the following:
 
     gem "cocoon"
 
+### Rails 3.1
+
+Add the following to `application.js` so it compiles to the
+asset_pipeline
+
+`//= require cocoon`
+
+### Rails 3.x
+
 If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):
 
     rails g cocoon:install
@@ -92,7 +101,7 @@ and inside the `_task_fields` partial we write:
 
 That is all there is to it!
 
-There is an example project on github implementing it called [formtastic-cocoon-demo](https://github.com/nathanvda/formtastic-cocoon-demo).
+There is an example project on github implementing it called [formtastic-cocoon-demo](https://github.com/nathanvda/formtastic_cocoon_demo).
 
 ### Using simple_form
 
