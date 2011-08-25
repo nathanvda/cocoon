@@ -29,7 +29,7 @@ $(document).ready(function() {
     new_content = new_content.replace(regexp_underscord, newcontent_underscord);
 
     if (insertionNode){
-      insertionNode = $(insertionNode);
+      insertionNode = insertionNode == "this" ? $(this) : $(insertionNode);
     } else {
       insertionNode = $(this).parent();
     }
