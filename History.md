@@ -1,5 +1,18 @@
 # Change History / Release Notes
 
+## Version 1.0.12
+
+* using "this" in `association-insertion-node` is now possible
+
+If you are using rails < 3.1, you should run
+
+    rails g cocoon:install
+
+to install the new `cocoon.js` to your `public/javascripts` folder.
+
+## Version 1.0.11
+
+
 ## Version 1.0.10
 
 * Fuck! Built the gem with 1.9.2 again. Built the gem again with 1.8.7.
