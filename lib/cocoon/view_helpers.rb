@@ -31,9 +31,18 @@ module Cocoon
     end
 
     # :nodoc:
-    def render_association(association, f, new_object)
+    def render_association(association, f, new_object, options = {})
+      partial = case options[:partial]
+      when String
+        options[:partial]
+      when NilClass
+        new_object.class.to_s.demodulize.underscore + '_fields'
+      else
+        options[:partial].call(association, f, new_object)
+      end
+        
       f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
-        render(association.to_s.singularize + "_fields", :f => builder, :dynamic => true)
+        render(partial, :f => builder, :dynamic => true)
       end
     end
 
@@ -50,19 +59,21 @@ module Cocoon
         f            = args[0]
         association  = args[1]
         html_options = args[2] || {}
-        link_to_add_association(capture(&block), f, association, html_options)
+        options      = args[3] || {}
+        link_to_add_association(capture(&block), f, association, html_options, options)
       else
         name         = args[0]
         f            = args[1]
         association  = args[2]
         html_options = args[3] || {}
+        options      = args[4] || {}
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
         new_object = f.object.class.reflect_on_association(association).klass.new
-        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object)).html_safe
+        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object, options[:render_association] || {})).html_safe
 
         link_to(name, '#', html_options )
       end
