@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function($) {
 
   function replace_in_content(content, regexp_str, with_str) {
     reg_exp = new RegExp(regexp_str);
@@ -58,4 +58,4 @@ $(document).ready(function() {
     $(this).closest(".nested-fields").hide();
   });
 
-});
+})(jQuery);
