@@ -5,6 +5,10 @@
     content.replace(reg_exp, with_str);
   }
 
+  function trigger_removal_callback(node) {
+    node.parent().parent().trigger('removal-callback');
+  }
+
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
     var assoc   = $(this).data('association'),
@@ -13,6 +17,7 @@
         insertionPosition = $(this).data('association-insertion-position'),
         insertionNode = $(this).data('association-insertion-node'),
         insertionCallback = $(this).data('insertion-callback'),
+        removalCallback = $(this).data('removal-callback'),
         regexp_braced = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord = new RegExp('_new_' + assoc + '_', 'g'),
         new_id  = new Date().getTime(),
@@ -41,18 +46,18 @@
     } else {
       insertionNode.before(contentNode);
     }
-    
-    if (insertionCallback){
-      insertionCallback.call(contentNode);
-    }
+
+    $(this).parent().trigger('insertion-callback');
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
+    trigger_removal_callback($(this));
     e.preventDefault();
     $(this).closest(".nested-fields").remove();
   });
 
   $('.remove_fields.existing').live('click', function(e) {
+    trigger_removal_callback($(this));
     e.preventDefault();
     $(this).prev("input[type=hidden]").val("1");
     $(this).closest(".nested-fields").hide();
