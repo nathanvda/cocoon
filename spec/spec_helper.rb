@@ -1,10 +1,17 @@
 # Configure Rails Envinronment
 ENV["RAILS_ENV"] = "test"
 
+# only start SimpleCov on ruby 1.9.x
+if RUBY_VERSION[0..2].to_f >= 1.9
+  require 'simplecov'
+  SimpleCov.start
+end
+
+
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 require "rspec/rails"
-require 'simplecov'
+
 
 ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.perform_deliveries = true
