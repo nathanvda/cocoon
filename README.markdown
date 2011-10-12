@@ -135,14 +135,6 @@ It takes four parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
-There is an option to add a callback on insertion. The callback can be added as follows:
-
-    $("#todo_tasks a.add_fields").
-      data("insertion-callback",
-         function() {
-           $(this).find("textarea").autoResize({extraSpace:0}).change();
-         });
-
 
 ### link_to_remove_association
 
@@ -157,9 +149,57 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
+### Callbacks (upon insert and remove of items)
+
+There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `onwer`
+(we use slim for demonstration purposes)
+
+      #owner
+        #owner_from_list
+          = f.association :owner, :collection => Person.all(:order => 'name'), :prompt => 'Choose an existing owner'
+        = link_to_add_association 'add a new person as owner', f, :owner
+
+This view part will either let you select an owner from the list of persons, or show the fields to add a new person as owner.
+
+
+The callbacks can be added as follows:
+
+    $(document).ready(function() {
+        $('#owner').bind('insertion-callback',
+             function() {
+               $("#owner_from_list").hide();
+               $("#owner a.add_fields").hide();
+             });
+        $('#owner').bind("removal-callback",
+             function() {
+               $("#owner_from_list").show();
+               $("#owner a.add_fields").show();
+             });
+    });
+
+Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
+
+### Control the Insertion behaviour
+
+The default insertion location is at the back of the current container. But we have added two `data`-attributes that are read to determine the insertion-node and -location.
+
+For example:
+
+    $(document).ready(function() {
+        $("#owner a.add_fields").
+          data("association-insertion-position", 'before').
+          data("association-insertion-node", 'this');
+    });
+
+
+The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this (default it is the parent-container).
+
+The `association-insertion-position` will determine where to add it in relation with the node. Only two options: `before` or `after`.
+
+
 ### Partial
 
-The partial should be named `_<association-object_singular>_fields`, and should start with a div of class `.nested-fields`.
+The partial should be named `_<association-object_singular>_fields`, and should start with a container (e.g. `div`) of class `.nested-fields`.
 
 There is no limit to the amount of nesting, though.
 

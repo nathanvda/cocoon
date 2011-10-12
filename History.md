@@ -1,5 +1,15 @@
 # Change History / Release Notes
 
+## Version 1.0.13
+
+* A while ago we added the option to add a javascript callback on inserting a new associated object, I now made sure we can add a callback on insertion
+  and on removal of a new item. One example where this was useful for me is visible in the demo project `cocoon_simple_form_demo` where I implemented a
+  `belongs_to` relation, and either select from a list, or add a new element.
+  So: the callback-mechanism has changed, and now the callback is bound to the parent container, instead of the link itself. This is because we can also
+  bind the removal callback there (as the removal link is inserted in the html dynamically).
+
+  For more info, see the `README`.
+
 ## Version 1.0.12
 
 * using "this" in `association-insertion-node` is now possible
