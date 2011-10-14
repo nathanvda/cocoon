@@ -11,13 +11,13 @@
 
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
-    var assoc   = $(this).data('association'),
-        assocs  = $(this).data('associations'),
-        content = $(this).data('template'),
-        insertionPosition = $(this).data('association-insertion-position'),
-        insertionNode = $(this).data('association-insertion-node'),
-        insertionCallback = $(this).data('insertion-callback'),
-        removalCallback = $(this).data('removal-callback'),
+    var assoc   = $(this).attr('data-association'),
+        assocs  = $(this).attr('data-associations'),
+        content = $(this).attr('data-template'),
+        insertionPosition = $(this).attr('data-association-insertion-position'),
+        insertionNode = $(this).attr('data-association-insertion-node'),
+        insertionCallback = $(this).attr('data-insertion-callback'),
+        removalCallback = $(this).attr('data-removal-callback'),
         regexp_braced = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord = new RegExp('_new_' + assoc + '_', 'g'),
         new_id  = new Date().getTime(),
