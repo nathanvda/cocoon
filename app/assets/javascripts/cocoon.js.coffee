@@ -20,7 +20,7 @@
     newcontent_braced = "[#{new_id}]"
     newcontent_underscord = "_#{new_id}_"
     new_content = content.replace regexp_braced, "[#{new_id}]"
-   
+
     if new_content == content
       regexp_braced = new RegExp "\\[new_#{assocs}\\]", 'g'
       regexp_underscord = new RegExp "_new_#{assocs}_", 'g'
