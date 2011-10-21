@@ -31,8 +31,9 @@ module Cocoon
     end
 
     # :nodoc:
-    def render_association(association, f, new_object)
-      f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+    def render_association(association, f, new_object, render_options={})
+      method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
+      f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         render(association.to_s.singularize + "_fields", :f => builder, :dynamic => true)
       end
     end
@@ -57,12 +58,15 @@ module Cocoon
         association  = args[2]
         html_options = args[3] || {}
 
+        render_options = html_options.delete(:render_options)
+        render_options ||={}
+
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
         new_object = f.object.class.reflect_on_association(association).klass.new
-        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object)).html_safe
+        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options)).html_safe
 
         link_to(name, '#', html_options )
       end

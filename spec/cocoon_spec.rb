@@ -52,7 +52,48 @@ describe Cocoon do
         result = @tester.link_to_add_association('add something', @form_obj, :people)
         result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
       end
+    end
 
+    it "tttt" do
+      @post.class.reflect_on_association(:people).klass.new.should be_a(Person)
+    end
+
+    context "with extra render-options for rendering the child relation" do
+      it "should use the correct plural" do
+        @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'})
+        result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
+        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
+      end
+    end
+
+    context "when using formtastic" do
+      before(:each) do
+        @tester.unstub(:render_association)
+        @form_obj.stub(:semantic_fields_for).and_return('form<tagzzz>')
+      end
+      it "calls semantic_fields_for and not fields_for" do
+        @form_obj.should_receive(:semantic_fields_for)
+        @form_obj.should_receive(:fields_for).never
+        result = @tester.link_to_add_association('add something', @form_obj, :people)
+        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tagzzz&gt;">add something</a>'
+
+      end
+    end
+    context "when using simple_form" do
+      before(:each) do
+        @tester.unstub(:render_association)
+        @form_obj.stub(:simple_fields_for).and_return('form<tagxxx>')
+      end
+      it "responds_to :simple_fields_for" do
+        @form_obj.should respond_to(:simple_fields_for)
+      end
+      it "calls simple_fields_for and not fields_for" do
+        @form_obj.should_receive(:simple_fields_for)
+        @form_obj.should_receive(:fields_for).never
+        result = @tester.link_to_add_association('add something', @form_obj, :people)
+        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tagxxx&gt;">add something</a>'
+
+      end
     end
 
   end
