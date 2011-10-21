@@ -1,5 +1,14 @@
 # Change History / Release Notes
 
+## Version 1.0.14
+
+* When playing with `simple_form` and `twitter-bootstrap`, I noticed it is crucial that I call the correct nested-fields function.
+  That is: `fields_for` for standard forms, `semantic_fields_for` in formtastic and `simple_fields_for` for simple_form.
+  Secondly, this was not enough, I needed to be able to hand down options to that method. So in the `link_to_add_association` method you
+  can now an extra option `:render_options` and that hash will be handed to the association-builder.
+
+  This allows the nested fields to be built correctly with `simple_form` for `twitter-bootstrap`.
+
 ## Version 1.0.13
 
 * A while ago we added the option to add a javascript callback on inserting a new associated object, I now made sure we can add a callback on insertion
