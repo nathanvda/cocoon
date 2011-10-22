@@ -149,6 +149,13 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
+Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form-builder for the inserted
+form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
+be handed down as follows:
+
+    = link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
+
+
 ### Callbacks (upon insert and remove of items)
 
 There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `onwer`
