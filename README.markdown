@@ -22,29 +22,39 @@ I have a sample project where I demonstrate the use of cocoon with formtastic.
 
 Inside your `Gemfile` add the following:
 
-    gem "cocoon"
+````ruby
+gem "cocoon"
+````
 
 ### Rails 3.1
 
 Add the following to `application.js` so it compiles to the
 asset_pipeline
 
-`//= require cocoon`
+````ruby
+//= require cocoon
+````
 
 ### Rails 3.x
 
 If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):
 
-    rails g cocoon:install
+````ruby
+rails g cocoon:install
+````
 
 This will install the needed javascript file.
 Inside your `application.html.haml` you will need to add below the default javascripts:
 
-    = javascript_include_tag :cocoon
+````haml
+= javascript_include_tag :cocoon
+````
 
 or using erb, you write
 
-    <%= javascript_include_tag :cocoon %>
+````ruby
+<%= javascript_include_tag :cocoon %>
+````
 
 That is all you need to do to start using it!
 
@@ -52,22 +62,28 @@ That is all you need to do to start using it!
 
 Suppose you have a model `Project`:
 
-    rails g scaffold Project name:string description:string
+````ruby
+rails g scaffold Project name:string description:string
+````
 
 and a project has many `tasks`:
 
-    rails g model Task description:string done:boolean project_id:integer
+````ruby
+rails g model Task description:string done:boolean project_id:integer
+````
 
 Edit the models to code the relation:
 
-    class Project < ActiveRecord::Base
-      has_many :tasks
-      accepts_nested_attributes_for :tasks
-    end
+````ruby
+class Project < ActiveRecord::Base
+  has_many :tasks
+  accepts_nested_attributes_for :tasks
+end
 
-    class Task < ActiveRecord::Base
-      belongs_to :project
-    end
+class Task < ActiveRecord::Base
+  belongs_to :project
+end
+````
 
 What we want to achieve is to get a form where we can add and remove the tasks dynamically.
 What we need for this, is that the fields for a new/existing `task` are defined in a partial
@@ -79,25 +95,29 @@ We will show the sample usage with the different possible form-builders.
 
 Inside our `projects/_form` partial we then write:
 
-    - f.inputs do
-      = f.input :name
-      = f.input :description
-      %h3 Tasks
-      #tasks
-        = f.semantic_fields_for :tasks do |task|
-          = render 'task_fields', :f => task
-        .links
-          = link_to_add_association 'add task', f, :tasks
-      -f.buttons do
-        = f.submit 'Save'
+````haml
+- f.inputs do
+  = f.input :name
+  = f.input :description
+  %h3 Tasks
+  #tasks
+    = f.semantic_fields_for :tasks do |task|
+      = render 'task_fields', :f => task
+    .links
+      = link_to_add_association 'add task', f, :tasks
+  -f.buttons do
+    = f.submit 'Save'
+````
 
 and inside the `_task_fields` partial we write:
 
-    .nested-fields
-      = f.inputs do
-        = f.input :description
-        = f.input :done, :as => :boolean
-        = link_to_remove_association "remove task", f
+````haml
+.nested-fields
+  = f.inputs do
+    = f.input :description
+    = f.input :done, :as => :boolean
+    = link_to_remove_association "remove task", f
+````
 
 That is all there is to it!
 
@@ -118,7 +138,7 @@ I will provide a full example (and a sample project) later.
 
 I define two helper functions:
 
-### `link_to_add_association`
+### link_to_add_association
 
 This function will add a link to your markup that will, when clicked, dynamically add a new partial form for the given association.
 This should be placed below the `semantic_fields_for`.
@@ -138,7 +158,7 @@ It takes four parameters:
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
 
-### `link_to_remove_association`
+### link_to_remove_association
 
 This function will add a link to your markup that will, when clicked, dynamically remove the surrounding partial form.
 This should be placed inside the partial `_<association-object-singular>_fields`.
@@ -155,36 +175,41 @@ Inside the `html_options` you can add an option `:render_options`, and the conta
 form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
 be handed down as follows:
 
-    = link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
-
+````haml
+= link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
+````
 
 ### Callbacks (upon insert and remove of items)
 
 There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `owner`
 (we use slim for demonstration purposes)
 
-      #owner
-        #owner_from_list
-          = f.association :owner, :collection => Person.all(:order => 'name'), :prompt => 'Choose an existing owner'
-        = link_to_add_association 'add a new person as owner', f, :owner
+````haml
+#owner
+  #owner_from_list
+    = f.association :owner, :collection => Person.all(:order => 'name'), :prompt => 'Choose an existing owner'
+  = link_to_add_association 'add a new person as owner', f, :owner
+````
 
 This view part will either let you select an owner from the list of persons, or show the fields to add a new person as owner.
 
 
 The callbacks can be added as follows:
 
-    $(document).ready(function() {
-        $('#owner').bind('insertion-callback',
-             function() {
-               $("#owner_from_list").hide();
-               $("#owner a.add_fields").hide();
-             });
-        $('#owner').bind("removal-callback",
-             function() {
-               $("#owner_from_list").show();
-               $("#owner a.add_fields").show();
-             });
-    });
+````javascript
+$(document).ready(function() {
+    $('#owner').bind('insertion-callback',
+         function() {
+           $("#owner_from_list").hide();
+           $("#owner a.add_fields").hide();
+         });
+    $('#owner').bind("removal-callback",
+         function() {
+           $("#owner_from_list").show();
+           $("#owner a.add_fields").show();
+         });
+});
+````
 
 Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
 
@@ -194,12 +219,13 @@ The default insertion location is at the back of the current container. But we h
 
 For example:
 
-    $(document).ready(function() {
-        $("#owner a.add_fields").
-          data("association-insertion-method", 'before').
-          data("association-insertion-node", 'this');
-    });
-
+````javascript
+$(document).ready(function() {
+    $("#owner a.add_fields").
+      data("association-insertion-method", 'before').
+      data("association-insertion-node", 'this');
+});
+````
 
 The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this (default it is the parent-container).
 
