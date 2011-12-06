@@ -118,7 +118,7 @@ I will provide a full example (and a sample project) later.
 
 I define two helper functions:
 
-### link_to_add_association
+### `link_to_add_association`
 
 This function will add a link to your markup that will, when clicked, dynamically add a new partial form for the given association.
 This should be placed below the `semantic_fields_for`.
@@ -129,14 +129,16 @@ It takes four parameters:
 - f: referring to the containing form-object
 - association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
 - html_options: extra html-options (see `link_to`)
-  There are two extra options that allow to conrol the placement of the new link-data:
+  There are three extra options that allow to control the placement of the new link-data:
   - `data-association-insertion-node` : the jquery selector of the node
-  - `data-association-insertion-position` : insert the new data `before` or `after` the given node.
+  - `data-association-insertion-method` : jquery method that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`
+  - `data-association-insertion-position` : old method specifying where to insert new data.
+      - this setting still works but `data-association-insertion-method` takes precedence. may be removed in a future version.
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
 
-### link_to_remove_association
+### `link_to_remove_association`
 
 This function will add a link to your markup that will, when clicked, dynamically remove the surrounding partial form.
 This should be placed inside the partial `_<association-object-singular>_fields`.
@@ -158,7 +160,7 @@ be handed down as follows:
 
 ### Callbacks (upon insert and remove of items)
 
-There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `onwer`
+There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `owner`
 (we use slim for demonstration purposes)
 
       #owner
@@ -188,20 +190,20 @@ Do note that for the callbacks to work there has to be a surrounding container (
 
 ### Control the Insertion behaviour
 
-The default insertion location is at the back of the current container. But we have added two `data`-attributes that are read to determine the insertion-node and -location.
+The default insertion location is at the back of the current container. But we have added two `data`-attributes that are read to determine the insertion-node and -method.
 
 For example:
 
     $(document).ready(function() {
         $("#owner a.add_fields").
-          data("association-insertion-position", 'before').
+          data("association-insertion-method", 'before').
           data("association-insertion-node", 'this');
     });
 
 
 The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this (default it is the parent-container).
 
-The `association-insertion-position` will determine where to add it in relation with the node. Only two options: `before` or `after`.
+The `association-insertion-method` will determine where to add it in relation with the node. Any jQuery DOM Manipulation method can be set but we recommend sticking to any of the following: `before`, `after`, `append`, `prepend`. It is unknown at this time what others would do.
 
 
 ### Partial
@@ -224,7 +226,7 @@ There is no limit to the amount of nesting, though.
 
 ## Todo
 
-* add more sample relations: has_many :through, belongs_to, ...
+* add more sample relations: `has_many :through`, `belongs_to`, ...
 * improve the tests (test the javascript too)(if anybody wants to lend a hand ...?)
 
 ## Copyright

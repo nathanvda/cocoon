@@ -11,56 +11,58 @@
 
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
-    var assoc   = $(this).data('association'),
-        assocs  = $(this).data('associations'),
-        content = $(this).data('template'),
-        insertionPosition = $(this).data('association-insertion-position'),
-        insertionNode = $(this).data('association-insertion-node'),
-        insertionCallback = $(this).data('insertion-callback'),
-        removalCallback = $(this).data('removal-callback'),
-        regexp_braced = new RegExp('\\[new_' + assoc + '\\]', 'g'),
-        regexp_underscord = new RegExp('_new_' + assoc + '_', 'g'),
-        new_id  = new Date().getTime(),
-        newcontent_braced = '[' + new_id + ']',
+    var $this                 = $(this),
+        assoc                 = $this.data('association'),
+        assocs                = $this.data('associations'),
+        content               = $this.data('template'),
+        insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
+        insertionNode         = $this.data('association-insertion-node'),
+        insertionCallback     = $this.data('insertion-callback'),
+        removalCallback       = $this.data('removal-callback'),
+        regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
+        regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
+        new_id                = new Date().getTime(),
+        newcontent_braced     = '[' + new_id + ']',
         newcontent_underscord = '_' + new_id + '_',
-        new_content = content.replace(regexp_braced, '[' + new_id + ']');
+        new_content           = content.replace(regexp_braced, '[' + new_id + ']');
 
     if (new_content == content) {
-        regexp_braced = new RegExp('\\[new_' + assocs + '\\]', 'g');
+        regexp_braced     = new RegExp('\\[new_' + assocs + '\\]', 'g');
         regexp_underscord = new RegExp('_new_' + assocs + '_', 'g');
-        new_content = content.replace(regexp_braced, '[' + new_id + ']');
+        new_content       = content.replace(regexp_braced, '[' + new_id + ']');
     }
 
     new_content = new_content.replace(regexp_underscord, newcontent_underscord);
 
     if (insertionNode){
-      insertionNode = insertionNode == "this" ? $(this) : $(insertionNode);
+      insertionNode = insertionNode == "this" ? $this : $(insertionNode);
     } else {
-      insertionNode = $(this).parent();
+      insertionNode = $this.parent();
     }
 
     var contentNode = $(new_content);
 
-    if (insertionPosition == 'after'){
-      insertionNode.after(contentNode);
-    } else {
-      insertionNode.before(contentNode);
-    }
+    // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
+    // to be called on the node.  allows the insertion node to be the parent of the inserted
+    // code and doesn't force it to be a sibling like after/before does. default: 'before'
+    insertionNode[insertionMethod](contentNode);
 
-    $(this).parent().trigger('insertion-callback');
+    $this.parent().trigger('insertion-callback');
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
-    trigger_removal_callback($(this));
+    var $this = $(this);
+    trigger_removal_callback($this);
     e.preventDefault();
-    $(this).closest(".nested-fields").remove();
+    $this.closest(".nested-fields").remove();
   });
 
   $('.remove_fields.existing').live('click', function(e) {
-    trigger_removal_callback($(this));
+    var $this = $(this);
+    trigger_removal_callback($this);
     e.preventDefault();
-    $(this).prev("input[type=hidden]").val("1");
-    $(this).closest(".nested-fields").hide();
+    $this.prev("input[type=hidden]").val("1");
+    $this.closest(".nested-fields").hide();
   });
 
 })(jQuery);
