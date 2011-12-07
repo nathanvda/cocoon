@@ -1,5 +1,12 @@
 # Change History / Release Notes
 
+## Version 1.0.15
+
+* added `data-association-insertion-method` that gives more control over where to insert the new nested fields.
+  It takes a jquery method as parameter that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`.
+* `data-association-insertion-position` is still available and acts as an alias. Probably this will be deprecated in the future.
+
+
 ## Version 1.0.14
 
 * When playing with `simple_form` and `twitter-bootstrap`, I noticed it is crucial that I call the correct nested-fields function.
@@ -28,6 +35,7 @@ If you are using rails < 3.1, you should run
     rails g cocoon:install
 
 to install the new `cocoon.js` to your `public/javascripts` folder.
+
 
 ## Version 1.0.11
 
