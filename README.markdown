@@ -121,7 +121,7 @@ and inside the `_task_fields` partial we write:
 
 That is all there is to it!
 
-There is an example project on github implementing it called [formtastic-cocoon-demo](https://github.com/nathanvda/formtastic_cocoon_demo).
+There is an example project on github implementing it called [cocoon_formtastic_demo](https://github.com/nathanvda/cocoon_formtastic_demo).
 
 ### Using simple_form
 
