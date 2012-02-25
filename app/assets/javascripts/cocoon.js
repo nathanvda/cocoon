@@ -6,7 +6,7 @@
   }
 
   function trigger_removal_callback(node) {
-    node.parent().parent().trigger('removal-callback');
+    node.parent().parent().trigger('removal-callback',node);
   }
 
   $('.add_fields').live('click', function(e) {
@@ -47,7 +47,7 @@
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
 
-    $this.parent().trigger('insertion-callback');
+    $this.parent().trigger('insertion-callback',$this);
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
