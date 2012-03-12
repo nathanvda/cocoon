@@ -4,21 +4,20 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{cocoon}
-  s.version = "1.0.15"
+  s.name = "cocoon"
+  s.version = "1.0.16"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Van der Auwera"]
-  s.date = %q{2011-12-08}
-  s.description = %q{Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven.}
-  s.email = %q{nathan@dixis.com}
+  s.date = "2012-03-12"
+  s.description = "Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven."
+  s.email = "nathan@dixis.com"
   s.extra_rdoc_files = [
     "README.markdown"
   ]
   s.files = [
     ".travis.yml",
     "Gemfile",
-    "Gemfile.lock",
     "History.md",
     "MIT-LICENSE",
     "README.markdown",
@@ -72,10 +71,10 @@ Gem::Specification.new do |s|
     "spec/integration/navigation_spec.rb",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/nathanvda/cocoon}
+  s.homepage = "http://github.com/nathanvda/cocoon"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{gem that enables easier nested forms with standard forms, formtastic and simple-form}
+  s.rubygems_version = "1.8.15"
+  s.summary = "gem that enables easier nested forms with standard forms, formtastic and simple-form"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
