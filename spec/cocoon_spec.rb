@@ -60,7 +60,7 @@ describe Cocoon do
 
     context "with extra render-options for rendering the child relation" do
       it "should use the correct plural" do
-        @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'})
+        @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'}, nil)
         result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
         result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
       end
@@ -131,6 +131,22 @@ describe Cocoon do
           "remove some long name"
         end
         result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove some long name</a>"
+      end
+    end
+
+    context "association with conditions" do
+      it "should create correct association" do
+        result = @tester.create_object(@form_obj, :admin_comments)
+        result.author.should == "Admin"
+      end
+    end
+
+    context "should create proper partial" do
+      it "should create correct association" do
+        result = @tester.setup_partial(nil, :admin_comments)
+        result.should == "admin_comment_fields"
+        result = @tester.setup_partial("comment_fields", :admin_comments)
+        result.should == "comment_fields"
       end
     end
   end
