@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.files = [
     ".travis.yml",
     "Gemfile",
-    "Gemfile.lock",
     "History.md",
     "MIT-LICENSE",
     "README.markdown",
