@@ -18,6 +18,13 @@ describe Cocoon do
       @tester.stub(:render_association).and_return('form<tag>')
     end
 
+    context "association with conditions" do
+      it "should create correct association" do
+        result = @tester.create_object(@form_obj, :admin_comments)
+        result.author.should == "Admin"
+      end
+    end
+
     context "without a block" do
       it "should accept a name" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments)

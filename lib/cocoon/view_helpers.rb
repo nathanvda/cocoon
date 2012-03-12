@@ -65,11 +65,21 @@ module Cocoon
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
-        new_object = f.object.class.reflect_on_association(association).klass.new
+        new_object = create_object(f, association)
         html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options)).html_safe
 
         link_to(name, '#', html_options )
       end
+    end
+
+    # creates new association object with its conditions, like
+    # `` has_many :admin_comments, class_name: "Comment", conditions: { author: "Admin" }
+    # will create new Comment with author "Admin"
+    
+    def create_object(f, association)
+      assoc      = f.object.class.reflect_on_association(association)
+      conditions = assoc.conditions.flatten
+      new_object = assoc.klass.new(*conditions)
     end
 
   end

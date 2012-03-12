@@ -7,7 +7,7 @@ rescue LoadError
 end
 
 require 'rake'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
