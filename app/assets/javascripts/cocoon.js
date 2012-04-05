@@ -58,9 +58,8 @@
     var $this = $(this);
     var trigger_node = $this.closest(".nested-fields").parent();
     e.preventDefault();
-    trigger_removal_before_callback($this);
+    trigger_removal_before_callback(trigger_node);
     $this.closest(".nested-fields").remove();
-    alert (trigger_node.html());
     trigger_removal_after_callback(trigger_node);
   });
 
@@ -68,10 +67,9 @@
     var $this = $(this);
     var trigger_node = $this.closest(".nested-fields").parent();
     e.preventDefault();
-    trigger_removal_before_callback($this);
+    trigger_removal_before_callback(trigger_node);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
-    alert (trigger_node.html());
     trigger_removal_after_callback(trigger_node);
   });
 
