@@ -56,18 +56,20 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_before_callback($this);
     e.preventDefault();
+    trigger_removal_before_callback($this);
     $this.closest(".nested-fields").remove();
+    alert 'removed dynamic'
     trigger_removal_after_callback($this);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_before_callback($this);
     e.preventDefault();
+    trigger_removal_before_callback($this);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
+    alert 'removed existing'
     trigger_removal_after_callback($this);
   });
 
