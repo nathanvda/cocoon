@@ -18,7 +18,8 @@
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
         insertionCallback     = $this.data('insertion-callback'),
-        removalCallback       = $this.data('removal-callback'),
+        removalBeforeCallback       = $this.data('removal-before-callback'),
+        removalAfterCallback       = $this.data('removal- after-callback'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
         new_id                = new Date().getTime(),
@@ -52,17 +53,20 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_callback($this);
     e.preventDefault();
+    trigger_removal_before_callback($this);
     $this.closest(".nested-fields").remove();
+    trigger_removal_after_callback($this);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
     trigger_removal_callback($this);
     e.preventDefault();
+    trigger_removal_before_callback($this);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
+    trigger_removal_after_callback($this);
   });
 
 })(jQuery);
