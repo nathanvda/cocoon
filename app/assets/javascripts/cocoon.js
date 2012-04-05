@@ -56,23 +56,23 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
-    var after_node = $this.parent().parent()
+    var trigger_node = $this.closest(".nested-fields").parent();
     e.preventDefault();
     trigger_removal_before_callback($this);
     $this.closest(".nested-fields").remove();
-    alert (after_node.html());
-    trigger_removal_after_callback(after_node);
+    alert (trigger_node.html());
+    trigger_removal_after_callback(trigger_node);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    var after_node = $this.parent().parent()
+    var trigger_node = $this.closest(".nested-fields").parent();
     e.preventDefault();
     trigger_removal_before_callback($this);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
-    alert (after_node.html());
-    trigger_removal_after_callback(after_node);
+    alert (trigger_node.html());
+    trigger_removal_after_callback(trigger_node);
   });
 
 })(jQuery);
