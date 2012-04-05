@@ -59,7 +59,7 @@
     e.preventDefault();
     trigger_removal_before_callback($this);
     $this.closest(".nested-fields").remove();
-    alert 'removed dynamic'
+    alert ('removed dynamic' + $this.html());
     trigger_removal_after_callback($this);
   });
 
@@ -69,7 +69,7 @@
     trigger_removal_before_callback($this);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
-    alert 'removed existing'
+    alert ('removed existing' + $this.html() );
     trigger_removal_after_callback($this);
   });
 
