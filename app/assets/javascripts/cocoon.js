@@ -5,8 +5,11 @@
     content.replace(reg_exp, with_str);
   }
 
-  function trigger_removal_callback(node) {
-    node.parent().parent().trigger('removal-callback');
+  function trigger_removal_before_callback(node) {
+    node.parent().parent().trigger('removal-before-callback');
+  }
+  function trigger_removal_after_callback(node) {
+    node.parent().parent().trigger('removal-after-callback');
   }
 
   $('.add_fields').live('click', function(e) {
@@ -19,7 +22,7 @@
         insertionNode         = $this.data('association-insertion-node'),
         insertionCallback     = $this.data('insertion-callback'),
         removalBeforeCallback       = $this.data('removal-before-callback'),
-        removalAfterCallback       = $this.data('removal- after-callback'),
+        removalAfterCallback       = $this.data('removal-after-callback'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
         new_id                = new Date().getTime(),
@@ -53,17 +56,16 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
-    e.preventDefault();
     trigger_removal_before_callback($this);
+    e.preventDefault();
     $this.closest(".nested-fields").remove();
     trigger_removal_after_callback($this);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_callback($this);
-    e.preventDefault();
     trigger_removal_before_callback($this);
+    e.preventDefault();
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
     trigger_removal_after_callback($this);
