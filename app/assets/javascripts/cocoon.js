@@ -9,7 +9,7 @@
     node.parent().parent().trigger('removal-before-callback');
   }
   function trigger_removal_after_callback(node) {
-    node.parent().parent().trigger('removal-after-callback');
+    node.trigger('removal-after-callback');
   }
 
   $('.add_fields').live('click', function(e) {
@@ -56,21 +56,23 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
+    var after_node = $this.parent().parent()
     e.preventDefault();
     trigger_removal_before_callback($this);
     $this.closest(".nested-fields").remove();
-    alert ('removed dynamic' + $this.html());
-    trigger_removal_after_callback($this);
+    alert (after_node.html());
+    trigger_removal_after_callback(after_node);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
+    var after_node = $this.parent().parent()
     e.preventDefault();
     trigger_removal_before_callback($this);
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
-    alert ('removed existing' + $this.html() );
-    trigger_removal_after_callback($this);
+    alert (after_node.html());
+    trigger_removal_after_callback(after_node);
   });
 
 })(jQuery);
