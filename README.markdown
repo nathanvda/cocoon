@@ -149,13 +149,32 @@ It takes four parameters:
 - f: referring to the containing form-object
 - association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
 - html_options: extra html-options (see `link_to`)
-  There are three extra options that allow to control the placement of the new link-data:
+  There are some special options, the first three allow to control the placement of the new link-data:
   - `data-association-insertion-node` : the jquery selector of the node
   - `data-association-insertion-method` : jquery method that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`
   - `data-association-insertion-position` : old method specifying where to insert new data.
       - this setting still works but `data-association-insertion-method` takes precedence. may be removed in a future version.
+  - `partial`: explicitly declare the name of the partial that will be used
+  - `render_options` : options passed through to the form-builder function (e.g. `simple_fields_for`, `semantic_fields_for` or `fields_for`).
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
+
+#### :render_options
+Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form-builder for the inserted
+form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
+be handed down as follows:
+
+````haml
+= link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
+````
+
+#### :partial
+
+To overrule the default partial name, e.g. because it shared between multiple views, write
+
+````haml
+= link_to_add_association 'add something', f, :something, :partial => 'shared/something_fields'
+````
 
 
 ### link_to_remove_association
@@ -171,13 +190,6 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
-Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form-builder for the inserted
-form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
-be handed down as follows:
-
-````haml
-= link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
-````
 
 ### Callbacks (upon insert and remove of items)
 
@@ -234,7 +246,12 @@ The `association-insertion-method` will determine where to add it in relation wi
 
 ### Partial
 
-The partial should be named `_<association-object_singular>_fields`, and should start with a container (e.g. `div`) of class `.nested-fields`.
+If no explicit partial-name is given, `cocoon` looks for a file named `_<association-object_singular>_fields`.
+To override the default partial-name use the option `:partial`.
+
+For the javascript to behave correctly, the partial should start with a container (e.g. `div`) of class `.nested-fields`.
+
+
 
 There is no limit to the amount of nesting, though.
 

@@ -45,6 +45,8 @@ module Cocoon
     # - *f* :            the form this should come in (the formtastic form)
     # - *association* :  the associated objects, e.g. :tasks, this should be the name of the <tt>has_many</tt> relation.
     # - *html_options*:  html options to be passed to <tt>link_to</tt> (see <tt>link_to</tt>)
+    #          - *:render_options* : options passed to `simple_fields_for, semantic_fields_for or fields_for`
+    #          - *:partial*        : explicitly override the default partial name
     # - *&block*:        see <tt>link_to</tt>
 
     def link_to_add_association(*args, &block)
