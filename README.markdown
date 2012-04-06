@@ -220,10 +220,15 @@ $(document).ready(function() {
            $("#owner_from_list").show();
            $("#owner a.add_fields").show();
          });
+    $('#owner').bind("after-removal-callback",
+         function() {
+           /* e.g. recalculate order of child items */
+         });
 });
 ````
 
 Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
+Note that the default `removal-callback` is called _before_ removing the nested item.
 
 ### Control the Insertion behaviour
 

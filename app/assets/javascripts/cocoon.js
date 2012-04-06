@@ -6,7 +6,11 @@
   }
 
   function trigger_removal_callback(node) {
-    node.parent().parent().trigger('removal-callback');
+    node.trigger('removal-callback');
+  }
+
+  function trigger_after_removal_callback(node) {
+    node.trigger('after-removal-callback');
   }
 
   $('.add_fields').live('click', function(e) {
@@ -17,8 +21,6 @@
         content               = $this.data('template'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
-        insertionCallback     = $this.data('insertion-callback'),
-        removalCallback       = $this.data('removal-callback'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
         new_id                = new Date().getTime(),
@@ -52,17 +54,21 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_callback($this);
+    var trigger_node = $this.closest(".nested-fields").parent();
+    trigger_removal_callback(trigger_node);
     e.preventDefault();
     $this.closest(".nested-fields").remove();
+    trigger_after_removal_callback(trigger_node);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    trigger_removal_callback($this);
+    var trigger_node = $this.closest(".nested-fields").parent().parent();
+    trigger_removal_callback(trigger_node);
     e.preventDefault();
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
+    trigger_after_removal_callback(trigger_node);
   });
 
 })(jQuery);
