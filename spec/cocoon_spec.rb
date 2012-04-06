@@ -54,6 +54,13 @@ describe Cocoon do
       end
     end
 
+    context "when using aliased association and class-name" do
+      it "uses the correct name" do
+        result = @tester.link_to_add_association('add something', @form_obj, :admin_comments)
+        result.to_s.should == '<a href="#" class="add_fields" data-association="admin_comment" data-associations="admin_comments" data-template="form&lt;tag&gt;">add something</a>'
+      end
+    end
+
     it "tttt" do
       @post.class.reflect_on_association(:people).klass.new.should be_a(Person)
     end
