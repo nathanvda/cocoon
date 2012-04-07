@@ -58,7 +58,7 @@ module Cocoon
         association  = args[1]
         html_options = args[2] || {}
         options      = args[3] || {}
-        link_to_add_association(capture(&block), f, association, html_options)
+        link_to_add_association(capture(&block), f, association, html_options, options)
       else
         name         = args[0]
         f            = args[1]
