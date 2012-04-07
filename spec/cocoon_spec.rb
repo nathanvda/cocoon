@@ -45,6 +45,14 @@ describe Cocoon do
         result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
       end
 
+      it "accepts options and passes them to link_to" do
+        @tester.unstub(:render_association)
+        @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+        result = @tester.link_to_add_association( @form_obj, :comments, {:class => 'floppy disk'}, {:partial => "shared/partial"}) do
+          "some long name"
+        end
+        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="partiallll">some long name</a>'
+      end
     end
 
     context "with an irregular plural" do
