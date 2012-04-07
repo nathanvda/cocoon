@@ -33,9 +33,11 @@ module Cocoon
     # :nodoc:
     def render_association(association, f, new_object, render_options={}, custom_partial=nil)
       partial = setup_partial(custom_partial, association)
+      locals =  render_options.delete(:locals)
       method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
-        render(partial, :f => builder, :dynamic => true)
+        partial_options = {:f => builder, :dynamic => true}.merge(locals)
+        render(partial, partial_options)
       end
     end
 
@@ -46,6 +48,7 @@ module Cocoon
     # - *association* :  the associated objects, e.g. :tasks, this should be the name of the <tt>has_many</tt> relation.
     # - *html_options*:  html options to be passed to <tt>link_to</tt> (see <tt>link_to</tt>)
     #          - *:render_options* : options passed to `simple_fields_for, semantic_fields_for or fields_for`
+    #              - *:locals*     : the locals hash in the :render_options is handed to the partial
     #          - *:partial*        : explicitly override the default partial name
     # - *&block*:        see <tt>link_to</tt>
 

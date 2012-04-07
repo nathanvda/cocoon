@@ -156,6 +156,7 @@ It takes four parameters:
       - this setting still works but `data-association-insertion-method` takes precedence. may be removed in a future version.
   - `partial`: explicitly declare the name of the partial that will be used
   - `render_options` : options passed through to the form-builder function (e.g. `simple_fields_for`, `semantic_fields_for` or `fields_for`).
+                       If it contains a `:locals` option containing a hash, that is handed to the partial.
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
@@ -167,6 +168,13 @@ be handed down as follows:
 ````haml
 = link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
 ````
+
+If you want to specify locals that needed to handed down to the partial, write
+
+````haml
+= link_to_add_association 'add something', f, :something, :render_options => {:locals => {:sherlock => 'Holmes' }}
+````
+
 
 #### :partial
 

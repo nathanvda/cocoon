@@ -73,6 +73,18 @@ describe Cocoon do
       end
     end
 
+    context "with extra render-options to pass locals to the partial" do
+      it "uses the correct plural" do
+        @tester.unstub(:render_association)
+        @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
+        @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
+        result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
+        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="partiallll">add something</a>'
+      end
+    end
+
+
+
     context "when using formtastic" do
       before(:each) do
         @tester.unstub(:render_association)
