@@ -33,7 +33,7 @@ module Cocoon
     # :nodoc:
     def render_association(association, f, new_object, render_options={}, custom_partial=nil)
       partial = setup_partial(custom_partial, association)
-      locals =  render_options.delete(:locals)
+      locals =  render_options.delete(:locals) || {}
       method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {:f => builder, :dynamic => true}.merge(locals)
@@ -58,7 +58,7 @@ module Cocoon
         association  = args[1]
         html_options = args[2] || {}
         options      = args[3] || {}
-        link_to_add_association(capture(&block), f, association, html_options)
+        link_to_add_association(capture(&block), f, association, html_options, options)
       else
         name         = args[0]
         f            = args[1]
