@@ -28,6 +28,13 @@ describe Cocoon do
         result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
         result.to_s.should == '<a href="#" class="something silly add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">add something</a>'
       end
+
+      it "allows to explicitly hand the wanted partial" do
+        @tester.unstub(:render_association)
+        @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+        result = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
+        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="partiallll">add something</a>'
+      end
     end
 
     context "with a block" do
@@ -45,10 +52,10 @@ describe Cocoon do
         result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
       end
 
-      it "accepts options and passes them to link_to" do
+      it "allows to explicitly hand the wanted partial" do
         @tester.unstub(:render_association)
         @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
-        result = @tester.link_to_add_association( @form_obj, :comments, {:class => 'floppy disk'}, {:partial => "shared/partial"}) do
+        result = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
           "some long name"
         end
         result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="partiallll">some long name</a>'
@@ -175,13 +182,13 @@ describe Cocoon do
       end
     end
 
-    context "setup_partial" do
+    context "get_partial_path" do
       it "generates the default partial name if no partial given" do
-        result = @tester.setup_partial(nil, :admin_comments)
+        result = @tester.get_partial_path(nil, :admin_comments)
         result.should == "admin_comment_fields"
       end
       it "uses the given partial name" do
-        result = @tester.setup_partial("comment_fields", :admin_comments)
+        result = @tester.get_partial_path("comment_fields", :admin_comments)
         result.should == "comment_fields"
       end
     end

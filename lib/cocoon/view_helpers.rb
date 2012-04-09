@@ -32,7 +32,7 @@ module Cocoon
 
     # :nodoc:
     def render_association(association, f, new_object, render_options={}, custom_partial=nil)
-      partial = setup_partial(custom_partial, association)
+      partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
       method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
@@ -57,24 +57,23 @@ module Cocoon
         f            = args[0]
         association  = args[1]
         html_options = args[2] || {}
-        options      = args[3] || {}
-        link_to_add_association(capture(&block), f, association, html_options, options)
+        link_to_add_association(capture(&block), f, association, html_options)
       else
         name         = args[0]
         f            = args[1]
         association  = args[2]
         html_options = args[3] || {}
-        options      = args[4] || {}
 
         render_options   = html_options.delete(:render_options)
         render_options ||= {}
+        override_partial = html_options.delete(:partial)
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
         new_object = create_object(f, association)
-        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, options[:partial])).html_safe
+        html_options[:'data-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, override_partial)).html_safe
 
         link_to(name, '#', html_options )
       end
@@ -90,12 +89,8 @@ module Cocoon
       new_object = assoc.klass.new(*conditions)
     end
 
-    def setup_partial(partial, association)
-      if partial
-        partial
-      else
-        association.to_s.singularize + "_fields"
-      end
+    def get_partial_path(partial, association)
+      partial ? partial : association.to_s.singularize + "_fields"
     end
 
   end
