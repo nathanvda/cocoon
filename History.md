@@ -1,5 +1,36 @@
 # Change History / Release Notes
 
+
+## Version 1.0.20
+
+* improved handing of the `:partial`: remove the extra options-hash, and just make it use the single hash, so now we can just write
+
+     = link_to_add_association 'add something', f, :tasks, :partial => 'shared/task_fields'
+     = link_to_add_association 'add something', f, :tasks, :class => 'your-special-class', :partial => 'shared/task_fields'
+
+
+## Version 1.0.19
+
+* pull #53 (@CuriousCurmudgeon): fixed some bugs introduced in previous version (ooooops! Thanks!!!)
+
+## Version 1.0.18
+
+* pull in #51 (@erwin): adding an `after-removal-callback` in javascript, very useful if you want to recalculate e.g. total-items or indexes
+* pull in #42 (@zacstewart): allow to hand extra `:locals` to the partial
+* updated documentation
+
+## Version 1.0.17
+
+* fix: make sure that cocoon still works for rails 3.0, where the `conditions` is not available yet
+
+## Version 1.0.16
+
+* merged pull request #33 (@fl00r): added the a custom partial option! genius :)
+  Also the creation of the nested objects takes any available conditions into account.
+  Now you can write
+
+     = link_to_add_association 'add something', f, :tasks, {}, :partial => 'shared/task_fields'
+
 ## Version 1.0.15
 
 * added `data-association-insertion-method` that gives more control over where to insert the new nested fields.
