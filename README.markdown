@@ -105,8 +105,8 @@ Inside our `projects/_form` partial we then write:
       = render 'task_fields', :f => task
     .links
       = link_to_add_association 'add task', f, :tasks
-  -f.buttons do
-    = f.submit 'Save'
+  -f.actions do
+    = f.action :submit
 ````
 
 and inside the `_task_fields` partial we write:
