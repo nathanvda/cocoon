@@ -86,7 +86,7 @@ module Cocoon
     def create_object(f, association)
       assoc      = f.object.class.reflect_on_association(association)
       conditions = assoc.respond_to?(:conditions) ? assoc.conditions.flatten : []
-      new_object = assoc.klass.new(*conditions)
+      f.object.send(association).build(*conditions)
     end
 
     def get_partial_path(partial, association)

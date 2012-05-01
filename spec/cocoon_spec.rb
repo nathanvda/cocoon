@@ -180,6 +180,12 @@ describe Cocoon do
         result = @tester.create_object(@form_obj, :admin_comments)
         result.author.should == "Admin"
       end
+      
+      it "should create child object and retain reference to parent object" do
+        @post.save! # persist post so that new child has a parent object
+        new_object = @tester.create_object(@form_obj, :admin_comments)
+        new_object.post.should == @post
+      end
     end
 
     context "get_partial_path" do
