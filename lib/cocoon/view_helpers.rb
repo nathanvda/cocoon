@@ -84,9 +84,13 @@ module Cocoon
     # will create new Comment with author "Admin"
 
     def create_object(f, association)
-      assoc      = f.object.class.reflect_on_association(association)
-      conditions = assoc.respond_to?(:conditions) ? assoc.conditions.flatten : []
-      new_object = assoc.klass.new(*conditions)
+      assoc = f.object.class.reflect_on_association(association)
+
+      if assoc.collection?
+        f.object.send(association).build
+      else
+        f.object.send("build_#{association}")
+      end
     end
 
     def get_partial_path(partial, association)
