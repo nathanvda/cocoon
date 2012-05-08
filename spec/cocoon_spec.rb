@@ -175,10 +175,15 @@ describe Cocoon do
       end
     end
 
-    context "association with conditions" do
-      it "should create correct association" do
+    context "create_object" do
+      it "should create correct association with conditions" do
         result = @tester.create_object(@form_obj, :admin_comments)
         result.author.should == "Admin"
+      end
+
+      it "should create correct association for belongs_to associations" do
+        result = @tester.create_object(stub(:object => Comment.new), :post)
+        result.should be_a Post
       end
     end
 
