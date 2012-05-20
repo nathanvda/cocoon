@@ -86,10 +86,16 @@ module Cocoon
     def create_object(f, association)
       assoc = f.object.class.reflect_on_association(association)
 
-      if assoc.collection?
-        f.object.send(association).build
+      if assoc.class.name == "Mongoid::Relations::Metadata"
+        conditions = assoc.respond_to?(:conditions) ? assoc.conditions.flatten : []
+        assoc.klass.new(*conditions)
       else
-        f.object.send("build_#{association}")
+        # assume ActiveRecord or compatible
+        if assoc.collection?
+          f.object.send(association).build
+        else
+          f.object.send("build_#{association}")
+        end
       end
     end
 
