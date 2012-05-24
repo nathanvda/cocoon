@@ -69,7 +69,7 @@ rails g scaffold Project name:string description:string
 and a project has many `tasks`:
 
 ````ruby
-rails g model Task description:string done:boolean project_id:integer
+rails g model Task description:string done:boolean Project:references
 ````
 
 Edit the models to code the relation:
