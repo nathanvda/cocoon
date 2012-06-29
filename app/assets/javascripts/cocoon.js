@@ -54,20 +54,26 @@
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
+    var timeout = $this.attr('data-timeout') || 0;
     var trigger_node = $this.closest(".nested-fields").parent();
     trigger_removal_callback(trigger_node);
     e.preventDefault();
-    $this.closest(".nested-fields").remove();
+    setTimeout(function(){
+      $this.closest(".nested-fields").remove();
+    }, timeout);
     trigger_after_removal_callback(trigger_node);
   });
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
+    var timeout = $this.attr('data-timeout') || 0;
     var trigger_node = $this.closest(".nested-fields").parent().parent();
     trigger_removal_callback(trigger_node);
     e.preventDefault();
-    $this.prev("input[type=hidden]").val("1");
-    $this.closest(".nested-fields").hide();
+    setTimeout(function(){
+      $this.prev("input[type=hidden]").val("1");
+      $this.closest(".nested-fields").hide();
+    }, timeout);
     trigger_after_removal_callback(trigger_node);
   });
 

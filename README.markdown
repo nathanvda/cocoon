@@ -198,6 +198,11 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
+If you would like to add a delay to the removal of the node, perhaps to add a fancy animation, you can set 'data-timeout' to a value in milliseconds.
+
+````haml
+= link_to_remove_association 'Remove Suggestion', f, 'data-timeout' => 500
+````
 
 ### Callbacks (upon insert and remove of items)
 
