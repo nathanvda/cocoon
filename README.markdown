@@ -165,6 +165,8 @@ Inside the `html_options` you can add an option `:render_options`, and the conta
 form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
 be handed down as follows:
 
+(Note: In certain newer versions of simple_form, the option to use is ':wrapper => 'bootstrap')
+
 ````haml
 = link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
 ````
