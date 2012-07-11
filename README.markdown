@@ -96,7 +96,7 @@ We will show the sample usage with the different possible form-builders.
 Inside our `projects/_form` partial we then write:
 
 ````haml
-- f.inputs do
+= f.inputs do
   = f.input :name
   = f.input :description
   %h3 Tasks
@@ -105,7 +105,7 @@ Inside our `projects/_form` partial we then write:
       = render 'task_fields', :f => task
     .links
       = link_to_add_association 'add task', f, :tasks
-  -f.actions do
+  = f.actions do
     = f.action :submit
 ````
 
