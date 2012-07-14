@@ -125,10 +125,31 @@ There is an example project on github implementing it called [cocoon_formtastic_
 
 ### Using simple_form
 
-This is almost identical to formtastic, instead of writing `semantic_fields_for` you write `simple_fields_for`.
+Inside our `projects/_form` partial we then write:
+
+````haml
+- simple_form_for @project do |f|
+  = f.input :name
+  = f.input :description
+  %h3 Tasks
+  #tasks
+    = f.simple_fields_for :tasks do |task|
+      = render 'task_fields', :f => task
+    .links
+      = link_to_add_association 'add task', f, :tasks
+  = f.submit
+````
+
+and inside the `_task_fields` partial we write:
+
+````haml
+.nested-fields
+  = f.input :description
+  = f.input :done, :as => :boolean
+  = link_to_remove_association "remove task", f
+````
 
 There is an example project on github implementing it called [cocoon_simple_form_demo](https://github.com/nathanvda/cocoon_simple_form_demo).
-
 
 ### Using standard rails forms
 
