@@ -128,7 +128,7 @@ There is an example project on github implementing it called [cocoon_formtastic_
 Inside our `projects/_form` partial we then write:
 
 ````haml
-- simple_form_for @project do |f|
+= simple_form_for @project do |f|
   = f.input :name
   = f.input :description
   %h3 Tasks
