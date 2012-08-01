@@ -9,6 +9,8 @@ For example a project with its tasks, an invoice with its ordered items.
 
 It is formbuilder-agnostic, so it works with standard Rails, or Formtastic or simple_form.
 
+This project is not related to [Apache Cocoon](http://cocoon.apache.org/)
+
 ## Prerequisites
 
 This gem uses jQuery, it is most useful to use this gem in a rails3
@@ -311,3 +313,9 @@ There is no limit to the amount of nesting, though.
 ## Copyright
 
 Copyright (c) 2010 Nathan Van der Auwera. See LICENSE for details.
+
+## Not Related To Apache Cocoon
+
+Please note that this project is not related to the Apache Cocoon web framework project. 
+
+[Apache Cocoon](http://cocoon.apache.org/), Cocoon, and Apache are either registered trademarks or trademarks of the [Apache Software Foundation](http://www.apache.org/) in the United States and/or other countries.
