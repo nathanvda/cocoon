@@ -21,6 +21,7 @@
         content               = $this.data('template'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
+        insertionTraversal    = $this.data('association-insertion-traversal'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
         new_id                = new Date().getTime(),
@@ -37,7 +38,11 @@
     new_content = new_content.replace(regexp_underscord, newcontent_underscord);
 
     if (insertionNode){
-      insertionNode = insertionNode == "this" ? $this : $(insertionNode);
+      if (insertionTraversal){
+        insertionNode = $this[insertionTraversal](insertionNode)
+      } else {
+        insertionNode = insertionNode == "this" ? $this : $(insertionNode);
+      }
     } else {
       insertionNode = $this.parent();
     }

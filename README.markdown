@@ -173,6 +173,7 @@ It takes four parameters:
 - association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
 - html_options: extra html-options (see `link_to`)
   There are some special options, the first three allow to control the placement of the new link-data:
+  - `data-association-insertion-traversal` : the jquery traversal method to allow node selection relative to the link. `closest`, `next`, `children`, etc. Default: absolute selection
   - `data-association-insertion-node` : the jquery selector of the node
   - `data-association-insertion-method` : jquery method that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`
   - `data-association-insertion-position` : old method specifying where to insert new data.
@@ -281,6 +282,18 @@ The `association-insertion-node` will determine where to add it. You can choose 
 
 The `association-insertion-method` will determine where to add it in relation with the node. Any jQuery DOM Manipulation method can be set but we recommend sticking to any of the following: `before`, `after`, `append`, `prepend`. It is unknown at this time what others would do.
 
+The `association-insertion-traversal` will allow node selection to be relative to the link.
+
+For example:
+
+````javascript
+$(document).ready(function() {
+    $("#owner a.add_fields").
+      data("association-insertion-method", 'append').
+      data("association-insertion-traversal", 'closest').
+      data("association-insertion-node", '#parent_table');
+});
+````
 
 ### Partial
 
