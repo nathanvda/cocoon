@@ -18,7 +18,7 @@
     var $this                 = $(this),
         assoc                 = $this.data('association'),
         assocs                = $this.data('associations'),
-        content               = $this.data('template'),
+        content               = $this.data('association-insertion-template'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
