@@ -21,19 +21,19 @@ describe Cocoon do
     context "without a block" do
       it "accepts a name" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
       end
 
       it "accepts html options and pass them to link_to" do
         result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
-        result.to_s.should == '<a href="#" class="something silly add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="something silly add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
       end
 
       it "allows to explicitly hand the wanted partial" do
         @tester.unstub(:render_association)
         @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
         result = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
-        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="partiallll">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="comment" data-associations="comments">add something</a>'
       end
     end
 
@@ -42,14 +42,14 @@ describe Cocoon do
         result = @tester.link_to_add_association(@form_obj, :comments) do
           "some long name"
         end
-        result.to_s.should == '<a href="#" class="add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">some long name</a>'
       end
 
       it "accepts html options and pass them to link_to" do
         result = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
           "some long name"
         end
-        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="form&lt;tag&gt;">some long name</a>'
+        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">some long name</a>'
       end
 
       it "allows to explicitly hand the wanted partial" do
@@ -58,21 +58,21 @@ describe Cocoon do
         result = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
           "some long name"
         end
-        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association="comment" data-associations="comments" data-template="partiallll">some long name</a>'
+        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association-insertion-template="partiallll" data-association="comment" data-associations="comments">some long name</a>'
       end
     end
 
     context "with an irregular plural" do
       it "uses the correct plural" do
         result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="person" data-associations="people">add something</a>'
       end
     end
 
     context "when using aliased association and class-name" do
       it "uses the correct name" do
         result = @tester.link_to_add_association('add something', @form_obj, :admin_comments)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="admin_comment" data-associations="admin_comments" data-template="form&lt;tag&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="admin_comment" data-associations="admin_comments">add something</a>'
       end
     end
 
@@ -84,7 +84,7 @@ describe Cocoon do
       it "uses the correct plural" do
         @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'}, nil)
         result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tag&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="person" data-associations="people">add something</a>'
       end
     end
 
@@ -94,14 +94,14 @@ describe Cocoon do
         @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
         @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
         result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="partiallll">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="person" data-associations="people">add something</a>'
       end
       it "if no locals are given it still works" do
         @tester.unstub(:render_association)
         @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
         @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true}).and_return ("partiallll")
         result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="partiallll">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="person" data-associations="people">add something</a>'
       end
     end
 
@@ -116,7 +116,7 @@ describe Cocoon do
         @form_obj.should_receive(:semantic_fields_for)
         @form_obj.should_receive(:fields_for).never
         result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tagzzz&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tagzzz&gt;" data-association="person" data-associations="people">add something</a>'
 
       end
     end
@@ -132,7 +132,7 @@ describe Cocoon do
         @form_obj.should_receive(:simple_fields_for)
         @form_obj.should_receive(:fields_for).never
         result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association="person" data-associations="people" data-template="form&lt;tagxxx&gt;">add something</a>'
+        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tagxxx&gt;" data-association="person" data-associations="people">add something</a>'
 
       end
     end
