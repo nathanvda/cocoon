@@ -28,7 +28,7 @@ Inside your `Gemfile` add the following:
 gem "cocoon"
 ````
 
-### Rails 3.1
+### Rails 3.1+
 
 Add the following to `application.js` so it compiles to the
 asset_pipeline
@@ -37,7 +37,7 @@ asset_pipeline
 //= require cocoon
 ````
 
-### Rails 3.x
+### Rails 3.0.x
 
 If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):
 
@@ -155,7 +155,42 @@ There is an example project on github implementing it called [cocoon_simple_form
 
 ### Using standard rails forms
 
-I will provide a full example (and a sample project) later.
+Inside our `projects/_form` partial we then write:
+
+````haml
+- form_for @project do |f|
+  .field
+    = f.label :name
+    %br
+    = f.text_field :name
+  .field
+    = f.label :description
+    %br
+    = f.text_field :description
+  %h3 Tasks
+  #tasks
+    = f.fields_for :tasks do |task|
+      = render 'task_fields', :f => task
+    .links
+      = link_to_add_association 'add task', f, :tasks
+  = f.submit
+````
+
+and inside the `_task_fields` partial we write:
+
+````haml
+.nested-fields
+  .field
+    = f.label :description
+    %br
+    = f.text_field :description
+  .field
+    = f.check_box :done
+    = f.label :done
+  = link_to_remove_association "remove task", f
+````
+
+I will provide a sample project later.
 
 ## How it works
 
