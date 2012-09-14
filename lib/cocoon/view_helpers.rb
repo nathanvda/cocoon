@@ -2,6 +2,33 @@ module Cocoon
   module ViewHelpers
 
 
+    # this will show a link to remove the current array_field. This should be placed inside the partial.
+    # either you give
+    # - *name* : the text of the link
+    # - *f* : the form this link should be placed in
+    # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
+    #
+    # or you use the form without *name* with a *&block*
+    # - *f* : the form this link should be placed in
+    # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
+    # - *&block*:        the output of the block will be show in the link, see <tt>link_to</tt>
+    
+    def link_to_remove_array_element(*args, &block)
+      if block_given?
+        f            = args.first
+        html_options = args.second || {}
+        name         = capture(&block)
+        link_to_remove_array_element(name, f, html_options)
+      else
+        name         = args[0]
+        f            = args[1]
+        html_options = args[2] || {}
+
+        html_options[:class] = [html_options[:class], "remove_fields dynamic"].compact.join(' ')
+        link_to(name, '#', html_options)
+      end
+    end
+
     # this will show a link to remove the current association. This should be placed inside the partial.
     # either you give
     # - *name* : the text of the link
@@ -31,6 +58,13 @@ module Cocoon
     end
 
     # :nodoc:
+    def render_array_element(array, f, locals={}, custom_partial=nil)
+      partial = get_partial_path(custom_partial, array, true)
+      partial_options = {:f => f, :dynamic => true, :value => ''}.merge(locals)
+      render(partial, partial_options)
+    end
+
+    # :nodoc:
     def render_association(association, f, new_object, render_options={}, custom_partial=nil)
       partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
@@ -38,6 +72,42 @@ module Cocoon
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {:f => builder, :dynamic => true}.merge(locals)
         render(partial, partial_options)
+      end
+    end
+
+    # shows a link that will allow to dynamically add a new array element field.
+    #
+    # - *name* :         the text to show in the link
+    # - *f* :            the form this should come in (the formtastic form)
+    # - *array* :        the array field name, e.g. :tasks
+    # - *html_options*:  html options to be passed to <tt>link_to</tt> (see <tt>link_to</tt>)
+    #          - *:locals*         : the locals hash in the :render_options is handed to the partial
+    #          - *:partial*        : explicitly override the default partial name
+    # - *&block*:        see <tt>link_to</tt>
+
+    def link_to_add_array_element(*args, &block)
+      if block_given?
+        f            = args[0]
+        array        = args[1]
+        html_options = args[2] || {}
+        link_to_add_array_element(capture(&block), f, array, html_options)
+      else
+        name         = args[0]
+        f            = args[1]
+        array        = args[2]
+        html_options = args[3] || {}
+
+        locals   = html_options.delete(:locals)
+        locals ||= {}
+        override_partial = html_options.delete(:partial)
+
+        html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
+        html_options[:'data-association']  = array.to_s
+        html_options[:'data-associations'] = array.to_s
+
+        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_array_element(array, f, locals, override_partial)).html_safe
+
+        link_to(name, '#', html_options )
       end
     end
 
@@ -99,8 +169,9 @@ module Cocoon
       end
     end
 
-    def get_partial_path(partial, association)
-      partial ? partial : association.to_s.singularize + "_fields"
+    def get_partial_path(partial, association, array=false)
+      suffix = array ? "_field" : "_fields"
+      partial ? partial : association.to_s.singularize + suffix
     end
 
   end
