@@ -67,12 +67,18 @@ module Cocoon
         render_options   = html_options.delete(:render_options)
         render_options ||= {}
         override_partial = html_options.delete(:partial)
+        wrap_object = html_options.delete(:wrap_object)
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
-        new_object = create_object(f, association)
+        if wrap_object.respond_to?(:call)
+          new_object = wrap_object.call(create_object(f, association))
+        else
+          new_object = create_object(f, association)
+        end
+
         html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, override_partial)).html_safe
 
         link_to(name, '#', html_options )

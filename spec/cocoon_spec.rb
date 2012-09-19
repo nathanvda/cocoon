@@ -35,6 +35,12 @@ describe Cocoon do
         result = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
         result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="comment" data-associations="comments">add something</a>'
       end
+
+      it "gives an opportunity to wrap/decorate created objects" do
+        @tester.unstub(:render_association)
+        @tester.should_receive(:render_association).with(anything(), anything(), kind_of(CommentDecorator), anything(), anything()).and_return('partiallll')
+        @tester.link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+      end
     end
 
     context "with a block" do
