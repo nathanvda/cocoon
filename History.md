@@ -1,6 +1,23 @@
 # Change History / Release Notes
 
 
+## Version 1.0.23
+
+* BREAKING: I renamed the triggered javascript events from `removal-callback`, `after-removal-callback`, `insertion-callback` to the more correct and symmetric
+  `after-insert, before-insert, after-remove, before-remove`. Also the events are namespaced to prevent collisions with other libraries.
+* allow created objects to be decorated with a callable. This is especially useful if you are using Draper or some decorator instead of the plain model in your views.
+* it is now possible to specify a relative node, and use standard jquery traversal methods on insertion
+* trigger insertion event on correct `insertionNode`
+
+## Version 1.0.22
+
+* Fix that it still works for mongoid
+
+## Version 1.0.21
+
+* Use association build methods instead of assoc.klass.new. This avoids mass-assignment errors and other misbehaviors around attribute accessibility.
+
+
 ## Version 1.0.20
 
 * improved handing of the `:partial`: remove the extra options-hash, and just make it use the single hash, so now we can just write
