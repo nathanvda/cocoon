@@ -5,12 +5,12 @@
     content.replace(reg_exp, with_str);
   }
 
-  function trigger_removal_callback(node) {
-    node.trigger('removal-callback');
+  function trigger_befofe_removal_callback(node) {
+    node.trigger('before-remove.cocoon');
   }
 
   function trigger_after_removal_callback(node) {
-    node.trigger('after-removal-callback');
+    node.trigger('after-remove.cocoon');
   }
 
   $('.add_fields').live('click', function(e) {
@@ -49,18 +49,20 @@
 
     var contentNode = $(new_content);
 
+    insertionNode.trigger('before-insert.cocoon');
+
     // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
     // to be called on the node.  allows the insertion node to be the parent of the inserted
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
 
-    insertionNode.trigger('insertion-callback');
+    insertionNode.trigger('after-insert.cocoon');
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
     var $this = $(this);
     var trigger_node = $this.closest(".nested-fields").parent();
-    trigger_removal_callback(trigger_node);
+    trigger_before_removal_callback(trigger_node);
     e.preventDefault();
     $this.closest(".nested-fields").remove();
     trigger_after_removal_callback(trigger_node);
@@ -69,7 +71,7 @@
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
     var trigger_node = $this.closest(".nested-fields").parent().parent();
-    trigger_removal_callback(trigger_node);
+    trigger_before_removal_callback(trigger_node);
     e.preventDefault();
     $this.prev("input[type=hidden]").val("1");
     $this.closest(".nested-fields").hide();
