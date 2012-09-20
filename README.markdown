@@ -262,7 +262,14 @@ Optionally you could also leave out the name and supply a block that is captured
 
 ### Callbacks (upon insert and remove of items)
 
-There is an option to add a callback on insertion or removal. If in your view you have the following snippet to select an `owner`
+On insertion or removal the following events are triggered:
+
+* `before-insert.cocoon`: called before inserting a new nested child
+* `after-insert.cocoon`: called after inserting
+* `before-remove.cocoon`: called before removing the nested child
+* `after-remove.cocoon`: called after removal
+
+If in your view you have the following snippet to select an `owner`
 (we use slim for demonstration purposes)
 
 ````haml
@@ -279,17 +286,21 @@ The callbacks can be added as follows:
 
 ````javascript
 $(document).ready(function() {
-    $('#owner').bind('insertion-callback',
+    $('#owner').bind('before-insert.cocoon',
          function() {
            $("#owner_from_list").hide();
            $("#owner a.add_fields").hide();
          });
-    $('#owner').bind("removal-callback",
+    $('#owner').bind('after-insert.cocoon',
+         function() {
+           /* ... do something ... */
+         });
+    $('#owner').bind("before-remove.cocoon",
          function() {
            $("#owner_from_list").show();
            $("#owner a.add_fields").show();
          });
-    $('#owner').bind("after-removal-callback",
+    $('#owner').bind("after-remove.cocoon",
          function() {
            /* e.g. recalculate order of child items */
          });
@@ -297,7 +308,7 @@ $(document).ready(function() {
 ````
 
 Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
-Note that the default `removal-callback` is called _before_ removing the nested item.
+
 
 ### Control the Insertion behaviour
 
