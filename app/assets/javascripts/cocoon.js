@@ -5,7 +5,7 @@
     content.replace(reg_exp, with_str);
   }
 
-  function trigger_befofe_removal_callback(node) {
+  function trigger_before_removal_callback(node) {
     node.trigger('before-remove.cocoon');
   }
 
