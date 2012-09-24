@@ -264,10 +264,10 @@ Optionally you could also leave out the name and supply a block that is captured
 
 On insertion or removal the following events are triggered:
 
-* `before-insert.cocoon`: called before inserting a new nested child
-* `after-insert.cocoon`: called after inserting
-* `before-remove.cocoon`: called before removing the nested child
-* `after-remove.cocoon`: called after removal
+* `cocoon:before-insert`: called before inserting a new nested child
+* `cocoon:after-insert`: called after inserting
+* `cocoon:before-remove`: called before removing the nested child
+* `cocoon:after-remove`: called after removal
 
 If in your view you have the following snippet to select an `owner`
 (we use slim for demonstration purposes)
@@ -286,21 +286,21 @@ The callbacks can be added as follows:
 
 ````javascript
 $(document).ready(function() {
-    $('#owner').bind('before-insert.cocoon',
+    $('#owner').bind('cocoon:before-insert',
          function() {
            $("#owner_from_list").hide();
            $("#owner a.add_fields").hide();
          });
-    $('#owner').bind('after-insert.cocoon',
+    $('#owner').bind('cocoon:after-insert',
          function() {
            /* ... do something ... */
          });
-    $('#owner').bind("before-remove.cocoon",
+    $('#owner').bind("cocoon:before-remove",
          function() {
            $("#owner_from_list").show();
            $("#owner a.add_fields").show();
          });
-    $('#owner').bind("after-remove.cocoon",
+    $('#owner').bind("cocoon:after-remove",
          function() {
            /* e.g. recalculate order of child items */
          });
