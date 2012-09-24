@@ -201,6 +201,12 @@ describe Cocoon do
         object.should_receive(:build_custom_item).and_return 'custom'
         @tester.create_object(stub(:object => object), :custom_item).should == 'custom'
       end
+
+      it "should create an association if object responds to 'build_association' as plural" do
+        object = Comment.new
+        object.should_receive(:build_custom_item).and_return 'custom'
+        @tester.create_object(stub(:object => object), :custom_items).should == 'custom'
+      end
     end
 
     context "get_partial_path" do
