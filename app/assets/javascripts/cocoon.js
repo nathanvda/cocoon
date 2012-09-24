@@ -6,11 +6,11 @@
   }
 
   function trigger_before_removal_callback(node) {
-    node.trigger('before-remove.cocoon');
+    node.trigger('cocoon:before-remove');
   }
 
   function trigger_after_removal_callback(node) {
-    node.trigger('after-remove.cocoon');
+    node.trigger('cocoon:after-remove');
   }
 
   $('.add_fields').live('click', function(e) {
@@ -49,14 +49,14 @@
 
     var contentNode = $(new_content);
 
-    insertionNode.trigger('before-insert.cocoon');
+    insertionNode.trigger('cocoon:before-insert');
 
     // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
     // to be called on the node.  allows the insertion node to be the parent of the inserted
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
 
-    insertionNode.trigger('after-insert.cocoon');
+    insertionNode.trigger('cocoon:after-insert');
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
