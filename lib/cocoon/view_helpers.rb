@@ -92,22 +92,31 @@ module Cocoon
     def create_object(f, association)
       assoc = f.object.class.reflect_on_association(association)
 
-      raise "Association #{association} doesn't exist on #{f.object.class}" unless assoc
-      if assoc.class.name == "Mongoid::Relations::Metadata"
-        conditions = assoc.respond_to?(:conditions) ? assoc.conditions.flatten : []
-        assoc.klass.new(*conditions)
+      assoc ? create_object_on_association(f, association, assoc) : create_object_on_non_association(f, association)
+    end
+
+    def get_partial_path(partial, association)
+      partial ? partial : association.to_s.singularize + "_fields"
+    end
+
+    private
+
+    def create_object_on_non_association(f, association)
+      raise "Association #{association} doesn't exist on #{f.object.class}"
+    end
+
+    def create_object_on_association(f, association, instance)
+      if instance.class.name == "Mongoid::Relations::Metadata"
+        conditions = instance.respond_to?(:conditions) ? instance.conditions.flatten : []
+        instance.klass.new(*conditions)
       else
         # assume ActiveRecord or compatible
-        if assoc.collection?
+        if  instance.collection?
           f.object.send(association).build
         else
           f.object.send("build_#{association}")
         end
       end
-    end
-
-    def get_partial_path(partial, association)
-      partial ? partial : association.to_s.singularize + "_fields"
     end
 
   end
