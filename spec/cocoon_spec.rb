@@ -193,14 +193,13 @@ describe Cocoon do
       end
 
       it "should raise error if cannot reflect on association" do
-        expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /exist/
+        expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /association/i
       end
 
       it "should create an association if object responds to 'build_association' as singular" do
-        pending 'WIP'
         object = Comment.new
         object.should_receive(:build_custom_item).and_return 'custom'
-        @tester.create_object(stub(:object => Comment.new), :custom_item).should == 'custom'
+        @tester.create_object(stub(:object => object), :custom_item).should == 'custom'
       end
     end
 

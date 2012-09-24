@@ -102,6 +102,8 @@ module Cocoon
     private
 
     def create_object_on_non_association(f, association)
+      builder_method = "build_#{association}"
+      return f.object.send(builder_method) if f.object.respond_to?(builder_method)
       raise "Association #{association} doesn't exist on #{f.object.class}"
     end
 
