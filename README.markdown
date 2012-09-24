@@ -364,6 +364,12 @@ There is no limit to the amount of nesting, though.
 * Send me a pull request. Bonus points for topic branches.
 
 
+## Contributors
+
+The list of contributors just keeps on growing. [Check it out](https://github.com/nathanvda/cocoon/graphs/contributors) !!
+I would really really like to thank all of them,
+they make cocoon more awesome every day. Thanks.
+
 ## Todo
 
 * add more sample relations: `has_many :through`, `belongs_to`, ...

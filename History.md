@@ -1,13 +1,17 @@
 # Change History / Release Notes
 
 
-## Version 1.0.23
+## Version 1.1.0
 
-* BREAKING: I renamed the triggered javascript events from `removal-callback`, `after-removal-callback`, `insertion-callback` to the more correct and symmetric
-  `after-insert, before-insert, after-remove, before-remove`. Also the events are namespaced to prevent collisions with other libraries.
+* BREAKING: the triggered javascript events `removal-callback`, `after-removal-callback`, and `insertion-callback` are renamed to the more correct and symmetric
+  `cocoon:after-insert, cocoon:before-insert, cocoon:after-remove, cocoon:before-remove`. Also the events are namespaced to prevent collisions with other libraries.
 * allow created objects to be decorated with a callable. This is especially useful if you are using Draper or some decorator instead of the plain model in your views.
 * it is now possible to specify a relative node, and use standard jquery traversal methods on insertion
 * trigger insertion event on correct `insertionNode`
+* thanks to #90 cocoon now supports non-AR associations and array-fields, you just have to supply your own `build_<association>` methods
+
+I would really really like to thank all contributors, check them out https://github.com/nathanvda/cocoon/graphs/contributors
+They made cocoon way more awesome than I could have done in my lonesome.
 
 ## Version 1.0.22
 
