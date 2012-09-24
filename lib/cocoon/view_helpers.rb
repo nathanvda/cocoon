@@ -92,6 +92,7 @@ module Cocoon
     def create_object(f, association)
       assoc = f.object.class.reflect_on_association(association)
 
+      raise "Association #{association} doesn't exist on #{f.object.class}" unless assoc
       if assoc.class.name == "Mongoid::Relations::Metadata"
         conditions = assoc.respond_to?(:conditions) ? assoc.conditions.flatten : []
         assoc.klass.new(*conditions)

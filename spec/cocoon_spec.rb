@@ -191,6 +191,10 @@ describe Cocoon do
         result = @tester.create_object(stub(:object => Comment.new), :post)
         result.should be_a Post
       end
+
+      it "should raise error if cannot reflect on association" do
+        expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /exist/
+      end
     end
 
     context "get_partial_path" do
