@@ -59,6 +59,7 @@
 	// add a timestamp to create a unique id on the inserted content
 	if (contentNode.attr('id')) {
 		contentNode.attr('id', contentNode.attr('id') + '_' + new_id);
+		contentNode.data('timestamp', new_id);
 	}
 
     insertionNode.trigger('cocoon:after-insert');
