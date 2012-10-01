@@ -55,6 +55,11 @@
     // to be called on the node.  allows the insertion node to be the parent of the inserted
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
+	
+	// add a timestamp to create a unique id on the inserted content
+	if (contentNode.attr('id')) {
+		contentNode.attr('id', contentNode.attr('id') + '_' + new_id);
+	}
 
     insertionNode.trigger('cocoon:after-insert');
   });
