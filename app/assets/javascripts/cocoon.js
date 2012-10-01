@@ -60,6 +60,7 @@
 	if (contentNode.attr('id')) {
 		contentNode.attr('id', contentNode.attr('id') + '_' + new_id);
 		contentNode.data('timestamp', new_id);
+		alert('fresh used');
 	}
 
     insertionNode.trigger('cocoon:after-insert');
