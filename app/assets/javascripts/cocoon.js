@@ -56,11 +56,8 @@
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
 	
-	// add a timestamp to create a unique id on the inserted content
-	if (contentNode.attr('id')) {
-		contentNode.attr('id', contentNode.attr('id') + '_' + new_id);
-		contentNode.attr('data-timestamp', new_id);
-	}
+	// add a timestamp data field on the inserted div
+	contentNode.attr('data-timestamp', new_id);
 
     insertionNode.trigger('cocoon:after-insert');
   });
