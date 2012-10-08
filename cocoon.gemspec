@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "cocoon"
-  s.version = "1.0.22"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Van der Auwera"]
-  s.date = "2012-05-20"
+  s.date = "2012-10-08"
   s.description = "Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven."
   s.email = "nathan@dixis.com"
   s.extra_rdoc_files = [
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "spec/cocoon_spec.rb",
     "spec/dummy/Rakefile",
     "spec/dummy/app/controllers/application_controller.rb",
+    "spec/dummy/app/decorators/comment_decorator.rb",
     "spec/dummy/app/helpers/application_helper.rb",
     "spec/dummy/app/models/comment.rb",
     "spec/dummy/app/models/person.rb",
@@ -73,7 +74,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/nathanvda/cocoon"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.15"
+  s.rubygems_version = "1.8.24"
   s.summary = "gem that enables easier nested forms with standard forms, formtastic and simple-form"
 
   if s.respond_to? :specification_version then
