@@ -25,8 +25,8 @@
 
     for(var i=0; i<2; i++) {
       a = [assoc, assocs][i]
-      regexp_braced = new RegExp('\\[new_' + a + '\\]' + '(.*?>)', 'g')
-      regexp_underscord     = new RegExp('_new_' + a + '_' + '(.*?>)', 'g');
+      regexp_braced = new RegExp('\\[new_' + a + '\\]' + '(.*?(&gt;|>))', 'g')
+      regexp_underscord     = new RegExp('_new_' + a + '_' + '(.*?(&gt;|>))', 'g');
 
       new_id                = new Date().getTime();
       new_braced     = '[' + new_id + ']';
