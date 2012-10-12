@@ -21,21 +21,20 @@
         content               = $this.data('association-insertion-template'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
-        insertionTraversal    = $this.data('association-insertion-traversal'),
-        regexp_braced         = new RegExp('\\[new_' + assoc + '\\]', 'g'),
-        regexp_underscord     = new RegExp('_new_' + assoc + '_', 'g'),
-        new_id                = new Date().getTime(),
-        newcontent_braced     = '[' + new_id + ']',
-        newcontent_underscord = '_' + new_id + '_',
-        new_content           = content.replace(regexp_braced, '[' + new_id + ']');
+        insertionTraversal    = $this.data('association-insertion-traversal');
 
-    if (new_content == content) {
-        regexp_braced     = new RegExp('\\[new_' + assocs + '\\]', 'g');
-        regexp_underscord = new RegExp('_new_' + assocs + '_', 'g');
-        new_content       = content.replace(regexp_braced, '[' + new_id + ']');
+    for(var i=0; i<2; i++) {
+      a = [assoc, assocs][i]
+      regexp_braced = new RegExp('\\[new_' + a + '\\]' + '(.*?(&gt;|>))', 'g')
+      regexp_underscord     = new RegExp('_new_' + a + '_' + '(.*?(&gt;|>))', 'g');
+
+      new_id                = new Date().getTime();
+      new_braced     = '[' + new_id + ']';
+      new_underscord = '_' + new_id + '_';
+
+      content = content.replace(regexp_braced, new_braced + "$1") 
+      content = content.replace(regexp_underscord, new_underscord + "$1");
     }
-
-    new_content = new_content.replace(regexp_underscord, newcontent_underscord);
 
     if (insertionNode){
       if (insertionTraversal){
@@ -47,7 +46,7 @@
       insertionNode = $this.parent();
     }
 
-    var contentNode = $(new_content);
+    var contentNode = $(content);
 
     insertionNode.trigger('cocoon:before-insert');
 
