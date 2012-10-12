@@ -69,7 +69,7 @@
 
   $('.remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    var trigger_node = $this.closest(".nested-fields").parent().parent();
+    var trigger_node = $this.closest(".nested-fields").parent();
     trigger_before_removal_callback(trigger_node);
     e.preventDefault();
     $this.prev("input[type=hidden]").val("1");
