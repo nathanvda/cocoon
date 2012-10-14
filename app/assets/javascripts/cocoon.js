@@ -58,7 +58,7 @@
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
     insertionNode[insertionMethod](contentNode);
 
-    insertionNode.trigger('cocoon:after-insert');
+    insertionNode.trigger('cocoon:after-insert', new_content);
   });
 
   $('.remove_fields.dynamic').live('click', function(e) {
