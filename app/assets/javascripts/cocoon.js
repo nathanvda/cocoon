@@ -51,7 +51,7 @@
 
     var contentNode = $(new_content);
 
-    insertionNode.trigger('cocoon:before-insert', new_content);
+    insertionNode.trigger('cocoon:before-insert', [contentNode]);
 
     // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
     // to be called on the node.  allows the insertion node to be the parent of the inserted
