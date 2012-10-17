@@ -1,0 +1,22 @@
+li.cocoon {
+  & > label {
+    display: block;
+    width: 100%;
+    float: none;
+  }
+
+  ol {
+    padding: 0;
+    width: auto;
+    float: none;
+  }
+
+  fieldset {
+    padding: 1em;
+  }
+
+  .links a {
+    @extend .button;
+  }
+}
+
