@@ -10,6 +10,10 @@ module Cocoon
     # configure our plugin on boot
     initializer "cocoon.initialize" do |app|
       ActionView::Base.send :include, Cocoon::ViewHelpers
+
+      if Object.const_defined?("Formtastic") and Formtastic.const_defined?("Inputs")
+        require 'cocoon/formtastic/cocoon_input'
+      end
     end
 
   end
