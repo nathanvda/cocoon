@@ -216,6 +216,7 @@ It takes four parameters:
   - `partial`: explicitly declare the name of the partial that will be used
   - `render_options` : options passed through to the form-builder function (e.g. `simple_fields_for`, `semantic_fields_for` or `fields_for`).
                        If it contains a `:locals` option containing a hash, that is handed to the partial.
+  - `wrap_object` : a proc that will allow to wrap your object, especially useful if you are using decorators (e.g. draper). See example lower.
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
@@ -245,6 +246,46 @@ To overrule the default partial name, e.g. because it shared between multiple vi
 = link_to_add_association 'add something', f, :something, :partial => 'shared/something_fields'
 ````
 
+#### :wrap_object
+
+If you are using decorators, the normal instantiation of the associated will not be enough, actually you want to generate the decorated object.
+
+A simple decorator would look like:
+
+```
+class CommentDecorator
+  def initialize(comment)
+    @comment = comment
+  end
+
+  def formatted_created_at
+    @comment.created_at.to_formatted_s(:short)
+  end
+
+  def method_missing(method_sym, *args)
+    if @comment.respond_to?(method_sym)
+      @comment.send(method_sym, *args)
+    else
+      super
+    end
+  end
+end
+```
+
+To use this, write
+
+```
+link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+```
+
+Note that the `:wrap_object` expects an object that is _callable_, so any `Proc` will do. So you could as well use it to do some fancy extra initialisation (if needed).
+E.g.
+
+
+```
+link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| comment.name = current_user.name })
+```
+
 
 ### link_to_remove_association
 
@@ -268,6 +309,16 @@ On insertion or removal the following events are triggered:
 * `cocoon:after-insert`: called after inserting
 * `cocoon:before-remove`: called before removing the nested child
 * `cocoon:after-remove`: called after removal
+
+To listen to the events, you to have the following code in your javascript:
+
+    $('#container').bind('cocoon:before-insert', function(e, inserted_item) {
+        // ... do something
+    });
+
+where `e` is the event and the second parameter is the inserted or removed item. This allows you to change markup, or
+add effects/animations (see example below).
+
 
 If in your view you have the following snippet to select an `owner`
 (we use slim for demonstration purposes)
@@ -304,11 +355,37 @@ $(document).ready(function() {
          function() {
            /* e.g. recalculate order of child items */
          });
+
+    // example showing manipulating the inserted/removed item
+
+    $('#tasks').bind('cocoon:before-insert', function(e,task_to_be_added) {
+        task_to_be_added.fadeIn('slow');
+    });
+
+    $('#tasks').bind('cocoon:after-insert', function(e, added_task) {
+        // e.g. set the background of inserted task
+        added_task.css("background","red");
+    });
+
+    $('#tasks').bind('cocoon:before-remove', function(e, task) {
+        // allow some time for the animation to complete
+        $(this).data('remove-timeout', 1000);
+        task.fadeOut('slow');
+    })
+
+
 });
 ````
 
 Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
 
+
+When adding animations and effects to make the removal of items more interesting, you will also have to provide a timeout.
+This is accomplished by the following line:
+
+    $(this).data('remove-timeout', 1000);
+
+Note that you could also immediately add this to your view (on the `.nested-fields` container).
 
 ### Control the Insertion behaviour
 
