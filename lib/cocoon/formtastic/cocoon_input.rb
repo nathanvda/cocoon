@@ -15,10 +15,10 @@ class CocoonInput
     end
 
     output << template.content_tag(:div, :class => 'links') do
-      template.link_to_add_association template.t('.add'), builder, method
+      template.link_to_add_association template.t('.add'), builder, method, input_html_options
     end
 
-    template.content_tag(:li, output.join('').html_safe, :class => 'input cocoon')
+    template.content_tag(:li, output.join('').html_safe, wrapper_html_options)
   end
 end
 
