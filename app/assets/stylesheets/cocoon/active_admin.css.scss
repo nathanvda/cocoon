@@ -18,5 +18,12 @@ li.cocoon {
   .links a {
     @extend .button;
   }
+
+  &.ui-sortable {
+    fieldset {
+      border-top: solid #777 12px;
+      cursor: move;
+    }
+  }
 }
 

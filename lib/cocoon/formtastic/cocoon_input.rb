@@ -18,7 +18,12 @@ class CocoonInput
       template.link_to_add_association template.t('.add'), builder, method
     end
 
-    template.content_tag(:li, output.join('').html_safe, :class => 'input cocoon')
+    data = { :class => 'input cocoon' }
+    if options[:ordered_by]
+      data['data-ordered_by'] = options[:ordered_by]
+    end
+
+    template.content_tag(:li, output.join('').html_safe, data)
   end
 end
 

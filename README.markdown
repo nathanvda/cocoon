@@ -16,6 +16,8 @@ This project is not related to [Apache Cocoon](http://cocoon.apache.org/)
 This gem uses jQuery, it is most useful to use this gem in a rails3
 project where you are already using jQuery.
 
+Sortable form support requires jQuery UI.
+
 Furthermore i would advice you to use either formtastic or simple_form.
 
 I have a sample project where I demonstrate the use of cocoon with formtastic.
@@ -36,6 +38,13 @@ asset_pipeline
 ````ruby
 //= require cocoon
 ````
+
+If you also want to be able to sort nested forms, ordering them on a particular field, add `cocoon/ordered`:
+
+``` ruby
+//= require cocoon
+//= require cocoon/ordered
+```
 
 ### Rails 3.0.x
 
@@ -124,6 +133,53 @@ and inside the `_task_fields` partial we write:
 That is all there is to it!
 
 There is an example project on github implementing it called [cocoon_formtastic_demo](https://github.com/nathanvda/cocoon_formtastic_demo).
+
+Or, you can use the Formtastic `cocoon` field type to wrap up much of the boilerplate of the wrapper and
+add association button:
+
+``` haml
+= f.inputs do
+  = f.input :name
+  = f.input :description
+  %h3 Tasks
+  #tasks
+    = f.input :tasks, :as => :cocoon
+  = f.actions do
+    = f.action :submit
+```
+
+#### Sortable forms
+
+Say you have a set of nested models that are ordered arbitrarily:
+
+``` ruby
+class Task < ActiveRecord::Base
+  belongs_to :project
+
+  default_scope :order => 'order ASC'
+end
+```
+
+You want users to be able to sort those
+models via the UI. You can do this by including `cocoon/ordered` and specifying the sort field in the Formtastic
+input call:
+
+``` haml
+= f.input :tasks, :as => :cocoon, :ordered_by => :order
+```
+
+Add the order field as a hidden field in the nested form:
+
+``` haml
+.nested-fields
+  = f.inputs do
+    = f.input :description
+    = f.input :done, :as => :boolean
+    = f.input :order, :as => :hidden
+    = link_to_remove_association "remove task", f
+```
+
+The order field will now be filled in correctly when new models are added and when the models are sorted.
 
 ### Using simple_form
 
