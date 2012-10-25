@@ -44,7 +44,7 @@
 
     var contentNode = $(new_content);
 
-    insertionNode.trigger('cocoon:before-insert', contentNode);
+    insertionNode.trigger('cocoon:before-insert', [contentNode]);
 
     // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
     // to be called on the node.  allows the insertion node to be the parent of the inserted
@@ -67,7 +67,8 @@
 
     var timeout = trigger_node.data('remove-timeout') || 0;
 
-    setTimeout(function() {
+    setTimeout(
+      function() {
       if ($this.hasClass('dynamic')) {
           $this.closest(".nested-fields").remove();
       } else {
