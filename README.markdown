@@ -279,13 +279,16 @@ link_to_add_association('add something', @form_obj, :comments, :wrap_object => P
 ```
 
 Note that the `:wrap_object` expects an object that is _callable_, so any `Proc` will do. So you could as well use it to do some fancy extra initialisation (if needed).
+But note you will have to return the (nested) object you want used.
 E.g.
 
 
 ```
-link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| comment.name = current_user.name })
+link_to_add_association('add something', @form_obj, :comments, 
+                        :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
 ```
 
+> A cleaner option would be to call a function that performs this initialisation and returns `self` at the end.
 
 ### link_to_remove_association
 
