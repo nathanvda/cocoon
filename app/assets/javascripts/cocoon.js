@@ -7,13 +7,6 @@
     content.replace(reg_exp, with_str);
   }
 
-  function trigger_before_removal_callback(node) {
-    node.trigger('cocoon:before-remove');
-  }
-
-  function trigger_after_removal_callback(node) {
-    node.trigger('cocoon:after-remove');
-  }
 
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
@@ -56,28 +49,33 @@
     // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
     // to be called on the node.  allows the insertion node to be the parent of the inserted
     // code and doesn't force it to be a sibling like after/before does. default: 'before'
-    insertionNode[insertionMethod](contentNode);
+    var addedContent = insertionNode[insertionMethod](contentNode);
 
-    insertionNode.trigger('cocoon:after-insert', contentNode);
+    insertionNode.trigger('cocoon:after-insert', [contentNode]);
   });
 
-  $('.remove_fields.dynamic').live('click', function(e) {
-    var $this = $(this);
-    var trigger_node = $this.closest(".nested-fields").parent();
-    trigger_before_removal_callback(trigger_node);
-    e.preventDefault();
-    $this.closest(".nested-fields").remove();
-    trigger_after_removal_callback(trigger_node);
-  });
 
-  $('.remove_fields.existing').live('click', function(e) {
+  $('.remove_fields.dynamic, .remove_fields.existing').live('click', function(e) {
     var $this = $(this);
-    var trigger_node = $this.closest(".nested-fields").parent();
-    trigger_before_removal_callback(trigger_node);
+    var node_to_delete = $this.closest(".nested-fields");
+    var trigger_node = node_to_delete.parent();
+
     e.preventDefault();
-    $this.prev("input[type=hidden]").val("1");
-    $this.closest(".nested-fields").hide();
-    trigger_after_removal_callback(trigger_node);
+
+    trigger_node.trigger('cocoon:before-remove', [node_to_delete]);
+
+
+    var timeout = trigger_node.data('remove-timeout') || 0;
+
+    setTimeout(function() {
+      if ($this.hasClass('dynamic')) {
+          $this.closest(".nested-fields").remove();
+      } else {
+          $this.prev("input[type=hidden]").val("1");
+          $this.closest(".nested-fields").hide();
+      }
+      trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
+    }, timeout);
   });
 
 })(jQuery);
