@@ -15,10 +15,10 @@ class CocoonInput
     end
 
     output << template.content_tag(:div, :class => 'links') do
-      template.link_to_add_association template.t('.add'), builder, method
+      template.link_to_add_association template.t('.add'), builder, method, input_html_options
     end
 
-    data = { :class => 'input cocoon' }
+    data = wraper_html_options.merge(:class => 'input cocoon')
     if options[:ordered_by]
       data['data-ordered_by'] = options[:ordered_by]
     end

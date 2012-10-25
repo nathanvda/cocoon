@@ -35,6 +35,7 @@ module Cocoon
       partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
       method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
+
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {:f => builder, :dynamic => true}.merge(locals)
         render(partial, partial_options)
