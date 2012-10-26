@@ -61,7 +61,7 @@ describe CocoonInput do
 
     before do
       input.stub(:label_html).and_return('label')
-      input.stub(:semantic_fields_for).and_return('fields')
+      input.stub(:wrapped_semantic_fields).and_return('fields')
       input.stub(:links).and_return('links')
       template.stub(:content_tag)
     end
