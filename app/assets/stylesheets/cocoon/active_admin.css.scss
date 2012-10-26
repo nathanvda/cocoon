@@ -19,7 +19,7 @@ li.cocoon {
     @extend .button;
   }
 
-  &.ui-sortable {
+  .forms.ui-sortable {
     fieldset {
       border-top: solid #777 12px;
       cursor: move;

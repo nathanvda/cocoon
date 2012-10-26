@@ -7,6 +7,9 @@
     content.replace(reg_exp, with_str);
   }
 
+  $.fn.parentSiblings = function(selector) {
+    return $(this).parent().siblings(selector);
+  }
 
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
