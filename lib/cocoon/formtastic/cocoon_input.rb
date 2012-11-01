@@ -21,7 +21,7 @@ class CocoonInput
   def semantic_fields_for
     builder.semantic_fields_for(method) do |fields|
       if fields.object
-        template.render :partial => "#{method.to_s.singularize}_fields", :locals => { :f => fields }
+        template.render :partial => "#{singular_method}_fields", :locals => { :f => fields }
       end
     end
   end
@@ -32,7 +32,7 @@ class CocoonInput
 
   def links
     template.content_tag(:div, :class => 'links') do
-      template.link_to_add_association template.t('.add'), builder, method, input_html_options
+      template.link_to_add_association template.t(".add_#{singular_method}"), builder, method, input_html_options
     end
   end
 
@@ -42,6 +42,11 @@ class CocoonInput
       'data-association-insertion-traversal' => 'parentSiblings',
       'data-association-insertion-method' => 'append'
     )
+  end
+
+  private
+  def singular_method
+    @singular_method ||= method.to_s.singularize
   end
 end
 
