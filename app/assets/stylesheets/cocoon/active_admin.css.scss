@@ -1,0 +1,29 @@
+li.cocoon {
+  & > label {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+  }
+
+  ol {
+    padding: 0 !important;
+    width: auto !important;
+    float: none !important;
+  }
+
+  fieldset {
+    padding: 1em !important;
+  }
+
+  .links a {
+    @extend .button;
+  }
+
+  .forms.ui-sortable {
+    fieldset {
+      border-top: solid #777 12px;
+      cursor: move;
+    }
+  }
+}
+

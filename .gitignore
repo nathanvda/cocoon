@@ -8,3 +8,4 @@ spec/dummy/tmp/
 .idea
 coverage/
 Gemfile.lock
+.sass-cache/

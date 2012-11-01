@@ -12,6 +12,7 @@ group :development, :test do
   gem "simplecov", :require => false
 
   gem "generator_spec"
+  gem "formtastic"
 end
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)

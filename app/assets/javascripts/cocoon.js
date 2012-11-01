@@ -7,6 +7,9 @@
     content.replace(reg_exp, with_str);
   }
 
+  $.fn.parentSiblings = function(selector) {
+    return $(this).parent().siblings(selector);
+  }
 
   $('.add_fields').live('click', function(e) {
     e.preventDefault();
@@ -67,7 +70,8 @@
 
     var timeout = trigger_node.data('remove-timeout') || 0;
 
-    setTimeout(function() {
+    setTimeout(
+      function() {
       if ($this.hasClass('dynamic')) {
           $this.closest(".nested-fields").remove();
       } else {
