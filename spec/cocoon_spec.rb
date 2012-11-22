@@ -10,11 +10,15 @@ describe Cocoon do
   it { should respond_to(:link_to_add_association) }
   it { should respond_to(:link_to_remove_association) }
 
+  before(:each) do
+    @tester = TestClass.new
+    @post = Post.new
+    @form_obj = stub(:object => @post, :object_name => @post.class.name)
+  end
+
+
   context "link_to_add_association" do
     before(:each) do
-      @tester = TestClass.new
-      @post = Post.new
-      @form_obj = stub(:object => @post)
       @tester.stub(:render_association).and_return('form<tag>')
     end
 
@@ -40,6 +44,25 @@ describe Cocoon do
         @tester.unstub(:render_association)
         @tester.should_receive(:render_association).with(anything(), anything(), kind_of(CommentDecorator), anything(), anything()).and_return('partiallll')
         @tester.link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+      end
+
+      context "force non association create" do
+        it "default it uses the association" do
+          @tester.should_receive(:create_object).with(anything, :comments , false)
+          result = @tester.link_to_add_association('add something', @form_obj, :comments)
+          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+        end
+        it "specifying false is the same as default: create object on association" do
+          @tester.should_receive(:create_object).with(anything, :comments , false)
+          result = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => false)
+          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+        end
+        it "specifying true will not create objects on association but using the conditions" do
+          @tester.should_receive(:create_object).with(anything, :comments , true)
+          result = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
+          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+        end
+
       end
     end
 
@@ -146,12 +169,6 @@ describe Cocoon do
   end
 
   context "link_to_remove_association" do
-    before(:each) do
-      @tester = TestClass.new
-      @post = Post.new
-      @form_obj = stub(:object => @post, :object_name => @post.class.name)
-    end
-
     context "without a block" do
       it "accepts a name" do
         result = @tester.link_to_remove_association('remove something', @form_obj)
@@ -180,44 +197,50 @@ describe Cocoon do
         result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove some long name</a>"
       end
     end
+  end
 
-    context "create_object" do
-      it "should create correct association with conditions" do
-        result = @tester.create_object(@form_obj, :admin_comments)
-        result.author.should == "Admin"
-      end
-
-      it "should create correct association for belongs_to associations" do
-        result = @tester.create_object(stub(:object => Comment.new), :post)
-        result.should be_a Post
-      end
-
-      it "should raise error if cannot reflect on association" do
-        expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /association/i
-      end
-
-      it "should create an association if object responds to 'build_association' as singular" do
-        object = Comment.new
-        object.should_receive(:build_custom_item).and_return 'custom'
-        @tester.create_object(stub(:object => object), :custom_item).should == 'custom'
-      end
-
-      it "should create an association if object responds to 'build_association' as plural" do
-        object = Comment.new
-        object.should_receive(:build_custom_item).and_return 'custom'
-        @tester.create_object(stub(:object => object), :custom_items).should == 'custom'
-      end
+  context "create_object" do
+    it "creates correct association with conditions" do
+      @tester.should_not_receive(:create_object_with_conditions)
+      result = @tester.create_object(@form_obj, :admin_comments)
+      result.author.should == "Admin"
     end
 
-    context "get_partial_path" do
-      it "generates the default partial name if no partial given" do
-        result = @tester.get_partial_path(nil, :admin_comments)
-        result.should == "admin_comment_fields"
-      end
-      it "uses the given partial name" do
-        result = @tester.get_partial_path("comment_fields", :admin_comments)
-        result.should == "comment_fields"
-      end
+    it "creates correct association for belongs_to associations" do
+      result = @tester.create_object(stub(:object => Comment.new), :post)
+      result.should be_a Post
+    end
+
+    it "raises an error if cannot reflect on association" do
+      expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /association/i
+    end
+
+    it "creates an association if object responds to 'build_association' as singular" do
+      object = Comment.new
+      object.should_receive(:build_custom_item).and_return 'custom'
+      @tester.create_object(stub(:object => object), :custom_item).should == 'custom'
+    end
+
+    it "creates an association if object responds to 'build_association' as plural" do
+      object = Comment.new
+      object.should_receive(:build_custom_item).and_return 'custom'
+      @tester.create_object(stub(:object => object), :custom_items).should == 'custom'
+    end
+
+    it "can create using only conditions not the association" do
+      @tester.should_receive(:create_object_with_conditions).and_return('flappie')
+      @tester.create_object(@form_obj, :comments, true).should == 'flappie'
+    end
+  end
+
+  context "get_partial_path" do
+    it "generates the default partial name if no partial given" do
+      result = @tester.get_partial_path(nil, :admin_comments)
+      result.should == "admin_comment_fields"
+    end
+    it "uses the given partial name" do
+      result = @tester.get_partial_path("comment_fields", :admin_comments)
+      result.should == "comment_fields"
     end
   end
 

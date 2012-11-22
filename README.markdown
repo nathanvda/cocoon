@@ -217,6 +217,7 @@ It takes four parameters:
   - `render_options` : options passed through to the form-builder function (e.g. `simple_fields_for`, `semantic_fields_for` or `fields_for`).
                        If it contains a `:locals` option containing a hash, that is handed to the partial.
   - `wrap_object` : a proc that will allow to wrap your object, especially useful if you are using decorators (e.g. draper). See example lower.
+  - `force_non_association_create`: if true, it will _not_ create the new object using the association (see lower)
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
@@ -287,6 +288,22 @@ E.g.
 link_to_add_association('add something', @form_obj, :comments, 
                         :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
 ```
+
+#### :force_non_association_create
+
+In normal cases we create a new nested object using the association relation itself. This is the cleanest way to create
+a new nested object. But this has a side-effect: for each call of `link_to_add_association` a new element is added to the association.
+
+In most cases this is not a problem, but if you want to render a `link_to_add_association` for each nested element this will result
+in an infinite loop.
+
+To resolve this, specify that `:force_non_association_create` should be `true`, as follows:
+
+```
+link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
+```
+
+By default `:force_non_association_create` is `false`.
 
 > A cleaner option would be to call a function that performs this initialisation and returns `self` at the end.
 

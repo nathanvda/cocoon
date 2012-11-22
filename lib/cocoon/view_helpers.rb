@@ -50,6 +50,8 @@ module Cocoon
     #          - *:render_options* : options passed to `simple_fields_for, semantic_fields_for or fields_for`
     #              - *:locals*     : the locals hash in the :render_options is handed to the partial
     #          - *:partial*        : explicitly override the default partial name
+    #          - *:wrap_object     : !!! document more here !!!
+    #          - *!!!add some option to build in collection or not!!!*
     # - *&block*:        see <tt>link_to</tt>
 
     def link_to_add_association(*args, &block)
@@ -68,16 +70,14 @@ module Cocoon
         render_options ||= {}
         override_partial = html_options.delete(:partial)
         wrap_object = html_options.delete(:wrap_object)
+        force_non_association_create = html_options.delete(:force_non_association_create) || false
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
-        if wrap_object.respond_to?(:call)
-          new_object = wrap_object.call(create_object(f, association))
-        else
-          new_object = create_object(f, association)
-        end
+        new_object = create_object(f, association, force_non_association_create)
+        new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
 
         html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, override_partial)).html_safe
 
@@ -89,10 +89,10 @@ module Cocoon
     # `` has_many :admin_comments, class_name: "Comment", conditions: { author: "Admin" }
     # will create new Comment with author "Admin"
 
-    def create_object(f, association)
+    def create_object(f, association, force_non_association_create=false)
       assoc = f.object.class.reflect_on_association(association)
 
-      assoc ? create_object_on_association(f, association, assoc) : create_object_on_non_association(f, association)
+      assoc ? create_object_on_association(f, association, assoc, force_non_association_create) : create_object_on_non_association(f, association)
     end
 
     def get_partial_path(partial, association)
@@ -107,18 +107,22 @@ module Cocoon
       raise "Association #{association} doesn't exist on #{f.object.class}"
     end
 
-    def create_object_on_association(f, association, instance)
-      if instance.class.name == "Mongoid::Relations::Metadata"
-        conditions = instance.respond_to?(:conditions) ? instance.conditions.flatten : []
-        instance.klass.new(*conditions)
+    def create_object_on_association(f, association, instance, force_non_association_create)
+      if instance.class.name == "Mongoid::Relations::Metadata" || force_non_association_create
+        create_object_with_conditions(instance)
       else
         # assume ActiveRecord or compatible
-        if  instance.collection?
+        if instance.collection?
           f.object.send(association).build
         else
           f.object.send("build_#{association}")
         end
       end
+    end
+
+    def create_object_with_conditions(instance)
+      conditions = instance.respond_to?(:conditions) ? instance.conditions.flatten : []
+      instance.klass.new(*conditions)
     end
 
   end
