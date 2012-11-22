@@ -1,5 +1,10 @@
 # Change History / Release Notes
 
+## Version 1.1.1
+
+* added the to be added/deleted element to the event, this allows to add animations/actions onto them
+* added extra option :wrap_object, allowing to use Decorators instead of the association object
+* added an option :force_non_association_create, that will allow to use `link_to_add_association` inside the fields-partial
 
 ## Version 1.1.0
 
