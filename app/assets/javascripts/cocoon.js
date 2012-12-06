@@ -17,20 +17,36 @@
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
         insertionNode         = $this.data('association-insertion-node'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
-        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
-        regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
+        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', ''),
+        regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', ''),
         new_id                = new Date().getTime() + cocoon_element_counter++,
         newcontent_braced     = '[' + new_id + ']',
-        newcontent_underscord = '_' + new_id + '_',
-        new_content           = content.replace(regexp_braced, '[' + new_id + ']$1');
+        newcontent_underscord = '_' + new_id + '_';
 
-    if (new_content == content) {
-        regexp_braced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
-        regexp_underscord = new RegExp('_new_' + assocs + '_(\\w*)', 'g');
-        new_content       = content.replace(regexp_braced, '[' + new_id + ']$1');
+    var content_lines = content.split(/\r\n|\r|\n/);
+    for (var i = 0; i < content_lines.length; i++) {
+      content_lines[i] = content_lines[i].replace(regexp_braced, '[' + new_id + ']');
+    }
+    var new_content = content_lines.join("\n");
+
+
+    if (new_content == content.split(/\r\n|\r|\n/).join("\n")) {
+      //regexp_braced and regexp_underscord were aimed at a single assocation (using variable assoc for replace()),
+      //but it had no effect in the above lines so now try to use variable assocs instead of assoc for replace
+        regexp_braced     = new RegExp('\\[new_' + assocs + '\\]', '');
+        regexp_underscord = new RegExp('_new_' + assocs + '_', '');
+        var new_content_lines = new_content.split(/\r\n|\r|\n/);
+        for (var i = 0; i < new_content_lines.length; i++) {
+          new_content_lines[i] = new_content_lines[i].replace(regexp_braced, '[' + new_id + ']');
+        }
+        new_content = new_content_lines.join("\n");
     }
 
-    new_content = new_content.replace(regexp_underscord, newcontent_underscord + "$1");
+    var new_content_lines = new_content.split(/\r\n|\r|\n/);
+    for (var i = 0; i < new_content_lines.length; i++) {
+      new_content_lines[i] = new_content_lines[i].replace(regexp_underscord, newcontent_underscord);
+    }
+    new_content = new_content_lines.join("\n");
 
     if (insertionNode){
       if (insertionTraversal){
