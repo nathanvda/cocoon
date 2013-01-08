@@ -14,11 +14,15 @@ module Cocoon
     # - *&block*:        the output of the block will be show in the link, see <tt>link_to</tt>
     
     def link_to_remove_association(*args, &block)
+      sub_to_remove_association(:link_to, *args, &block)
+    end
+    
+    def sub_to_remove_association(function_name, *args, &block)
       if block_given?
         f            = args.first
         html_options = args.second || {}
         name         = capture(&block)
-        link_to_remove_association(name, f, html_options)
+        sub_to_remove_association(function_name, name, f, html_options)
       else
         name         = args[0]
         f            = args[1]
@@ -26,7 +30,7 @@ module Cocoon
 
         is_dynamic = f.object.new_record?
         html_options[:class] = [html_options[:class], "remove_fields #{is_dynamic ? 'dynamic' : 'existing'}"].compact.join(' ')
-        hidden_field_tag("#{f.object_name}[_destroy]") + link_to(name, '#', html_options)
+        hidden_field_tag("#{f.object_name}[_destroy]") + self.send(function_name, name, '#', html_options )
       end
     end
     
@@ -42,20 +46,7 @@ module Cocoon
     # - *&block*:        the output of the block will be show in the link, see <tt>button_to_function</tt>
     
     def button_to_remove_association(*args, &block)
-      if block_given?
-        f            = args.first
-        html_options = args.second || {}
-        name         = capture(&block)
-        link_to_remove_association(name, f, html_options)
-      else
-        name         = args[0]
-        f            = args[1]
-        html_options = args[2] || {}
-
-        is_dynamic = f.object.new_record?
-        html_options[:class] = [html_options[:class], "remove_fields #{is_dynamic ? 'dynamic' : 'existing'}"].compact.join(' ')
-        hidden_field_tag("#{f.object_name}[_destroy]") + button_to_function(name, '#', html_options)
-      end
+      sub_to_remove_association(:button_to_function, *args, &block)
     end
 
     # :nodoc:

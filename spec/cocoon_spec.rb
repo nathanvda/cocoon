@@ -367,14 +367,14 @@ describe Cocoon do
         result = @tester.button_to_remove_association(@form_obj) do
           "remove some long name"
         end
-        result.to_s.should == '<input id="Post__destroy" name="Post[_destroy]" type="hidden" /><a href="#" class="remove_fields dynamic">remove some long name</a>'
+        result.to_s.should == '<input id="Post__destroy" name="Post[_destroy]" type="hidden" /><input class="remove_fields dynamic" onclick="#;" type="button" value="remove some long name" />'
       end
   
       it "accepts html options and pass them to button_to_function" do
         result = @tester.button_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) do
           "remove some long name"
         end
-        result.to_s.should == '<input id="Post__destroy" name="Post[_destroy]" type="hidden" /><a href="#" class="add_some_class remove_fields dynamic" data-something="bla">remove some long name</a>'
+        result.to_s.should == '<input id="Post__destroy" name="Post[_destroy]" type="hidden" /><input class="add_some_class remove_fields dynamic" data-something="bla" onclick="#;" type="button" value="remove some long name" />'
       end
     end
   end
