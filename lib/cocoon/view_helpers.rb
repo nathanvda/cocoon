@@ -83,11 +83,15 @@ module Cocoon
     # - *&block*:        see <tt>link_to</tt>
 
     def link_to_add_association(*args, &block)
+      sub_add_association(:link_to, *args, &block)
+    end
+    
+    def sub_add_association(function_name, *args, &block)
       if block_given?
         f            = args[0]
         association  = args[1]
         html_options = args[2] || {}
-        link_to_add_association(capture(&block), f, association, html_options)
+        sub_add_association(function_name, capture(&block), f, association, html_options)
       else
         name         = args[0]
         f            = args[1]
@@ -109,7 +113,7 @@ module Cocoon
 
         html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, override_partial)).html_safe
 
-        link_to(name, '#', html_options )
+        self.send(function_name, name, '#', html_options )
       end
     end
 
@@ -127,34 +131,7 @@ module Cocoon
     # - *&block*:        see <tt>button_to_function</tt>
 
     def button_to_add_association(*args, &block)
-      if block_given?
-        f            = args[0]
-        association  = args[1]
-        html_options = args[2] || {}
-        button_to_add_association(capture(&block), f, association, html_options)
-      else
-        name         = args[0]
-        f            = args[1]
-        association  = args[2]
-        html_options = args[3] || {}
-
-        render_options   = html_options.delete(:render_options)
-        render_options ||= {}
-        override_partial = html_options.delete(:partial)
-        wrap_object = html_options.delete(:wrap_object)
-        force_non_association_create = html_options.delete(:force_non_association_create) || false
-
-        html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
-        html_options[:'data-association'] = association.to_s.singularize
-        html_options[:'data-associations'] = association.to_s.pluralize
-
-        new_object = create_object(f, association, force_non_association_create)
-        new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
-
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, render_options, override_partial)).html_safe
-
-        button_to_function(name, '#', html_options )
-      end
+      sub_add_association(:button_to_function, *args, &block)
     end
 
     # creates new association object with its conditions, like
