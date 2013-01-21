@@ -1,5 +1,10 @@
 # Change History / Release Notes
 
+## Version 1.1.2
+
+* pull #118 (thanks @ahmozkya): remove the deprecated `.live` function, and use `.on` instead.
+  Note: at least jquery 1.7 is required now!
+
 ## Version 1.1.1
 
 * added the to be added/deleted element to the event, this allows to add animations/actions onto them
