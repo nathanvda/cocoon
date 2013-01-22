@@ -4,7 +4,9 @@ module Cocoon
   class Engine < ::Rails::Engine
 
     config.before_initialize do
-      config.action_view.javascript_expansions[:cocoon] = %w(cocoon)
+      if config.action_view.javascript_expansions
+        config.action_view.javascript_expansions[:cocoon] = %w(cocoon)
+      end
     end
 
     # configure our plugin on boot
