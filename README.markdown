@@ -2,81 +2,67 @@
 
 [![Build Status](https://travis-ci.org/nathanvda/cocoon.png)](https://travis-ci.org/nathanvda/cocoon)
 
-cocoon is a Rails3 gem to allow easier handling of nested forms.
+Cocoon is a Rails 3 gem that makes it easier to handle nested forms.
 
-Nested forms are forms that handle nested models and attributes in one form.
-For example a project with its tasks, an invoice with its ordered items.
+Nested forms are forms that handle nested models and attributes in one form;
+e.g. a project with its tasks or an invoice with its line items.
 
-It is formbuilder-agnostic, so it works with standard Rails, or Formtastic or simple_form.
+Cocoon is form builder-agnostic, so it works with standard Rails, [Formtastic](https://github.com/justinfrench/formtastic), or [SimpleForm](https://github.com/plataformatec/simple_form).
 
-This project is not related to [Apache Cocoon](http://cocoon.apache.org/)
+This project is not related to [Apache Cocoon](http://cocoon.apache.org/).
 
 ## Prerequisites
 
-This gem uses jQuery, it is most useful to use this gem in a rails3
-project where you are already using jQuery.
-
-Furthermore i would advice you to use either formtastic or simple_form.
-
-I have a sample project where I demonstrate the use of cocoon with formtastic.
+This gem depends on jQuery, so it's most useful in a Rails 3 project where you are already using jQuery.
+Furthermore, I would advise you to use either [Formtastic](https://github.com/justinfrench/formtastic) or [SimpleForm](https://github.com/plataformatec/simple_form).
 
 ## Installation
 
 Inside your `Gemfile` add the following:
 
-````ruby
+```ruby
 gem "cocoon"
-````
+```
 
 ### Rails 3.1+
 
-Add the following to `application.js` so it compiles to the
-asset_pipeline
+Add the following to `application.js` so it compiles to the asset pipeline:
 
-````ruby
+```ruby
 //= require cocoon
-````
+```
 
 ### Rails 3.0.x
 
 If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):
 
-````ruby
+```bash
 rails g cocoon:install
-````
+```
 
-This will install the needed javascript file.
-Inside your `application.html.haml` you will need to add below the default javascripts:
+This will install the Cocoon JavaScript file. In your application layout, add the following below the default javascripts:
 
-````haml
+```haml
 = javascript_include_tag :cocoon
-````
+```
 
-or using erb, you write
+## Basic Usage
 
-````ruby
-<%= javascript_include_tag :cocoon %>
-````
+Suppose you have a `Project` model:
 
-That is all you need to do to start using it!
-
-## Usage
-
-Suppose you have a model `Project`:
-
-````ruby
+```bash
 rails g scaffold Project name:string description:string
-````
+```
 
-and a project has many `tasks`:
+And a project has many `tasks`:
 
-````ruby
-rails g model Task description:string done:boolean project_id:integer
-````
+```bash
+rails g model Task description:string done:boolean project:belongs_to
+```
 
-Edit the models to code the relation:
+Your models are associated like this:
 
-````ruby
+```ruby
 class Project < ActiveRecord::Base
   has_many :tasks
   accepts_nested_attributes_for :tasks, :reject_if => :all_blank, :allow_destroy => true
@@ -85,19 +71,19 @@ end
 class Task < ActiveRecord::Base
   belongs_to :project
 end
-````
+```
 
-What we want to achieve is to get a form where we can add and remove the tasks dynamically.
-What we need for this, is that the fields for a new/existing `task` are defined in a partial
-view called `_task_fields.html`.
+Now we want a project form where we can add and remove tasks dynamically.
+To do this, we need the fields for a new or existing `task` to be defined in a partial
+named `_task_fields.html`.
 
-We will show the sample usage with the different possible form-builders.
+## Examples
 
-### Using formtastic
+### Formtastic
 
-Inside our `projects/_form` partial we then write:
+In our `projects/_form` partial we'd write:
 
-````haml
+```haml
 = f.inputs do
   = f.input :name
   = f.input :description
@@ -109,27 +95,25 @@ Inside our `projects/_form` partial we then write:
       = link_to_add_association 'add task', f, :tasks
   = f.actions do
     = f.action :submit
-````
+```
 
-and inside the `_task_fields` partial we write:
+And in our `_task_fields` partial we'd write:
 
-````haml
+```haml
 .nested-fields
   = f.inputs do
     = f.input :description
     = f.input :done, :as => :boolean
     = link_to_remove_association "remove task", f
-````
+```
 
-That is all there is to it!
+The example project [cocoon_formtastic_demo](https://github.com/nathanvda/cocoon_formtastic_demo) demonstrates this.
 
-There is an example project on github implementing it called [cocoon_formtastic_demo](https://github.com/nathanvda/cocoon_formtastic_demo).
+### SimpleForm
 
-### Using simple_form
+In our `projects/_form` partial we'd write:
 
-Inside our `projects/_form` partial we then write:
-
-````haml
+```haml
 = simple_form_for @project do |f|
   = f.input :name
   = f.input :description
@@ -140,24 +124,24 @@ Inside our `projects/_form` partial we then write:
     .links
       = link_to_add_association 'add task', f, :tasks
   = f.submit
-````
+```
 
-and inside the `_task_fields` partial we write:
+In our `_task_fields` partial we write:
 
-````haml
+```haml
 .nested-fields
   = f.input :description
   = f.input :done, :as => :boolean
   = link_to_remove_association "remove task", f
-````
+```
 
-There is an example project on github implementing it called [cocoon_simple_form_demo](https://github.com/nathanvda/cocoon_simple_form_demo).
+The example project [cocoon_simple_form_demo](https://github.com/nathanvda/cocoon_simple_form_demo) demonstrates this.
 
-### Using standard rails forms
+### Standard Rails forms
 
-Inside our `projects/_form` partial we then write:
+In our `projects/_form` partial we'd write:
 
-````haml
+```haml
 - form_for @project do |f|
   .field
     = f.label :name
@@ -174,11 +158,11 @@ Inside our `projects/_form` partial we then write:
     .links
       = link_to_add_association 'add task', f, :tasks
   = f.submit
-````
+```
 
-and inside the `_task_fields` partial we write:
+In our `_task_fields` partial we'd write:
 
-````haml
+```haml
 .nested-fields
   .field
     = f.label :description
@@ -188,25 +172,23 @@ and inside the `_task_fields` partial we write:
     = f.check_box :done
     = f.label :done
   = link_to_remove_association "remove task", f
-````
-
-I will provide a sample project later.
+```
 
 ## How it works
 
-I define two helper functions:
+Cocoon defines two helper functions:
 
 ### link_to_add_association
 
-This function will add a link to your markup that will, when clicked, dynamically add a new partial form for the given association.
-This should be placed below the `semantic_fields_for`.
+This function adds a link to your markup that, when clicked, dynamically adds a new partial form for the given association.
+This should be called within the form builder.
 
-It takes four parameters:
+`link_to_add_association` takes four parameters:
 
 - name: the text to show in the link
-- f: referring to the containing form-object
+- f: the form builder
 - association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
-- html_options: extra html-options (see `link_to`)
+- html_options: extra html-options (see [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
   There are some special options, the first three allow to control the placement of the new link-data:
   - `data-association-insertion-traversal` : the jquery traversal method to allow node selection relative to the link. `closest`, `next`, `children`, etc. Default: absolute selection
   - `data-association-insertion-node` : the jquery selector of the node
@@ -219,41 +201,45 @@ It takes four parameters:
   - `wrap_object` : a proc that will allow to wrap your object, especially useful if you are using decorators (e.g. draper). See example lower.
   - `force_non_association_create`: if true, it will _not_ create the new object using the association (see lower)
 
-Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
+Optionally, you can omit the name and supply a block that is captured to render the link body (if you want to do something more complicated).
 
 #### :render_options
-Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form-builder for the inserted
-form. E.g. especially when using `twitter-bootstrap` and `simple_form` together, the `simple_fields_for` needs the option `:wrapper => 'inline'` which can
+Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form builder for the inserted
+form.
+
+When using Twitter Bootstrap and SimpleForm together, `simple_fields_for` needs the option `:wrapper => 'inline'` which can
 be handed down as follows:
 
-(Note: In certain newer versions of simple_form, the option to use is ':wrapper => 'bootstrap')
+(Note: In certain newer versions of simple_form, the option to use is `:wrapper => 'bootstrap'`.)
 
-````haml
-= link_to_add_association 'add something', f, :something, :render_options => {:wrapper => 'inline' }
-````
+```haml
+= link_to_add_association 'add something', f, :something,
+    :render_options => {:wrapper => 'inline' }
+```
 
-If you want to specify locals that needed to handed down to the partial, write
+To specify locals that needed to handed down to the partial:
 
-````haml
-= link_to_add_association 'add something', f, :something, :render_options => {:locals => {:sherlock => 'Holmes' }}
-````
-
+```haml
+= link_to_add_association 'add something', f, :something,
+    :render_options => {:locals => {:sherlock => 'Holmes' }}
+```
 
 #### :partial
 
-To overrule the default partial name, e.g. because it shared between multiple views, write
+To override the default partial name, e.g. because it shared between multiple views:
 
-````haml
-= link_to_add_association 'add something', f, :something, :partial => 'shared/something_fields'
-````
+```haml
+= link_to_add_association 'add something', f, :something,
+    :partial => 'shared/something_fields'
+```
 
 #### :wrap_object
 
-If you are using decorators, the normal instantiation of the associated will not be enough, actually you want to generate the decorated object.
+If you are using decorators, the normal instantiation of the associated object will not be enough. You actually want to generate the decorated object.
 
 A simple decorator would look like:
 
-```
+```ruby
 class CommentDecorator
   def initialize(comment)
     @comment = comment
@@ -273,10 +259,11 @@ class CommentDecorator
 end
 ```
 
-To use this, write
+To use this:
 
-```
-link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+```haml
+= link_to_add_association('add something', @form_obj, :comments,
+    :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
 ```
 
 Note that the `:wrap_object` expects an object that is _callable_, so any `Proc` will do. So you could as well use it to do some fancy extra initialisation (if needed).
@@ -284,9 +271,9 @@ But note you will have to return the (nested) object you want used.
 E.g.
 
 
-```
-link_to_add_association('add something', @form_obj, :comments, 
-                        :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
+```haml
+= link_to_add_association('add something', @form_obj, :comments, 
+    :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
 ```
 
 #### :force_non_association_create
@@ -297,10 +284,11 @@ a new nested object. But this has a side-effect: for each call of `link_to_add_a
 In most cases this is not a problem, but if you want to render a `link_to_add_association` for each nested element this will result
 in an infinite loop.
 
-To resolve this, specify that `:force_non_association_create` should be `true`, as follows:
+To resolve this, specify that `:force_non_association_create` should be `true`:
 
-```
-link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
+```haml
+= link_to_add_association('add something', @form_obj, :comments,
+    :force_non_association_create => true)
 ```
 
 By default `:force_non_association_create` is `false`.
@@ -309,7 +297,7 @@ By default `:force_non_association_create` is `false`.
 
 ### link_to_remove_association
 
-This function will add a link to your markup that will, when clicked, dynamically remove the surrounding partial form.
+This function will add a link to your markup that, when clicked, dynamically removes the surrounding partial form.
 This should be placed inside the partial `_<association-object-singular>_fields`.
 
 It takes three parameters:
@@ -330,96 +318,91 @@ On insertion or removal the following events are triggered:
 * `cocoon:before-remove`: called before removing the nested child
 * `cocoon:after-remove`: called after removal
 
-To listen to the events, you to have the following code in your javascript:
+To listen to the events in your JavaScript:
 
-    $('#container').bind('cocoon:before-insert', function(e, inserted_item) {
-        // ... do something
-    });
+```javascript
+  $('#container').bind('cocoon:before-insert', function(e, insertedItem) {
+    // ... do something
+  });
+```
 
-where `e` is the event and the second parameter is the inserted or removed item. This allows you to change markup, or
+...where `e` is the event and the second parameter is the inserted or removed item. This allows you to change markup, or
 add effects/animations (see example below).
 
 
-If in your view you have the following snippet to select an `owner`
-(we use slim for demonstration purposes)
+If in your view you have the following snippet to select an `owner`:
 
-````haml
+```haml
 #owner
   #owner_from_list
     = f.association :owner, :collection => Person.all(:order => 'name'), :prompt => 'Choose an existing owner'
   = link_to_add_association 'add a new person as owner', f, :owner
-````
+```
 
-This view part will either let you select an owner from the list of persons, or show the fields to add a new person as owner.
-
+This will either let you select an owner from the list of persons, or show the fields to add a new person as owner.
 
 The callbacks can be added as follows:
 
-````javascript
+```javascript
 $(document).ready(function() {
-    $('#owner').bind('cocoon:before-insert',
-         function() {
-           $("#owner_from_list").hide();
-           $("#owner a.add_fields").hide();
-         });
-    $('#owner').bind('cocoon:after-insert',
-         function() {
-           /* ... do something ... */
-         });
-    $('#owner').bind("cocoon:before-remove",
-         function() {
-           $("#owner_from_list").show();
-           $("#owner a.add_fields").show();
-         });
-    $('#owner').bind("cocoon:after-remove",
-         function() {
-           /* e.g. recalculate order of child items */
-         });
+    $('#owner')
+      .bind('cocoon:before-insert', function() {
+        $("#owner_from_list").hide();
+        $("#owner a.add_fields").hide();
+      })
+      .bind('cocoon:after-insert', function() {
+        /* ... do something ... */
+      })
+      .bind("cocoon:before-remove", function() {
+        $("#owner_from_list").show();
+        $("#owner a.add_fields").show();
+      })
+      .bind("cocoon:after-remove", function() {
+        /* e.g. recalculate order of child items */
+      });
 
     // example showing manipulating the inserted/removed item
 
-    $('#tasks').bind('cocoon:before-insert', function(e,task_to_be_added) {
+    $('#tasks')
+      .bind('cocoon:before-insert', function(e,task_to_be_added) {
         task_to_be_added.fadeIn('slow');
-    });
-
-    $('#tasks').bind('cocoon:after-insert', function(e, added_task) {
+      })
+      .bind('cocoon:after-insert', function(e, added_task) {
         // e.g. set the background of inserted task
         added_task.css("background","red");
-    });
-
-    $('#tasks').bind('cocoon:before-remove', function(e, task) {
+      })
+      .bind('cocoon:before-remove', function(e, task) {
         // allow some time for the animation to complete
         $(this).data('remove-timeout', 1000);
         task.fadeOut('slow');
-    })
-
-
+      });
 });
-````
+```
 
-Do note that for the callbacks to work there has to be a surrounding container (div), where you can bind the callbacks to.
-
+Note that for the callbacks to work there has to be a surrounding container to which you can bind the callbacks.
 
 When adding animations and effects to make the removal of items more interesting, you will also have to provide a timeout.
 This is accomplished by the following line:
 
-    $(this).data('remove-timeout', 1000);
+```javascript
+$(this).data('remove-timeout', 1000);
+```
 
-Note that you could also immediately add this to your view (on the `.nested-fields` container).
+You could also immediately add this to your view (on the `.nested-fields` container).
 
-### Control the Insertion behaviour
+### Control the Insertion Behaviour
 
-The default insertion location is at the back of the current container. But we have added two `data`-attributes that are read to determine the insertion-node and -method.
+The default insertion location is at the back of the current container. But we have added two `data-` attributes that are read to determine the insertion-node and -method.
 
 For example:
 
-````javascript
+```javascript
 $(document).ready(function() {
     $("#owner a.add_fields").
       data("association-insertion-method", 'before').
       data("association-insertion-node", 'this');
 });
-````
+```
 
 The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this (default it is the parent-container).
 
@@ -429,26 +412,23 @@ The `association-insertion-traversal` will allow node selection to be relative t
 
 For example:
 
-````javascript
+```javascript
 $(document).ready(function() {
     $("#owner a.add_fields").
       data("association-insertion-method", 'append').
       data("association-insertion-traversal", 'closest').
       data("association-insertion-node", '#parent_table');
 });
-````
+```
 
 ### Partial
 
-If no explicit partial-name is given, `cocoon` looks for a file named `_<association-object_singular>_fields`.
-To override the default partial-name use the option `:partial`.
+If no explicit partial name is given, `cocoon` looks for a file named `_<association-object_singular>_fields`.
+To override the default partial use the `:partial` option.
 
-For the javascript to behave correctly, the partial should start with a container (e.g. `div`) of class `.nested-fields`.
-
-
+For the JavaScript to behave correctly, the partial should start with a container (e.g. `div`) of class `.nested-fields`.
 
 There is no limit to the amount of nesting, though.
-
 
 ## Note on Patches/Pull Requests
  
@@ -463,9 +443,8 @@ There is no limit to the amount of nesting, though.
 
 ## Contributors
 
-The list of contributors just keeps on growing. [Check it out](https://github.com/nathanvda/cocoon/graphs/contributors) !!
-I would really really like to thank all of them,
-they make cocoon more awesome every day. Thanks.
+The list of contributors just keeps on growing. [Check it out!](https://github.com/nathanvda/cocoon/graphs/contributors)
+I would really really like to thank all of them. They make cocoon more awesome every day. Thanks.
 
 ## Todo
 
