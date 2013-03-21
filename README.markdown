@@ -142,7 +142,7 @@ The example project [cocoon_simple_form_demo](https://github.com/nathanvda/cocoo
 In our `projects/_form` partial we'd write:
 
 ```haml
-- form_for @project do |f|
+= form_for @project do |f|
   .field
     = f.label :name
     %br
