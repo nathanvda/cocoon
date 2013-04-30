@@ -1,6 +1,6 @@
 # cocoon
 
-[![Build Status](https://travis-ci.org/nathanvda/cocoon.png)](https://travis-ci.org/nathanvda/cocoon)
+[![Build Status](https://travis-ci.org/nathanvda/cocoon.png?branch=master)](https://travis-ci.org/nathanvda/cocoon)
 
 Cocoon is a Rails 3 gem that makes it easier to handle nested forms.
 
