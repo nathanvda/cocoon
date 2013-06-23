@@ -2,6 +2,10 @@
 
   var cocoon_element_counter = 0;
 
+  document.addEventListener('page:load', function() {
+    cocoon_element_counter = 0;
+  });
+
   function replace_in_content(content, regexp_str, with_str) {
     reg_exp = new RegExp(regexp_str);
     content.replace(reg_exp, with_str);
