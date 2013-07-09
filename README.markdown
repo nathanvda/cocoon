@@ -24,6 +24,11 @@ Inside your `Gemfile` add the following:
 gem "cocoon"
 ```
 
+For Rails 4.0 use version from github:
+```ruby
+gem "cocoon", :git => "git://github.com/nathanvda/cocoon"
+```
+
 ### Rails 3.1+
 
 Add the following to `application.js` so it compiles to the asset pipeline:
