@@ -3,7 +3,7 @@ script: "bundle exec rake"
 rvm:
   - 1.9.3
   - 2.0.0
-  - rbx
+  - rbx-19mode
   - jruby
 gemfile:
   - gemfiles/Gemfile.rails-3.1
