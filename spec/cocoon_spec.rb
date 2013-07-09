@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'nokogiri'
 
 describe Cocoon do
   class TestClass < ActionView::Base
@@ -23,21 +24,31 @@ describe Cocoon do
     end
 
     context "without a block" do
-      it "accepts a name" do
-        result = @tester.link_to_add_association('add something', @form_obj, :comments)
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+
+      context "and given a name" do
+        before do
+          @html = @tester.link_to_add_association('add something', @form_obj, :comments)
+        end
+
+        it_behaves_like "a correctly rendered add link", {}
       end
 
-      it "accepts html options and pass them to link_to" do
-        result = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
-        result.to_s.should == '<a href="#" class="something silly add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+      context "and given html options to pass them to link_to" do
+        before do
+          @html = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
+        end
+
+        it_behaves_like "a correctly rendered add link", {class: 'something silly add_fields' }
       end
 
-      it "allows to explicitly hand the wanted partial" do
-        @tester.unstub(:render_association)
-        @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
-        result = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="comment" data-associations="comments">add something</a>'
+      context "and explicitly specifying the wanted partial" do
+        before do
+          @tester.unstub(:render_association)
+          @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+          @html = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
+        end
+
+        it_behaves_like "a correctly rendered add link", {template: "partiallll"}
       end
 
       it "gives an opportunity to wrap/decorate created objects" do
@@ -47,61 +58,80 @@ describe Cocoon do
       end
 
       context "force non association create" do
-        it "default it uses the association" do
-          @tester.should_receive(:create_object).with(anything, :comments , false)
-          result = @tester.link_to_add_association('add something', @form_obj, :comments)
-          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
-        end
-        it "specifying false is the same as default: create object on association" do
-          @tester.should_receive(:create_object).with(anything, :comments , false)
-          result = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => false)
-          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
-        end
-        it "specifying true will not create objects on association but using the conditions" do
-          @tester.should_receive(:create_object).with(anything, :comments , true)
-          result = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
-          result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">add something</a>'
+        context "default case: create object on association" do
+          before do
+            @tester.should_receive(:create_object).with(anything, :comments , false)
+            @html = @tester.link_to_add_association('add something', @form_obj, :comments)
+          end
+
+          it_behaves_like "a correctly rendered add link", {}
         end
 
+        context "and explicitly specifying false is the same as default" do
+          before do
+            @tester.should_receive(:create_object).with(anything, :comments , false)
+            @html = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => false)
+          end
+          it_behaves_like "a correctly rendered add link", {}
+        end
+
+        context "specifying true will not create objects on association but using the conditions" do
+          before do
+            @tester.should_receive(:create_object).with(anything, :comments , true)
+            @html = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
+          end
+          it_behaves_like "a correctly rendered add link", {}
+        end
       end
     end
 
     context "with a block" do
-      it "the block gives the link text" do
-        result = @tester.link_to_add_association(@form_obj, :comments) do
-          "some long name"
+      context "and the block specifies the link text" do
+        before do
+          @html = @tester.link_to_add_association(@form_obj, :comments) do
+            "some long name"
+          end
         end
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">some long name</a>'
+        it_behaves_like "a correctly rendered add link", {text: 'some long name'}
       end
 
-      it "accepts html options and pass them to link_to" do
-        result = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
-          "some long name"
+      context "accepts html options and pass them to link_to" do
+        before do
+          @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
+            "some long name"
+          end
         end
-        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="comment" data-associations="comments">some long name</a>'
+        it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name'}
       end
 
-      it "allows to explicitly hand the wanted partial" do
-        @tester.unstub(:render_association)
-        @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
-        result = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
-          "some long name"
+      context "and explicitly specifying the wanted partial" do
+        before do
+          @tester.unstub(:render_association)
+          @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+          @html = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
+            "some long name"
+          end
         end
-        result.to_s.should == '<a href="#" class="floppy disk add_fields" data-association-insertion-template="partiallll" data-association="comment" data-associations="comments">some long name</a>'
+
+        it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', template: "partiallll", text: 'some long name'}
       end
     end
 
     context "with an irregular plural" do
-      it "uses the correct plural" do
-        result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="person" data-associations="people">add something</a>'
+      context "uses the correct plural" do
+        before do
+          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+        end
+        it_behaves_like "a correctly rendered add link", {association: 'person', associations: 'people' }
       end
     end
 
     context "when using aliased association and class-name" do
-      it "uses the correct name" do
-        result = @tester.link_to_add_association('add something', @form_obj, :admin_comments)
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="admin_comment" data-associations="admin_comments">add something</a>'
+      context "uses the correct name" do
+        before do
+          @html = @tester.link_to_add_association('add something', @form_obj, :admin_comments)
+        end
+        it_behaves_like "a correctly rendered add link", {association: 'admin_comment', associations: 'admin_comments'}
       end
     end
 
@@ -110,27 +140,35 @@ describe Cocoon do
     end
 
     context "with extra render-options for rendering the child relation" do
-      it "uses the correct plural" do
-        @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'}, nil)
-        result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tag&gt;" data-association="person" data-associations="people">add something</a>'
+      context "uses the correct plural" do
+        before do
+          @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'}, nil)
+          @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
+        end
+        it_behaves_like "a correctly rendered add link", {association: 'person', associations: 'people' }
       end
     end
 
     context "passing locals to the partial" do
-      it "when given: passes the locals to the partials" do
-        @tester.unstub(:render_association)
-        @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
-        @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
-        result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="person" data-associations="people">add something</a>'
+      context "when given: passes the locals to the partials" do
+        before do
+          @tester.unstub(:render_association)
+          @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
+          @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
+          @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
+        end
+        it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
       end
-      it "if no locals are given it still works" do
-        @tester.unstub(:render_association)
-        @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
-        @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true}).and_return ("partiallll")
-        result = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="person" data-associations="people">add something</a>'
+      context "if no locals are given it still works" do
+        before do
+          @tester.unstub(:render_association)
+          @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
+          @tester.should_receive(:render).with("person_fields", {:f=>nil, :dynamic=>true}).and_return ("partiallll")
+          @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
+        end
+        it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
+
+        #result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="partiallll" data-association="person" data-associations="people">add something</a>'
       end
     end
 
@@ -141,12 +179,13 @@ describe Cocoon do
         @tester.unstub(:render_association)
         @form_obj.stub(:semantic_fields_for).and_return('form<tagzzz>')
       end
-      it "calls semantic_fields_for and not fields_for" do
-        @form_obj.should_receive(:semantic_fields_for)
-        @form_obj.should_receive(:fields_for).never
-        result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tagzzz&gt;" data-association="person" data-associations="people">add something</a>'
-
+      context "calls semantic_fields_for and not fields_for" do
+        before do
+          @form_obj.should_receive(:semantic_fields_for)
+          @form_obj.should_receive(:fields_for).never
+          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+        end
+        it_behaves_like "a correctly rendered add link", {template: 'form<tagzzz>', association: 'person', associations: 'people' }
       end
     end
     context "when using simple_form" do
@@ -157,12 +196,13 @@ describe Cocoon do
       it "responds_to :simple_fields_for" do
         @form_obj.should respond_to(:simple_fields_for)
       end
-      it "calls simple_fields_for and not fields_for" do
-        @form_obj.should_receive(:simple_fields_for)
-        @form_obj.should_receive(:fields_for).never
-        result = @tester.link_to_add_association('add something', @form_obj, :people)
-        result.to_s.should == '<a href="#" class="add_fields" data-association-insertion-template="form&lt;tagxxx&gt;" data-association="person" data-associations="people">add something</a>'
-
+      context "calls simple_fields_for and not fields_for" do
+        before do
+          @form_obj.should_receive(:simple_fields_for)
+          @form_obj.should_receive(:fields_for).never
+          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+        end
+        it_behaves_like "a correctly rendered add link", {template: 'form<tagxxx>', association: 'person', associations: 'people' }
       end
     end
 
@@ -170,31 +210,47 @@ describe Cocoon do
 
   context "link_to_remove_association" do
     context "without a block" do
-      it "accepts a name" do
-        result = @tester.link_to_remove_association('remove something', @form_obj)
-        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"remove_fields dynamic\">remove something</a>"
+      context "accepts a name" do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj)
+        end
+
+        it "is rendered inside a input element" do
+          doc = Nokogiri::HTML(@html)
+          removed = doc.at('input')
+          removed.attribute('id').value.should == "Post__destroy"
+          removed.attribute('name').value.should == "Post[_destroy]"
+        end
+
+        it_behaves_like "a correctly rendered remove link", {}
       end
 
-      it "accepts html options and pass them to link_to" do
-        result = @tester.link_to_remove_association('remove something', @form_obj, {:class => 'add_some_class', :'data-something' => 'bla'})
-        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove something</a>"
+      context "accepts html options and pass them to link_to" do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj, {:class => 'add_some_class', :'data-something' => 'bla'})
+        end
+        it_behaves_like "a correctly rendered remove link", {class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
 
     end
 
     context "with a block" do
-      it "the block gives the name" do
-        result = @tester.link_to_remove_association(@form_obj) do
-          "remove some long name"
+      context "the block gives the name" do
+        before do
+          @html = @tester.link_to_remove_association(@form_obj) do
+            "remove some long name"
+          end
         end
-        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"remove_fields dynamic\">remove some long name</a>"
+        it_behaves_like "a correctly rendered remove link", {text: 'remove some long name'}
       end
 
-      it "accepts html options and pass them to link_to" do
-        result = @tester.link_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) do
-          "remove some long name"
+      context "accepts html options and pass them to link_to" do
+        before do
+          @html = @tester.link_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) do
+            "remove some long name"
+          end
         end
-        result.to_s.should == "<input id=\"Post__destroy\" name=\"Post[_destroy]\" type=\"hidden\" /><a href=\"#\" class=\"add_some_class remove_fields dynamic\" data-something=\"bla\">remove some long name</a>"
+        it_behaves_like "a correctly rendered remove link", {text: 'remove some long name', class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
     end
   end
@@ -202,6 +258,12 @@ describe Cocoon do
   context "create_object" do
     it "creates correct association with conditions" do
       @tester.should_not_receive(:create_object_with_conditions)
+      # in rails4 we cannot create an associated object when the object has not been saved before
+      # I submitted a bug for this: https://github.com/rails/rails/issues/11376
+      if Rails.rails4?
+        @post = Post.create(title: 'Testing')
+        @form_obj = stub(:object => @post, :object_name => @post.class.name)
+      end
       result = @tester.create_object(@form_obj, :admin_comments)
       result.author.should == "Admin"
     end

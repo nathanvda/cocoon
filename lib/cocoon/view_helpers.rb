@@ -121,6 +121,10 @@ module Cocoon
     end
 
     def create_object_with_conditions(instance)
+      # in rails 4, an association is defined with a proc
+      # and I did not find how to extract the conditions from a scope
+      # except building from the scope, but then why not just build from the
+      # association???
       conditions = instance.respond_to?(:conditions) ? instance.conditions.flatten : []
       instance.klass.new(*conditions)
     end
