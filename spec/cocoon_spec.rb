@@ -104,6 +104,27 @@ describe Cocoon do
         it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name'}
       end
 
+      context "accepts extra attributes and pass them to link_to" do
+        context 'when using the old notation' do
+          before do
+            @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', 'data-something' => 'bla'}) do
+              "some long name"
+            end
+          end
+          it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name', :extra_attributes => {'data-something' => 'bla'}}
+        end
+        if Rails.rails4?
+          context 'when using the new notation' do
+            before do
+              @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', :data => {:'association-something' => 'foobar'}}) do
+                "some long name"
+              end
+            end
+            it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name', :extra_attributes => {'data-association-something' => 'foobar'}}
+          end
+        end
+      end
+
       context "and explicitly specifying the wanted partial" do
         before do
           @tester.unstub(:render_association)

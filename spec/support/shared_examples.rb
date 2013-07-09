@@ -8,7 +8,8 @@ shared_examples_for "a correctly rendered add link" do |options|
           template: "form<tag>",
           association: 'comment',
           associations: 'comments',
-          text: 'add something'
+          text: 'add something',
+          extra_attributes: {}
       }
       @options = default_options.merge options
 
@@ -31,6 +32,12 @@ shared_examples_for "a correctly rendered add link" do |options|
     it 'has the correct text' do
       @link.text.should == @options[:text]
     end
+    it 'sets extra attributes correctly' do
+      @options[:extra_attributes].each do |key, value|
+        @link.attribute(key).value.should == value
+      end
+    end
+
   end
 end
 
