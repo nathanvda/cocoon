@@ -2,12 +2,13 @@
 
 [![Build Status](https://travis-ci.org/nathanvda/cocoon.png)](https://travis-ci.org/nathanvda/cocoon)
 
-Cocoon is a Rails 3 gem that makes it easier to handle nested forms.
+Cocoon makes it easier to handle nested forms.
 
 Nested forms are forms that handle nested models and attributes in one form;
 e.g. a project with its tasks or an invoice with its line items.
 
 Cocoon is form builder-agnostic, so it works with standard Rails, [Formtastic](https://github.com/justinfrench/formtastic), or [SimpleForm](https://github.com/plataformatec/simple_form).
+It is compatible with rails 3 and rails 4.
 
 This project is not related to [Apache Cocoon](http://cocoon.apache.org/).
 
@@ -24,10 +25,6 @@ Inside your `Gemfile` add the following:
 gem "cocoon"
 ```
 
-For Rails 4.0 use version from github:
-```ruby
-gem "cocoon", :git => "git://github.com/nathanvda/cocoon"
-```
 
 ### Rails 3.1+
 
