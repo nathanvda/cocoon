@@ -14,7 +14,7 @@ describe Cocoon do
   before(:each) do
     @tester = TestClass.new
     @post = Post.new
-    @form_obj = stub(:object => @post, :object_name => @post.class.name)
+    @form_obj = double(:object => @post, :object_name => @post.class.name)
   end
 
 
@@ -283,31 +283,31 @@ describe Cocoon do
       # I submitted a bug for this: https://github.com/rails/rails/issues/11376
       if Rails.rails4?
         @post = Post.create(title: 'Testing')
-        @form_obj = stub(:object => @post, :object_name => @post.class.name)
+        @form_obj = double(:object => @post, :object_name => @post.class.name)
       end
       result = @tester.create_object(@form_obj, :admin_comments)
       result.author.should == "Admin"
     end
 
     it "creates correct association for belongs_to associations" do
-      result = @tester.create_object(stub(:object => Comment.new), :post)
+      result = @tester.create_object(double(:object => Comment.new), :post)
       result.should be_a Post
     end
 
     it "raises an error if cannot reflect on association" do
-      expect { @tester.create_object(stub(:object => Comment.new), :not_existing) }.to raise_error /association/i
+      expect { @tester.create_object(double(:object => Comment.new), :not_existing) }.to raise_error /association/i
     end
 
     it "creates an association if object responds to 'build_association' as singular" do
       object = Comment.new
       object.should_receive(:build_custom_item).and_return 'custom'
-      @tester.create_object(stub(:object => object), :custom_item).should == 'custom'
+      @tester.create_object(double(:object => object), :custom_item).should == 'custom'
     end
 
     it "creates an association if object responds to 'build_association' as plural" do
       object = Comment.new
       object.should_receive(:build_custom_item).and_return 'custom'
-      @tester.create_object(stub(:object => object), :custom_items).should == 'custom'
+      @tester.create_object(double(:object => object), :custom_items).should == 'custom'
     end
 
     it "can create using only conditions not the association" do
