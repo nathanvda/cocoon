@@ -7,14 +7,13 @@
     content.replace(reg_exp, with_str);
   }
 
-
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
     var $this                 = $(this),
         assoc                 = $this.data('association'),
         assocs                = $this.data('associations'),
         content               = $this.data('association-insertion-template'),
-        insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before';
+        insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before',
         insertionNode         = $this.data('association-insertion-node'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
@@ -34,7 +33,7 @@
 
     if (insertionNode){
       if (insertionTraversal){
-        insertionNode = $this[insertionTraversal](insertionNode)
+        insertionNode = $this[insertionTraversal](insertionNode);
       } else {
         insertionNode = insertionNode == "this" ? $this : $(insertionNode);
       }
@@ -54,7 +53,6 @@
     insertionNode.trigger('cocoon:after-insert', [contentNode]);
   });
 
-
   $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
     var $this = $(this);
     var node_to_delete = $this.closest(".nested-fields");
@@ -63,7 +61,6 @@
     e.preventDefault();
 
     trigger_node.trigger('cocoon:before-remove', [node_to_delete]);
-
 
     var timeout = trigger_node.data('remove-timeout') || 0;
 
