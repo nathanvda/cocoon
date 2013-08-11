@@ -25,8 +25,9 @@ Inside your `Gemfile` add the following:
 gem "cocoon"
 ```
 
+> Please note that for rails 4 you will need at least v1.2.0 or later.
 
-### Rails 3.1+
+### Rails 3.1+/Rails 4
 
 Add the following to `application.js` so it compiles to the asset pipeline:
 
@@ -294,8 +295,6 @@ To resolve this, specify that `:force_non_association_create` should be `true`:
 ```
 
 By default `:force_non_association_create` is `false`.
-
-> A cleaner option would be to call a function that performs this initialisation and returns `self` at the end.
 
 ### link_to_remove_association
 
