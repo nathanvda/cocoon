@@ -21,6 +21,14 @@ Furthermore, I would advise you to use either [Formtastic](https://github.com/ju
 
 Inside your `Gemfile` add the following:
 
+#### Rails 4
+
+```ruby
+gem "cocoon", "~> 1.2.0"
+```
+
+#### Rails 3
+
 ```ruby
 gem "cocoon"
 ```
@@ -275,7 +283,7 @@ E.g.
 
 
 ```haml
-= link_to_add_association('add something', @form_obj, :comments, 
+= link_to_add_association('add something', @form_obj, :comments,
     :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
 ```
 
@@ -432,7 +440,7 @@ For the JavaScript to behave correctly, the partial should start with a containe
 There is no limit to the amount of nesting, though.
 
 ## Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -458,6 +466,6 @@ Copyright (c) 2010 Nathan Van der Auwera. See LICENSE for details.
 
 ## Not Related To Apache Cocoon
 
-Please note that this project is not related to the Apache Cocoon web framework project. 
+Please note that this project is not related to the Apache Cocoon web framework project.
 
 [Apache Cocoon](http://cocoon.apache.org/), Cocoon, and Apache are either registered trademarks or trademarks of the [Apache Software Foundation](http://www.apache.org/) in the United States and/or other countries.
