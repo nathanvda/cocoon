@@ -80,6 +80,18 @@ Now we want a project form where we can add and remove tasks dynamically.
 To do this, we need the fields for a new or existing `task` to be defined in a partial
 named `_task_fields.html`.
 
+### Rails 4/Strong Parameters Gotcha
+
+Cocoon uses an additional parameter `_delete` when rendering multiple instances of the partial form. When a user clicks the link `link_to_remove_association` generates, the partial is hidden with the parameter `_delete` set to `1`.
+
+In order for an association to be deleted on an update, you must explicitly to add `:_delete` to the list of permitted parameters like so:
+
+```ruby
+  def project_params
+    params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
+  end
+```
+
 ## Examples
 
 ### Formtastic
