@@ -7,6 +7,17 @@
     content.replace(reg_exp, with_str);
   }
 
+  function hide_removed_items_after_submit(){
+    var marked_for_removal = $('.remove_fields.existing').siblings('input[value = "true"][type = "hidden"]'),
+        nodes_to_hide      = marked_for_removal.closest('.nested-fields');
+
+    nodes_to_hide.hide();
+  }
+
+  $(document).ready(function(){
+    hide_removed_items_after_submit();
+  });
+
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
     var $this                 = $(this),

@@ -7,4 +7,4 @@ spec/dummy/tmp/
 .rvmrc
 .idea
 coverage/
-
+*.swp
