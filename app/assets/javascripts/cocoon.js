@@ -14,9 +14,9 @@
     nodes_to_hide.hide();
   }
 
-  $(document).ready(function(){
-    hide_removed_items_after_submit();
-  });
+
+  hide_removed_items_after_submit();
+
 
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
