@@ -287,11 +287,15 @@ describe Cocoon do
       end
       result = @tester.create_object(@form_obj, :admin_comments)
       result.author.should == "Admin"
+      @form_obj.object.admin_comments.should be_empty
     end
 
     it "creates correct association for belongs_to associations" do
-      result = @tester.create_object(double(:object => Comment.new), :post)
+      comment  = Comment.new
+      form_obj = double(:object => Comment.new)
+      result   = @tester.create_object(form_obj, :post)
       result.should be_a Post
+      comment.post.should be_nil
     end
 
     it "raises an error if cannot reflect on association" do
