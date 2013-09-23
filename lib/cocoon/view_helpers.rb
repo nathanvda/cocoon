@@ -111,12 +111,18 @@ module Cocoon
       if instance.class.name == "Mongoid::Relations::Metadata" || force_non_association_create
         create_object_with_conditions(instance)
       else
+        assoc_obj = nil
+
         # assume ActiveRecord or compatible
         if instance.collection?
-          f.object.send(association).build
+          assoc_obj = f.object.send(association).build
+          f.object.send(association).delete(assoc_obj)
         else
-          f.object.send("build_#{association}")
+          assoc_obj = f.object.send("build_#{association}")
+          f.object.send(association).delete
         end
+
+        assoc_obj
       end
     end
 
