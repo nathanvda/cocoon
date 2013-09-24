@@ -1,5 +1,17 @@
 # Change History / Release Notes
 
+## Version 1.2.1
+
+* added a `:form_name` parameter (fixes #153) which allows to use a self-chosen
+  parameter in the nested views. Up until now `f` was assumed (and enforced).
+* improvement of creation of the objects on the association (thanks to Dirk von Grünigen). This
+  alleviates the need for the `:force_non_association_create` option in most cases.
+  That option is for now still kept.
+
+## Version 1.2.0
+
+* support for rails 4.0
+
 ## Version 1.1.2
 
 * pull #118 (thanks @ahmozkya): remove the deprecated `.live` function, and use `.on` instead.
