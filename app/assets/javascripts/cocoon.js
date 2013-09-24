@@ -75,4 +75,6 @@
     }, timeout);
   });
 
+  $('.remove_fields.existing.destroyed').closest('.nested-fields').hide();
+
 })(jQuery);

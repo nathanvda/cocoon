@@ -252,6 +252,7 @@ describe Cocoon do
           removed = doc.at('input')
           removed.attribute('id').value.should == "Post__destroy"
           removed.attribute('name').value.should == "Post[_destroy]"
+          removed.attribute('value').value.should == "false"
         end
 
         it_behaves_like "a correctly rendered remove link", {}
@@ -264,6 +265,27 @@ describe Cocoon do
         it_behaves_like "a correctly rendered remove link", {class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
 
+    end
+
+    # this is needed when due to some validation error, objects that
+    # were already marked for destruction need to remain hidden
+    context "for a object marked for destruction" do
+      before do
+        @post_marked_for_destruction = Post.new
+        @post_marked_for_destruction.mark_for_destruction
+        @form_obj_destroyed = double(:object => @post_marked_for_destruction, :object_name => @post_marked_for_destruction.class.name)
+        @html = @tester.link_to_remove_association('remove something', @form_obj_destroyed)
+      end
+
+      it "is rendered inside a input element" do
+        doc = Nokogiri::HTML(@html)
+        removed = doc.at('input')
+        removed.attribute('id').value.should == "Post__destroy"
+        removed.attribute('name').value.should == "Post[_destroy]"
+        removed.attribute('value').value.should == "true"
+      end
+
+      it_behaves_like "a correctly rendered remove link", {class: 'remove_fields dynamic destroyed'}
     end
 
     context "with a block" do

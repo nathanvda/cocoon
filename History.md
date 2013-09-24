@@ -7,6 +7,9 @@
 * improvement of creation of the objects on the association (thanks to Dirk von Grünigen). This
   alleviates the need for the `:force_non_association_create` option in most cases.
   That option is for now still kept.
+* after validation errors, already deleted (but not saved) nested elements, will remain deleted
+  (e.g. the state is remembered, and they remain hidden, and will be correctly deleted on next
+  succesfull save) (fixes #136).
 
 ## Version 1.2.0
 
