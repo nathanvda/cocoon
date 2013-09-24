@@ -252,6 +252,7 @@ describe Cocoon do
           removed = doc.at('input')
           removed.attribute('id').value.should == "Post__destroy"
           removed.attribute('name').value.should == "Post[_destroy]"
+          removed.attribute('value').value.should == "false"
         end
 
         it_behaves_like "a correctly rendered remove link", {}
