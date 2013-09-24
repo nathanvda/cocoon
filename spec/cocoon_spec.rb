@@ -44,7 +44,7 @@ describe Cocoon do
       context "and explicitly specifying the wanted partial" do
         before do
           @tester.unstub(:render_association)
-          @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+          @tester.should_receive(:render_association).with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
           @html = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
         end
 
@@ -53,7 +53,7 @@ describe Cocoon do
 
       it "gives an opportunity to wrap/decorate created objects" do
         @tester.unstub(:render_association)
-        @tester.should_receive(:render_association).with(anything(), anything(), kind_of(CommentDecorator), anything(), anything()).and_return('partiallll')
+        @tester.should_receive(:render_association).with(anything(), anything(), kind_of(CommentDecorator), "f", anything(), anything()).and_return('partiallll')
         @tester.link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
       end
 
@@ -128,7 +128,7 @@ describe Cocoon do
       context "and explicitly specifying the wanted partial" do
         before do
           @tester.unstub(:render_association)
-          @tester.should_receive(:render_association).with(anything(), anything(), anything(), anything(), "shared/partial").and_return('partiallll')
+          @tester.should_receive(:render_association).with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
           @html = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
             "some long name"
           end
@@ -163,7 +163,7 @@ describe Cocoon do
     context "with extra render-options for rendering the child relation" do
       context "uses the correct plural" do
         before do
-          @tester.should_receive(:render_association).with(:people, @form_obj, anything, {:wrapper => 'inline'}, nil)
+          @tester.should_receive(:render_association).with(:people, @form_obj, anything, "f", {:wrapper => 'inline'}, nil)
           @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
         end
         it_behaves_like "a correctly rendered add link", {association: 'person', associations: 'people' }
@@ -193,6 +193,17 @@ describe Cocoon do
       end
     end
 
+    context "overruling the form parameter name" do
+      context "when given a form_name it passes it correctly to the partials" do
+        before do
+          @tester.unstub(:render_association)
+          @form_obj.should_receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
+          @tester.should_receive(:render).with("person_fields", {:people_form => nil, :dynamic=>true}).and_return ("partiallll")
+          @html = @tester.link_to_add_association('add something', @form_obj, :people, :form_name => 'people_form')
+        end
+        it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
+      end
+    end
 
 
     context "when using formtastic" do
