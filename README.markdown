@@ -300,12 +300,15 @@ E.g.
 #### :force_non_association_create
 
 In normal cases we create a new nested object using the association relation itself. This is the cleanest way to create
-a new nested object. But this has a side-effect: for each call of `link_to_add_association` a new element is added to the association.
+a new nested object.
 
-In most cases this is not a problem, but if you want to render a `link_to_add_association` for each nested element this will result
-in an infinite loop.
+This used to have a side-effect: for each call of `link_to_add_association` a new element was added to the association.
+This is no longer the case.
 
-To resolve this, specify that `:force_non_association_create` should be `true`:
+For backward compatibility we keep this option for now. Or if for some specific reason you would
+really need an object to be _not_ created on the association.
+
+Example use:
 
 ```haml
 = link_to_add_association('add something', @form_obj, :comments,
