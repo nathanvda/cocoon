@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "cocoon"
-  s.version = "1.2.0"
+  s.version = "1.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Van der Auwera"]
-  s.date = "2013-07-10"
+  s.date = "2013-09-25"
   s.description = "Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven."
   s.email = "nathan@dixis.com"
   s.extra_rdoc_files = [
