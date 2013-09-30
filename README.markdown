@@ -96,9 +96,10 @@ E.g. in your `ProjectsController`:
   end
 ```
 
-
-
 ## Examples
+
+Cocoon's default configuration requires `link_to_add_association` and associated partials to 
+be properly wrapped with elements. The examples below illustrate simple layouts.
 
 ### Formtastic
 
