@@ -66,10 +66,10 @@
 
     setTimeout(function() {
       if ($this.hasClass('dynamic')) {
-          $this.closest(".nested-fields").remove();
+          node_to_delete.remove();
       } else {
           $this.prev("input[type=hidden]").val("1");
-          $this.closest(".nested-fields").hide();
+          node_to_delete.hide();
       }
       trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
     }, timeout);
