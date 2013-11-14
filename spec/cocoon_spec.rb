@@ -238,6 +238,13 @@ describe Cocoon do
       end
     end
 
+    context 'when adding a count' do
+      before do
+        @html = @tester.link_to_add_association('add something', @form_obj, :comments, { :count => 3 })
+      end
+      it_behaves_like "a correctly rendered add link", { :extra_attributes => { 'data-count' => '3' } }
+    end
+
   end
 
   context "link_to_remove_association" do
