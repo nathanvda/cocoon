@@ -332,6 +332,14 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
+Optionally, you can add an html option called `wrapper_class` to use a different wrapper div instead of `.nested-class`.
+The class should be added without a preceding dot (`.`).
+
+Example:
+```haml
+= link_to_remove_association('remove this', @form_obj,
+  { wrapper_class: 'my-wrapper-class' })
+```
 
 ### Callbacks (upon insert and remove of items)
 
@@ -412,7 +420,7 @@ This is accomplished by the following line:
 $(this).data('remove-timeout', 1000);
 ```
 
-You could also immediately add this to your view (on the `.nested-fields` container).
+You could also immediately add this to your view, on the `.nested-fields` container (or the `wrapper_class` element you are using).
 
 ### Control the Insertion Behaviour
 
@@ -450,7 +458,7 @@ $(document).ready(function() {
 If no explicit partial name is given, `cocoon` looks for a file named `_<association-object_singular>_fields`.
 To override the default partial use the `:partial` option.
 
-For the JavaScript to behave correctly, the partial should start with a container (e.g. `div`) of class `.nested-fields`.
+For the JavaScript to behave correctly, the partial should start with a container (e.g. `div`) of class `.nested-fields`, or a class of your choice which you can define in the `link_to_remove_association` method.
 
 There is no limit to the amount of nesting, though.
 

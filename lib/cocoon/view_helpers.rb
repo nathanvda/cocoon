@@ -31,6 +31,10 @@ module Cocoon
         classes << (is_dynamic ? 'dynamic' : 'existing')
         classes << 'destroyed' if f.object.marked_for_destruction?
         html_options[:class] = [html_options[:class], classes.join(' ')].compact.join(' ')
+
+        wrapper_class = html_options.delete(:wrapper_class)
+        html_options[:'data-wrapper-class'] = wrapper_class if wrapper_class.present?
+
         hidden_field_tag("#{f.object_name}[_destroy]", f.object._destroy) + link_to(name, '#', html_options)
       end
     end

@@ -77,9 +77,10 @@
   });
 
   $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
-    var $this = $(this);
-    var node_to_delete = $this.closest(".nested-fields");
-    var trigger_node = node_to_delete.parent();
+    var $this = $(this),
+        wrapper_class = $this.data('wrapper-class') || 'nested-fields',
+        node_to_delete = $this.closest('.' + wrapper_class),
+        trigger_node = node_to_delete.parent();
 
     e.preventDefault();
 
@@ -98,6 +99,11 @@
     }, timeout);
   });
 
-  $('.remove_fields.existing.destroyed').closest('.nested-fields').hide();
+  $('.remove_fields.existing.destroyed').each(function(i, obj) {
+    var $this = $(this),
+        wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+
+    $this.closest('.' + wrapper_class).hide();
+  });
 
 })(jQuery);

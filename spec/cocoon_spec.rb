@@ -314,6 +314,24 @@ describe Cocoon do
         it_behaves_like "a correctly rendered remove link", {text: 'remove some long name', class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
     end
+
+    context 'when changing the wrapper class' do
+      context 'should use the default nested-fields class' do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj)
+        end
+
+        it_behaves_like "a correctly rendered remove link", { }
+      end
+
+      context 'should use the given wrapper class' do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj, { wrapper_class: 'another-class' })
+        end
+  
+        it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-wrapper-class' => 'another-class' } }
+      end
+    end
   end
 
   context "create_object" do
