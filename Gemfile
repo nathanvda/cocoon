@@ -14,6 +14,15 @@ group :development, :test do
   gem 'nokogiri'
 
   gem "generator_spec"
+
+  platforms :rbx do
+    gem 'racc'
+    gem 'rubysl', '~> 2.0'
+    gem 'rubysl-test-unit'
+    gem 'rubysl-resolv', '~> 2.0'
+    gem 'psych'
+    gem 'minitest'
+  end
 end
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
