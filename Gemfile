@@ -18,6 +18,7 @@ end
 
 platforms :rbx do
   gem 'rubysl'
+  gem 'rubysl-test-unit'
   gem 'psych'
   gem 'racc'
   gem 'rubinius-developer_tools'
