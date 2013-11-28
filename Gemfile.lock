@@ -80,7 +80,6 @@ GEM
       multi_xml (~> 0.5)
       rack (~> 1.2)
     polyglot (0.3.3)
-    psych (2.0.2)
     racc (1.4.10)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -116,6 +115,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rubinius-coverage (2.0.3)
     rubysl (2.0.15)
       rubysl-abbrev (~> 2.0)
       rubysl-base64 (~> 2.0)
@@ -303,8 +303,6 @@ GEM
     rubysl-syslog (2.0.1)
       ffi2-generators (~> 0.1)
     rubysl-tempfile (2.0.1)
-    rubysl-test-unit (2.0.3)
-      minitest (~> 4.7)
     rubysl-thread (2.0.2)
     rubysl-thwait (2.0.0)
     rubysl-time (2.0.3)
@@ -351,15 +349,12 @@ DEPENDENCIES
   generator_spec
   jeweler
   json_pure
-  minitest
   nokogiri
-  psych
   racc
   rails (>= 4.0.0)
   rspec (>= 2.8.0)
   rspec-rails (>= 2.8.0)
+  rubinius-coverage
   rubysl (~> 2.0)
-  rubysl-resolv (~> 2.0)
-  rubysl-test-unit
   simplecov
   sqlite3

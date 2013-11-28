@@ -18,10 +18,7 @@ group :development, :test do
   platforms :rbx do
     gem 'racc'
     gem 'rubysl', '~> 2.0'
-    gem 'rubysl-test-unit'
-    gem 'rubysl-resolv', '~> 2.0'
-    gem 'psych'
-    gem 'minitest'
+    gem 'rubinius-coverage'
   end
 end
 
