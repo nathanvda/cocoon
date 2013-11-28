@@ -16,6 +16,12 @@ group :development, :test do
   gem "generator_spec"
 end
 
+platforms :rbx do
+  gem 'rubysl'
+  gem 'psych'
+  gem 'racc'
+end
+
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
 # gem 'ruby-debug19'
