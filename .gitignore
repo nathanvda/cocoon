@@ -7,4 +7,6 @@ spec/dummy/tmp/
 .rvmrc
 .idea
 coverage/
+ 
+Gemfile.lock
 
