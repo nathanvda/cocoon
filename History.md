@@ -1,5 +1,26 @@
 # Change History / Release Notes
 
+## Version 1.2.5
+
+* fix gem dependencies: we added gems to allow building for rubinius, but those are only
+  needed when developing
+
+## Version 1.2.4
+
+* the wrapper class is now configurable. Before it was assumed to be `nested-fields`.
+  Now it is configurable by handing. See #180. Thanks Yoav Matchulsky.
+* fix build on travis-ci for rubinius (thanks brixen).
+
+## Version 1.2.3
+
+* add license info
+
+## Version 1.2.2
+
+* added option to add multiple items on one click. See #175.
+* cleaned up javascript code. See #171.
+
+
 ## Version 1.2.1
 
 * added a `:form_name` parameter (fixes #153) which allows to use a self-chosen
