@@ -5,11 +5,11 @@
   var create_new_id = function() {
     return (new Date().getTime() + cocoon_element_counter++);
   }
-  
+
   var newcontent_braced = function(id) {
     return '[' + id + ']$1';
   }
-  
+
   var newcontent_underscord = function(id) {
     return '_' + id + '_$1';
   }
@@ -30,7 +30,7 @@
         new_content           = content.replace(regexp_braced, newcontent_braced(new_id)),
         new_contents          = [];
 
-    
+
     if (new_content == content) {
       regexp_braced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
       regexp_underscord = new RegExp('_new_' + assocs + '_(\\w*)', 'g');
@@ -42,16 +42,16 @@
 
     count = (isNaN(count) ? 1 : Math.max(count, 1));
     count -= 1;
-    
+
     while (count) {
       new_id      = create_new_id();
       new_content = content.replace(regexp_braced, newcontent_braced(new_id));
       new_content = new_content.replace(regexp_underscord, newcontent_underscord(new_id));
       new_contents.push(new_content);
-      
+
       count -= 1;
     }
-    
+
     if (insertionNode){
       if (insertionTraversal){
         insertionNode = $this[insertionTraversal](insertionNode);
@@ -62,8 +62,8 @@
       insertionNode = $this.parent();
     }
 
-    for (var i in new_contents) {
-      var contentNode = $(new_contents[i]);
+    $.each(new_contents, function(i, node) {
+      var contentNode = $(node);
 
       insertionNode.trigger('cocoon:before-insert', [contentNode]);
 
@@ -73,7 +73,7 @@
       var addedContent = insertionNode[insertionMethod](contentNode);
 
       insertionNode.trigger('cocoon:after-insert', [contentNode]);
-    }
+    });
   });
 
   $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
