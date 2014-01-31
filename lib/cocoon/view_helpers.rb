@@ -137,6 +137,8 @@ module Cocoon
           f.object.send(association).delete
         end
 
+        assoc_obj = assoc_obj.dup if assoc_obj.frozen?
+
         assoc_obj
       end
     end
