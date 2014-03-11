@@ -72,9 +72,7 @@
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      if (insertNode.val) {
-        var addedContent = insertionNode[insertionMethod](contentNode);
-
+      var addedContent = insertionNode[insertionMethod](contentNode);
       insertionNode.trigger('cocoon:after-insert', [contentNode]);
     });
   });
