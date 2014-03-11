@@ -87,7 +87,7 @@
 
     var removeNode = {val: true};
     trigger_node.trigger('cocoon:before-remove', [node_to_delete, removeNode]);
-    if (!removeNode) return;
+    if (!removeNode.val) return;
 
     var timeout = trigger_node.data('remove-timeout') || 0;
 
