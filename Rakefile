@@ -33,7 +33,6 @@ begin
     gem.email = "nathan@dixis.com"
     gem.homepage = "http://github.com/nathanvda/cocoon"
     gem.authors = ["Nathan Van der Auwera"]
-    gem.add_development_dependency "rspec", ">= 2.0.0"
     gem.licenses = ["MIT"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
