@@ -12,7 +12,7 @@ module Cocoon
     # - *f* : the form this link should be placed in
     # - *html_options*:  html options to be passed to link_to (see <tt>link_to</tt>)
     # - *&block*:        the output of the block will be show in the link, see <tt>link_to</tt>
-    
+
     def link_to_remove_association(*args, &block)
       if block_given?
         f            = args.first
@@ -60,7 +60,7 @@ module Cocoon
     #              - *:locals*     : the locals hash in the :render_options is handed to the partial
     #          - *:partial*        : explicitly override the default partial name
     #          - *:wrap_object*    : a proc that will allow to wrap your object, especially suited when using
-    #                                decorators, or if you want special initialisation   
+    #                                decorators, or if you want special initialisation
     #          - *:form_name*      : the parameter for the form in the nested form partial. Default `f`.
     #          - *:count*          : Count of how many objects will be added on a single click. Default `1`.
     # - *&block*:        see <tt>link_to</tt>
@@ -92,8 +92,8 @@ module Cocoon
         new_object = create_object(f, association, force_non_association_create)
         new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
 
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial)).html_safe
-        
+        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
+
         html_options[:'data-count'] = count if count > 0
 
         link_to(name, '#', html_options)
