@@ -101,22 +101,25 @@ E.g. in your `ProjectsController`:
 Cocoon's default configuration requires `link_to_add_association` and associated partials to 
 be properly wrapped with elements. The examples below illustrate simple layouts.
 
+Please note these examples rely on the `haml` gem (instead of the default `erb` views).
+
 ### Formtastic
 
 In our `projects/_form` partial we'd write:
 
 ```haml
-= f.inputs do
-  = f.input :name
-  = f.input :description
-  %h3 Tasks
-  #tasks
-    = f.semantic_fields_for :tasks do |task|
-      = render 'task_fields', :f => task
-    .links
-      = link_to_add_association 'add task', f, :tasks
-  = f.actions do
-    = f.action :submit
+= semantic_form_for @project do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :description
+    %h3 Tasks
+    #tasks
+      = f.semantic_fields_for :tasks do |task|
+        = render 'task_fields', :f => task
+      .links
+        = link_to_add_association 'add task', f, :tasks
+    = f.actions do
+      = f.action :submit
 ```
 
 And in our `_task_fields` partial we'd write:
