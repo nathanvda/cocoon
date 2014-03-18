@@ -1,5 +1,13 @@
 # Change History / Release Notes
 
+## Version 1.2.6
+
+* added some explicit documentation we use haml. Fixed the formtastic example.
+* "unfreeze" frozen objects. Fixes #193.
+* IE8 jquery fix (thanks @niuage).
+* merged #191 which fixes an issue with a monkeypatched CGI. For more info, see
+  ticket #191. Thanks gsmendoza.
+
 ## Version 1.2.5
 
 * fix gem dependencies: we added gems to allow building for rubinius, but those are only
