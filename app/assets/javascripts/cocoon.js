@@ -14,6 +14,10 @@
     return '_' + id + '_$1';
   }
 
+  var nested_fields_counter = function(insertionNode, wrapperClass) {
+    return $(insertionNode).children('.' + wrapperClass).length
+  }
+
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
     var $this                 = $(this),
@@ -24,6 +28,8 @@
         insertionNode         = $this.data('association-insertion-node'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
         count                 = parseInt($this.data('count'), 10),
+        limit                 = parseInt($this.data('limit'), 10),
+        wrapperClass          = $this.data('wrapper-class') || 'nested-fields',
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
         new_id                = create_new_id(),
@@ -63,16 +69,20 @@
     }
 
     for (var i in new_contents) {
-      var contentNode = $(new_contents[i]);
+      if(isNaN(limit) || nested_fields_counter(insertionNode, wrapperClass) < limit) {
+        var contentNode = $(new_contents[i]);
 
-      insertionNode.trigger('cocoon:before-insert', [contentNode]);
+        insertionNode.trigger('cocoon:before-insert', [contentNode]);
 
-      // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
-      // to be called on the node.  allows the insertion node to be the parent of the inserted
-      // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNode[insertionMethod](contentNode);
+        // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
+        // to be called on the node.  allows the insertion node to be the parent of the inserted
+        // code and doesn't force it to be a sibling like after/before does. default: 'before'
+        var addedContent = insertionNode[insertionMethod](contentNode);
 
-      insertionNode.trigger('cocoon:after-insert', [contentNode]);
+        insertionNode.trigger('cocoon:after-insert', [contentNode]);
+      } else {
+        insertionNode.trigger('cocoon:limit-reached', [contentNode]);
+      }
     }
   });
 

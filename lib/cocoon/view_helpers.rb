@@ -84,6 +84,7 @@ module Cocoon
         force_non_association_create = html_options.delete(:force_non_association_create) || false
         form_parameter_name = html_options.delete(:form_name) || 'f'
         count = html_options.delete(:count).to_i
+        limit = html_options.delete(:limit).to_i
 
         html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
@@ -91,10 +92,13 @@ module Cocoon
 
         new_object = create_object(f, association, force_non_association_create)
         new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
-
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial)).html_safe
+        
+        content = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial)).html_safe
+        html_options[:'data-association-insertion-template'] = content
+        html_options[:'data-wrapper-class'] = /(?<=class=["'])[^"^']*(?=["'])/.match(content)
         
         html_options[:'data-count'] = count if count > 0
+        html_options[:'data-limit'] = limit if limit > 0
 
         link_to(name, '#', html_options)
       end
