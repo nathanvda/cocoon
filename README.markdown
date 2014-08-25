@@ -335,7 +335,7 @@ It takes three parameters:
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
-Optionally, you can add an html option called `wrapper_class` to use a different wrapper div instead of `.nested-class`.
+Optionally, you can add an html option called `wrapper_class` to use a different wrapper div instead of `.nested-fields`.
 The class should be added without a preceding dot (`.`).
 
 Example:
