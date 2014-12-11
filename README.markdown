@@ -307,6 +307,8 @@ E.g.
 In normal cases we create a new nested object using the association relation itself. This is the cleanest way to create
 a new nested object.
 
+_Note_ If you are using `link_to_add_association` with a has_one association, the existing associated object will be destroyed whenever this method is called for that association. 
+
 This used to have a side-effect: for each call of `link_to_add_association` a new element was added to the association.
 This is no longer the case.
 
