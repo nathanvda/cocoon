@@ -216,7 +216,9 @@ This should be called within the form builder.
 - html_options: extra html-options (see [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
   There are some special options, the first three allow to control the placement of the new link-data:
   - `data-association-insertion-traversal` : the jquery traversal method to allow node selection relative to the link. `closest`, `next`, `children`, etc. Default: absolute selection
+  - `data-association-insertion-traversal-down` : the jquery traversal method to allow node selection in downward direction to reach indirect ancestors.
   - `data-association-insertion-node` : the jquery selector of the node
+  - `data-association-insertion-node-down` : the jquery selector of the final node if using 'data-association-insertion-traversal-down' method. 
   - `data-association-insertion-method` : jquery method that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`
   - `data-association-insertion-position` : old method specifying where to insert new data.
       - this setting still works but `data-association-insertion-method` takes precedence. may be removed in a future version.

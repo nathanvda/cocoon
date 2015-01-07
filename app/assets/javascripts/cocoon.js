@@ -22,7 +22,9 @@
         content               = $this.data('association-insertion-template'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before',
         insertionNode         = $this.data('association-insertion-node'),
+		insertionNodeDown     = $this.data('association-insertion-node-down'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
+		insertionTraversalDown= $this.data('association-insertion-traversal-down'),
         count                 = parseInt($this.data('count'), 10),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
@@ -52,9 +54,16 @@
       count -= 1;
     }
 
+	
     if (insertionNode){
       if (insertionTraversal){
+		// provides a way to move both up and down the DOM tree - Added by Sriharsha
+          if(insertionTraversalDown && insertionNodeDown){
+              insertionNode = $this[insertionTraversal](insertionNode)[insertionTraversalDown](insertionNodeDown);
+          }
+          else{
         insertionNode = $this[insertionTraversal](insertionNode);
+          }
       } else {
         insertionNode = insertionNode == "this" ? $this : $(insertionNode);
       }
