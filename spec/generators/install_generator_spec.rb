@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'rspec/mocks'
-require 'rspec/rails/mocks'
 
 require 'generator_spec/test_case'
 require 'generators/cocoon/install/install_generator'
@@ -13,18 +11,18 @@ describe Cocoon::Generators::InstallGenerator do
   context "in rails 3.0" do
     context "with no arguments" do
       before(:each) do
-        ::Rails.stub(:version) { '3.0.8' }
+        allow(::Rails).to receive(:version) { '3.0.8' }
         prepare_destination
         run_generator
       end
 
       it "stubs the version correctly" do
-        ::Rails.version[0..2].should == "3.0"
+        expect(::Rails.version[0..2]).to eq("3.0")
       end
 
       it "stubs the version correctly" do
         test_version = (::Rails.version[0..2].to_f >= 3.1)
-        test_version.should be_false
+        expect(test_version).to be_falsey
       end
 
       it "copies cocoon.js to the correct folder" do
@@ -36,7 +34,7 @@ describe Cocoon::Generators::InstallGenerator do
   context "in rails 3.1" do
     context "with no arguments" do
       before(:each) do
-        ::Rails.stub(:version) { '3.1.0' }
+        allow(::Rails).to receive(:version) { '3.1.0' }
         prepare_destination
         run_generator
       end
