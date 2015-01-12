@@ -17,24 +17,24 @@ shared_examples_for "a correctly rendered add link" do |options|
       @link = doc.at('a')
     end
     it 'has a correct href' do
-      @link.attribute('href').value.should == @options[:href]
+      expect(@link.attribute('href').value).to eq(@options[:href])
     end
     it 'has a correct class' do
-      @link.attribute('class').value.should == @options[:class]
+      expect(@link.attribute('class').value).to eq(@options[:class])
     end
     it 'has a correct template' do
-      @link.attribute('data-association-insertion-template').value.should == @options[:template]
+      expect(@link.attribute('data-association-insertion-template').value).to eq(@options[:template])
     end
     it 'has a correct associations' do
-      @link.attribute('data-association').value.should == @options[:association]
-      @link.attribute('data-associations').value.should == @options[:associations]
+      expect(@link.attribute('data-association').value).to eq(@options[:association])
+      expect(@link.attribute('data-associations').value).to eq(@options[:associations])
     end
     it 'has the correct text' do
-      @link.text.should == @options[:text]
+      expect(@link.text).to eq(@options[:text])
     end
     it 'sets extra attributes correctly' do
       @options[:extra_attributes].each do |key, value|
-        @link.attribute(key).value.should == value
+        expect(@link.attribute(key).value).to eq(value)
       end
     end
 
@@ -56,17 +56,17 @@ shared_examples_for "a correctly rendered remove link" do |options|
       @link = doc.at('a')
     end
     it 'has a correct href' do
-      @link.attribute('href').value.should == @options[:href]
+      expect(@link.attribute('href').value).to eq(@options[:href])
     end
     it 'has a correct class' do
-      @link.attribute('class').value.should == @options[:class]
+      expect(@link.attribute('class').value).to eq(@options[:class])
     end
     it 'has the correct text' do
-      @link.text.should == @options[:text]
+      expect(@link.text).to eq(@options[:text])
     end
     it 'sets extra attributes correctly' do
       @options[:extra_attributes].each do |key, value|
-        @link.attribute(key).value.should == value
+        expect(@link.attribute(key).value).to eq(value)
       end
     end
   end
