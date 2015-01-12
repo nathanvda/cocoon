@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'rspec/mocks'
-require 'rspec/rails/mocks'
 
 require 'generator_spec/test_case'
 require 'generators/cocoon/install/install_generator'
