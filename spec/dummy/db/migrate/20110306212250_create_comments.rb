@@ -5,7 +5,7 @@ class CreateComments < ActiveRecord::Migration
       t.string :author
       t.integer :post_id
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 
