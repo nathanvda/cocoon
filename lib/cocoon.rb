@@ -2,7 +2,6 @@ require 'cocoon/view_helpers'
 
 module Cocoon
   class Engine < ::Rails::Engine
-
     config.before_initialize do
       if config.action_view.javascript_expansions
         config.action_view.javascript_expansions[:cocoon] = %w(cocoon)
@@ -10,9 +9,8 @@ module Cocoon
     end
 
     # configure our plugin on boot
-    initializer "cocoon.initialize" do |app|
+    initializer 'cocoon.initialize' do |_app|
       ActionView::Base.send :include, Cocoon::ViewHelpers
     end
-
   end
 end

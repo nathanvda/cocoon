@@ -1,7 +1,5 @@
 module Cocoon
   module ViewHelpers
-
-
     # this will show a link to remove the current association. This should be placed inside the partial.
     # either you give
     # - *name* : the text of the link
@@ -27,7 +25,7 @@ module Cocoon
         is_dynamic = f.object.new_record?
 
         classes = []
-        classes << "remove_fields"
+        classes << 'remove_fields'
         classes << (is_dynamic ? 'dynamic' : 'existing')
         classes << 'destroyed' if f.object.marked_for_destruction?
         html_options[:class] = [html_options[:class], classes.join(' ')].compact.join(' ')
@@ -40,12 +38,12 @@ module Cocoon
     end
 
     # :nodoc:
-    def render_association(association, f, new_object, form_name, render_options={}, custom_partial=nil)
+    def render_association(association, f, new_object, form_name, render_options = {}, custom_partial = nil)
       partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
       method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
-      f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
-        partial_options = {form_name.to_sym => builder, :dynamic => true}.merge(locals)
+      f.send(method_name, association, new_object, { child_index: "new_#{association}" }.merge(render_options)) do |builder|
+        partial_options = { form_name.to_sym => builder, :dynamic => true }.merge(locals)
         render(partial, partial_options)
       end
     end
@@ -85,7 +83,7 @@ module Cocoon
         form_parameter_name = html_options.delete(:form_name) || 'f'
         count = html_options.delete(:count).to_i
 
-        html_options[:class] = [html_options[:class], "add_fields"].compact.join(' ')
+        html_options[:class] = [html_options[:class], 'add_fields'].compact.join(' ')
         html_options[:'data-association'] = association.to_s.singularize
         html_options[:'data-associations'] = association.to_s.pluralize
 
@@ -104,26 +102,26 @@ module Cocoon
     # `` has_many :admin_comments, class_name: "Comment", conditions: { author: "Admin" }
     # will create new Comment with author "Admin"
 
-    def create_object(f, association, force_non_association_create=false)
+    def create_object(f, association, force_non_association_create = false)
       assoc = f.object.class.reflect_on_association(association)
 
       assoc ? create_object_on_association(f, association, assoc, force_non_association_create) : create_object_on_non_association(f, association)
     end
 
     def get_partial_path(partial, association)
-      partial ? partial : association.to_s.singularize + "_fields"
+      partial ? partial : association.to_s.singularize + '_fields'
     end
 
     private
 
     def create_object_on_non_association(f, association)
-      builder_method = %W{build_#{association} build_#{association.to_s.singularize}}.select { |m| f.object.respond_to?(m) }.first
+      builder_method = %W(build_#{association} build_#{association.to_s.singularize}).select { |m| f.object.respond_to?(m) }.first
       return f.object.send(builder_method) if builder_method
-      raise "Association #{association} doesn't exist on #{f.object.class}"
+      fail "Association #{association} doesn't exist on #{f.object.class}"
     end
 
     def create_object_on_association(f, association, instance, force_non_association_create)
-      if instance.class.name == "Mongoid::Relations::Metadata" || force_non_association_create
+      if instance.class.name == 'Mongoid::Relations::Metadata' || force_non_association_create
         create_object_with_conditions(instance)
       else
         assoc_obj = nil
@@ -151,6 +149,5 @@ module Cocoon
       conditions = instance.respond_to?(:conditions) ? instance.conditions.flatten : []
       instance.klass.new(*conditions)
     end
-
   end
 end
