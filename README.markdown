@@ -338,6 +338,8 @@ Optionally you could also leave out the name and supply a block that is captured
 Optionally, you can add an html option called `wrapper_class` to use a different wrapper div instead of `.nested-fields`.
 The class should be added without a preceding dot (`.`).
 
+> Note: the javascript behind the generated link relies on the presence of a wrapper class (default `.nested-fields`) to function correctly.
+
 Example:
 ```haml
 = link_to_remove_association('remove this', @form_obj,
