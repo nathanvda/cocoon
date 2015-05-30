@@ -50,7 +50,7 @@ $.widget('ui.cocoon', {
     }
 
     newContent = newContent.replace(regexpUnderscored, this._newContentUnderscored(newId));
-    newContents.push(newContent);
+    newContents.push($(newContent));
 
     count = (isNaN(count) ? 1 : Math.max(count, 1));
     count -= 1;
@@ -59,7 +59,7 @@ $.widget('ui.cocoon', {
       newId      = this.createNewId();
       newContent = content.replace(regexpBraced, this._newContentUnderscored(newId));
       newContent = newContent.replace(regexpUnderscored, this._newContentUnderscored(newId));
-      newContents.push(newContent);
+      newContents.push($(newContent));
 
       count -= 1;
     }
@@ -75,16 +75,15 @@ $.widget('ui.cocoon', {
     }
 
     $.each(newContents, function(i, node) {
-      var contentNode = $(node);
 
-      insertionNode.trigger('cocoon:before-insert', [contentNode]);
+      insertionNode.trigger('cocoon:before-insert', [node]);
 
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNode[insertionMethod](contentNode);
+      var addedContent = insertionNode[insertionMethod](node);
 
-      insertionNode.trigger('cocoon:after-insert', [contentNode]);
+      insertionNode.trigger('cocoon:after-insert', [node]);
     });
 
     this._setupRemovableFields();
