@@ -43,7 +43,7 @@ module Cocoon
     def render_association(association, f, new_object, form_name, render_options={}, custom_partial=nil)
       partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
-      method_name = f.respond_to?(:semantic_fields_for) ? :semantic_fields_for : (f.respond_to?(:simple_fields_for) ? :simple_fields_for : :fields_for)
+      method_name = f.class.ancestors.include?('SimpleForm::Builder') ? :simple_fields_for : (f.class.ancestors.include?('Formtastic::FormBuilder') ? :semantic_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {form_name.to_sym => builder, :dynamic => true}.merge(locals)
         render(partial, partial_options)
