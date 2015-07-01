@@ -479,8 +479,8 @@ There is no limit to the amount of nesting, though.
 
 ## RailsScript
 
-To use Cocoon with RailsScript, you should include `cocoon/rails_script` instead of `cocoon` in your
-JavaScript manifest:
+To use Cocoon with [RailsScript](https://github.com/gemgento/rails_script/), you should include `cocoon/rails_script` 
+instead of `cocoon` in your JavaScript manifest:
 
 ```coffeescript
 #= require cocoon/rails_script
