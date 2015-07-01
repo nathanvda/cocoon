@@ -477,6 +477,21 @@ There is no limit to the amount of nesting, though.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+## RailsScript
+
+To use Cocoon with RailsScript, you should include `cocoon/rails_script` instead of `cocoon` in your
+JavaScript manifest:
+
+```coffeescript
+#= require cocoon/rails_script
+```
+
+Now you can initialize Cocoon when needed:
+
+```coffeescript
+Element.Cocoon.new()
+```
+
 
 ## Contributors
 
