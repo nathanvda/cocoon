@@ -40,13 +40,13 @@ module Cocoon
     end
 
     # :nodoc:
-    def render_association(association, f, new_object, form_name, render_options={}, custom_partial=nil)
+    def render_association(association, f, new_object, form_name, render_options={}, custom_partial=nil, &block)
       partial = get_partial_path(custom_partial, association)
       locals =  render_options.delete(:locals) || {}
       method_name = f.class.ancestors.include?('SimpleForm::Builder') ? :simple_fields_for : (f.class.ancestors.include?('Formtastic::FormBuilder') ? :semantic_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {form_name.to_sym => builder, :dynamic => true}.merge(locals)
-        render(partial, partial_options)
+        render(partial, partial_options, &block)
       end
     end
 
@@ -63,19 +63,20 @@ module Cocoon
     #                                decorators, or if you want special initialisation
     #          - *:form_name*      : the parameter for the form in the nested form partial. Default `f`.
     #          - *:count*          : Count of how many objects will be added on a single click. Default `1`.
-    # - *&block*:        see <tt>link_to</tt>
+    # - *&block*:        if only :f and :association were provided, see <tt>link_to</tt>. Otherwise, if all three
+    #                    (:name, :f and :association) arguments were provided, passes block to the partial.
+    #                    Can be useful to build helpers around `cocoon` functionality
 
     def link_to_add_association(*args, &block)
-      if block_given?
+      html_options = args.extract_options!
+      if block_given? && args.size == 2
         f            = args[0]
         association  = args[1]
-        html_options = args[2] || {}
         link_to_add_association(capture(&block), f, association, html_options)
       else
         name         = args[0]
         f            = args[1]
         association  = args[2]
-        html_options = args[3] || {}
 
         render_options   = html_options.delete(:render_options)
         render_options ||= {}
@@ -92,7 +93,7 @@ module Cocoon
         new_object = create_object(f, association, force_non_association_create)
         new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
 
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
+        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial, &block).to_str).html_safe
 
         html_options[:'data-count'] = count if count > 0
 

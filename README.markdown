@@ -228,6 +228,7 @@ This should be called within the form builder.
   - `form_name` : the name of the form parameter in your nested partial. By default this is `f`.
 
 Optionally, you can omit the name and supply a block that is captured to render the link body (if you want to do something more complicated).
+Otherwise, if the name is present, the block will be passed to `render`, so you can `yield` anything directly from the partial. It can help you to reuse your partials.
 
 #### :render_options
 Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form builder for the inserted
