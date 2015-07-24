@@ -136,6 +136,20 @@ describe Cocoon do
 
         it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', template: "partiallll", text: 'some long name'}
       end
+
+      context "and three main arguments present" do
+        before do
+          @tester = TestClass.new
+          expect(@form_obj).to receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
+          expect(@tester).to receive(:render) { |partial, partial_options, &block| "Hello, #{block.call("was here")}" }
+
+          @html = @tester.link_to_add_association("A link", @form_obj, :comments) do |yielded_arg|
+            "Yield #{yielded_arg}!"
+          end
+        end
+
+        it_behaves_like "a correctly rendered add link", { text: "A link", template: "Hello, Yield was here!" }
+      end
     end
 
     context "with an irregular plural" do
@@ -330,7 +344,7 @@ describe Cocoon do
         before do
           @html = @tester.link_to_remove_association('remove something', @form_obj, { wrapper_class: 'another-class' })
         end
-  
+
         it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-wrapper-class' => 'another-class' } }
       end
     end
