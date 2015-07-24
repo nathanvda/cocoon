@@ -68,7 +68,7 @@ Your models are associated like this:
 ```ruby
 class Project < ActiveRecord::Base
   has_many :tasks
-  accepts_nested_attributes_for :tasks, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :tasks, reject_if: :all_blank, allow_destroy: true
 end
 
 class Task < ActiveRecord::Base
@@ -115,7 +115,7 @@ In our `projects/_form` partial we'd write:
     %h3 Tasks
     #tasks
       = f.semantic_fields_for :tasks do |task|
-        = render 'task_fields', :f => task
+        = render 'task_fields', f: task
       .links
         = link_to_add_association 'add task', f, :tasks
     = f.actions do
@@ -128,7 +128,7 @@ And in our `_task_fields` partial we'd write:
 .nested-fields
   = f.inputs do
     = f.input :description
-    = f.input :done, :as => :boolean
+    = f.input :done, as: :boolean
     = link_to_remove_association "remove task", f
 ```
 
@@ -145,7 +145,7 @@ In our `projects/_form` partial we'd write:
   %h3 Tasks
   #tasks
     = f.simple_fields_for :tasks do |task|
-      = render 'task_fields', :f => task
+      = render 'task_fields', f: task
     .links
       = link_to_add_association 'add task', f, :tasks
   = f.submit
@@ -156,7 +156,7 @@ In our `_task_fields` partial we write:
 ```haml
 .nested-fields
   = f.input :description
-  = f.input :done, :as => :boolean
+  = f.input :done, as: :boolean
   = link_to_remove_association "remove task", f
 ```
 
@@ -179,7 +179,7 @@ In our `projects/_form` partial we'd write:
   %h3 Tasks
   #tasks
     = f.fields_for :tasks do |task|
-      = render 'task_fields', :f => task
+      = render 'task_fields', f: task
     .links
       = link_to_add_association 'add task', f, :tasks
   = f.submit
@@ -233,21 +233,21 @@ Optionally, you can omit the name and supply a block that is captured to render 
 Inside the `html_options` you can add an option `:render_options`, and the containing hash will be handed down to the form builder for the inserted
 form.
 
-When using Twitter Bootstrap and SimpleForm together, `simple_fields_for` needs the option `:wrapper => 'inline'` which can
+When using Twitter Bootstrap and SimpleForm together, `simple_fields_for` needs the option `wrapper: 'inline'` which can
 be handed down as follows:
 
-(Note: In certain newer versions of simple_form, the option to use is `:wrapper => 'bootstrap'`.)
+(Note: In certain newer versions of simple_form, the option to use is `wrapper: 'bootstrap'`.)
 
 ```haml
 = link_to_add_association 'add something', f, :something,
-    :render_options => {:wrapper => 'inline' }
+    render_options: { wrapper: 'inline' }
 ```
 
 To specify locals that needed to handed down to the partial:
 
 ```haml
 = link_to_add_association 'add something', f, :something,
-    :render_options => {:locals => {:sherlock => 'Holmes' }}
+    render_options: {locals: { sherlock: 'Holmes' }}
 ```
 
 #### :partial
@@ -256,7 +256,7 @@ To override the default partial name, e.g. because it shared between multiple vi
 
 ```haml
 = link_to_add_association 'add something', f, :something,
-    :partial => 'shared/something_fields'
+    partial: 'shared/something_fields'
 ```
 
 #### :wrap_object
@@ -289,7 +289,7 @@ To use this:
 
 ```haml
 = link_to_add_association('add something', @form_obj, :comments,
-    :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+    wrap_object: Proc.new {|comment| CommentDecorator.new(comment) })
 ```
 
 Note that the `:wrap_object` expects an object that is _callable_, so any `Proc` will do. So you could as well use it to do some fancy extra initialisation (if needed).
@@ -299,7 +299,7 @@ E.g.
 
 ```haml
 = link_to_add_association('add something', @form_obj, :comments,
-    :wrap_object => Proc.new { |comment| comment.name = current_user.name; comment })
+    wrap_object: Proc.new { |comment| comment.name = current_user.name; comment })
 ```
 
 #### :force_non_association_create
@@ -317,7 +317,7 @@ Example use:
 
 ```haml
 = link_to_add_association('add something', @form_obj, :comments,
-    :force_non_association_create => true)
+    force_non_association_create: true)
 ```
 
 By default `:force_non_association_create` is `false`.
@@ -372,7 +372,7 @@ If in your view you have the following snippet to select an `owner`:
 ```haml
 #owner
   #owner_from_list
-    = f.association :owner, :collection => Person.all(:order => 'name'), :prompt => 'Choose an existing owner'
+    = f.association :owner, collection: Person.all(order: 'name'), prompt: 'Choose an existing owner'
   = link_to_add_association 'add a new person as owner', f, :owner
 ```
 
