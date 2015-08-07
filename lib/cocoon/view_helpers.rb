@@ -19,6 +19,12 @@ module Cocoon
         html_options = args.second || {}
         name         = capture(&block)
         link_to_remove_association(name, f, html_options)
+      elsif args[0].respond_to?(:object)
+        f            = args.first
+        html_options = args.second || {}
+        association = f.object.model_name.to_s.tableize
+        name = I18n.translate("cocoon.#{association}.remove", default: I18n.translate('cocoon.defaults.remove'))
+        link_to_remove_association(name, f, html_options)
       else
         name         = args[0]
         f            = args[1]
@@ -71,6 +77,12 @@ module Cocoon
         association  = args[1]
         html_options = args[2] || {}
         link_to_add_association(capture(&block), f, association, html_options)
+      elsif args[0].respond_to?(:object)
+        f            = args[0]
+        association  = args[1]
+        html_options = args[2] || {}
+        name = I18n.translate("cocoon.#{association}.add", default: I18n.translate('cocoon.defaults.add'))
+        link_to_add_association(name, f, association, html_options)
       else
         name         = args[0]
         f            = args[1]
