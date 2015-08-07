@@ -15,20 +15,16 @@ module Cocoon
 
     def link_to_remove_association(*args, &block)
       if block_given?
-        f            = args.first
-        html_options = args.second || {}
-        name         = capture(&block)
-        link_to_remove_association(name, f, html_options)
-      elsif args[0].respond_to?(:object)
-        f            = args.first
-        html_options = args.second || {}
-        association = f.object.model_name.to_s.tableize
+        link_to_remove_association(capture(&block), *args)
+      elsif args.first.respond_to?(:object)
+        form = args.first
+        association = form.object.class.to_s.tableize
         name = I18n.translate("cocoon.#{association}.remove", default: I18n.translate('cocoon.defaults.remove'))
-        link_to_remove_association(name, f, html_options)
+
+        link_to_remove_association(name, *args)
       else
-        name         = args[0]
-        f            = args[1]
-        html_options = args[2] || {}
+        name, f, html_options = *args
+        html_options ||= {}
 
         is_dynamic = f.object.new_record?
 
@@ -73,21 +69,15 @@ module Cocoon
 
     def link_to_add_association(*args, &block)
       if block_given?
-        f            = args[0]
-        association  = args[1]
-        html_options = args[2] || {}
-        link_to_add_association(capture(&block), f, association, html_options)
-      elsif args[0].respond_to?(:object)
-        f            = args[0]
-        association  = args[1]
-        html_options = args[2] || {}
+        link_to_add_association(capture(&block), *args)
+      elsif args.first.respond_to?(:object)
+        association = args.second
         name = I18n.translate("cocoon.#{association}.add", default: I18n.translate('cocoon.defaults.add'))
-        link_to_add_association(name, f, association, html_options)
+
+        link_to_add_association(name, *args)
       else
-        name         = args[0]
-        f            = args[1]
-        association  = args[2]
-        html_options = args[3] || {}
+        name, f, association, html_options = *args
+        html_options ||= {}
 
         render_options   = html_options.delete(:render_options)
         render_options ||= {}
