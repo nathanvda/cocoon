@@ -467,6 +467,39 @@ For the JavaScript to behave correctly, the partial should start with a containe
 
 There is no limit to the amount of nesting, though.
 
+## I18n
+
+As you seen in previous sections, the helper method `link_to_add_association` treats the first parameter as a name. Additionally, if it's skipped and the `form` object is passed as the first one, then **Cocoon** names it using **I18n**.
+
+It allows to invoke helper methods like this:
+
+```haml
+= link_to_add_association form_object, :tasks
+= link_to_remove_association form_object
+```
+
+instead of:
+
+```haml
+= link_to_add_association "Add task", form_object, :tasks
+= link_to_remove_association "remove task", form_object
+```
+
+**Cocoon** uses the name of `association` as a translations scope key. If custom translations for association is not present it fallbacks to default name. Example of translations tree:
+
+```yaml
+en:
+  cocoon:
+    defaults:
+      add: "Add record"
+      remove: "Remove record"
+    tasks:
+      add: "Add new task"
+      remove: "Remove old task"
+```
+
+Note that `link_to_remove_association` does not require `association` name as an argument. In order to get correct translation key, **Cocoon** tableizes `class` name of the target object of form builder (`form_object.object` from previous example).
+
 ## Note on Patches/Pull Requests
 
 * Fork the project.
