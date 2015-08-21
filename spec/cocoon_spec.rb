@@ -33,6 +33,28 @@ describe Cocoon do
         it_behaves_like "a correctly rendered add link", {}
       end
 
+      context 'and no name given' do
+        context 'custom translation exists' do
+          before do
+            I18n.backend.store_translations(:en, :cocoon => { :comments => { :add => 'Add comment' } })
+
+            @html = @tester.link_to_add_association(@form_obj, :comments)
+          end
+
+          it_behaves_like "a correctly rendered add link", { text: 'Add comment' }
+        end
+
+        context 'uses default translation' do
+          before do
+            I18n.backend.store_translations(:en, :cocoon => { :defaults => { :add => 'Add' } })
+
+            @html = @tester.link_to_add_association(@form_obj, :comments)
+          end
+
+          it_behaves_like "a correctly rendered add link", { text: 'Add' }
+        end
+      end
+
       context "and given html options to pass them to link_to" do
         before do
           @html = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
@@ -265,6 +287,28 @@ describe Cocoon do
         end
 
         it_behaves_like "a correctly rendered remove link", {}
+      end
+
+      context 'no name given' do
+        context 'custom translation exists' do
+          before do
+            I18n.backend.store_translations(:en, :cocoon => { :posts => { :remove => 'Remove post' } })
+
+            @html = @tester.link_to_remove_association(@form_obj)
+          end
+
+          it_behaves_like "a correctly rendered remove link", { text: 'Remove post' }
+        end
+
+        context 'uses default translation' do
+          before do
+            I18n.backend.store_translations(:en, :cocoon => { :defaults => { :remove => 'Remove' } })
+
+            @html = @tester.link_to_remove_association(@form_obj)
+          end
+
+          it_behaves_like "a correctly rendered remove link", { text: 'Remove' }
+        end
       end
 
       context "accepts html options and pass them to link_to" do
