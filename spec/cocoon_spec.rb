@@ -235,7 +235,7 @@ describe Cocoon do
       end
       context "calls semantic_fields_for and not fields_for" do
         before do
-          allow(@form_obj).to receive_message_chain(:class, :ancestors) { 'Formtastic::FormBuilder' }
+          allow(@form_obj).to receive_message_chain(:class, :ancestors) { ['Formtastic::FormBuilder'] }
           expect(@form_obj).to receive(:semantic_fields_for)
           expect(@form_obj).to receive(:fields_for).never
           @html = @tester.link_to_add_association('add something', @form_obj, :people)
@@ -253,7 +253,7 @@ describe Cocoon do
       end
       context "calls simple_fields_for and not fields_for" do
         before do
-          allow(@form_obj).to receive_message_chain(:class, :ancestors) { 'SimpleForm::Builder' }
+          allow(@form_obj).to receive_message_chain(:class, :ancestors) { ['SimpleForm::FormBuilder'] }
           expect(@form_obj).to receive(:simple_fields_for)
           expect(@form_obj).to receive(:fields_for).never
           @html = @tester.link_to_add_association('add something', @form_obj, :people)
