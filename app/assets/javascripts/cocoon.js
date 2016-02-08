@@ -1,109 +1,119 @@
-(function($) {
+$.widget('ui.cocoon', {
+  _init: function () {
+    var cocoon = this;
+    this.cocoonElementCounter = 0;
+    this.element.find('.add_fields').click(function (e) {
+      e.preventDefault();
+      cocoon.addNew();
+    });
 
-  var cocoon_element_counter = 0;
-
-  var create_new_id = function() {
-    return (new Date().getTime() + cocoon_element_counter++);
-  }
-
-  var newcontent_braced = function(id) {
+    this._setupRemovableFields();
+  },
+  createNewId: function() {
+    return (new Date().getTime() + this.cocoonElementCounter++);
+  },
+  options: {},
+  _newContentBraced: function(id) {
     return '[' + id + ']$1';
-  }
-
-  var newcontent_underscord = function(id) {
+  },
+  _newContentUnderscored: function(id) {
     return '_' + id + '_$1';
-  }
+  },
+  _setupRemovableFields: function () {
+    var cocoon = this;
+    this.element.find('.remove_fields.dynamic, .remove_fields.existing').click(function (e) {
+      e.preventDefault();
+      cocoon.removeNode($(this));
+    });
+  },
+  addNew: function() {
+    var
+      addElement = this.element.find('.add_fields'),
+      assoc = addElement.data('association'),
+      assocs = addElement.data('associations'),
+      content = addElement.data('association-insertion-template'),
+      insertionMethod = addElement.data('association-insertion-method') || addElement.data('association-insertion-position') || 'before',
+      insertionNode = addElement.data('association-insertion-node'),
+      insertionTraversal = addElement.data('association-insertion-traversal'),
+      count = parseInt(addElement.data('count'), 10),
+      regexpBraced = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
+      regexpUnderscored = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
+      newId = this.createNewId(),
+      newContent = content.replace(regexpBraced, this.createNewId(newId)),
+      newContents = [];
 
-  $(document).on('click', '.add_fields', function(e) {
-    e.preventDefault();
-    var $this                 = $(this),
-        assoc                 = $this.data('association'),
-        assocs                = $this.data('associations'),
-        content               = $this.data('association-insertion-template'),
-        insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before',
-        insertionNode         = $this.data('association-insertion-node'),
-        insertionTraversal    = $this.data('association-insertion-traversal'),
-        count                 = parseInt($this.data('count'), 10),
-        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
-        regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
-        new_id                = create_new_id(),
-        new_content           = content.replace(regexp_braced, newcontent_braced(new_id)),
-        new_contents          = [];
 
-
-    if (new_content == content) {
-      regexp_braced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
-      regexp_underscord = new RegExp('_new_' + assocs + '_(\\w*)', 'g');
-      new_content       = content.replace(regexp_braced, newcontent_braced(new_id));
+    if (newContent == content) {
+      regexpBraced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
+      regexpUnderscored = new RegExp('_new_' + assocs + '_(\\w*)', 'g');
+      newContent       = content.replace(regexpBraced, this._newContentBraced(newId));
     }
 
-    new_content = new_content.replace(regexp_underscord, newcontent_underscord(new_id));
-    new_contents = [new_content];
+    newContent = newContent.replace(regexpUnderscored, this._newContentUnderscored(newId));
+    newContents.push($(newContent));
 
     count = (isNaN(count) ? 1 : Math.max(count, 1));
     count -= 1;
 
     while (count) {
-      new_id      = create_new_id();
-      new_content = content.replace(regexp_braced, newcontent_braced(new_id));
-      new_content = new_content.replace(regexp_underscord, newcontent_underscord(new_id));
-      new_contents.push(new_content);
+      newId      = this.createNewId();
+      newContent = content.replace(regexpBraced, this._newContentUnderscored(newId));
+      newContent = newContent.replace(regexpUnderscored, this._newContentUnderscored(newId));
+      newContents.push($(newContent));
 
       count -= 1;
     }
 
     if (insertionNode){
       if (insertionTraversal){
-        insertionNode = $this[insertionTraversal](insertionNode);
+        insertionNode = addElement[insertionTraversal](insertionNode);
       } else {
-        insertionNode = insertionNode == "this" ? $this : $(insertionNode);
+        insertionNode = insertionNode == "this" ? addElement : $(insertionNode);
       }
     } else {
-      insertionNode = $this.parent();
+      insertionNode = addElement.parent();
     }
 
-    $.each(new_contents, function(i, node) {
-      var contentNode = $(node);
+    $.each(newContents, function(i, node) {
 
-      insertionNode.trigger('cocoon:before-insert', [contentNode]);
+      insertionNode.trigger('cocoon:before-insert', [node]);
 
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNode[insertionMethod](contentNode);
+      var addedContent = insertionNode[insertionMethod](node);
 
-      insertionNode.trigger('cocoon:after-insert', [contentNode]);
+      insertionNode.trigger('cocoon:after-insert', [node]);
     });
-  });
 
-  $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
-    var $this = $(this),
-        wrapper_class = $this.data('wrapper-class') || 'nested-fields',
-        node_to_delete = $this.closest('.' + wrapper_class),
-        trigger_node = node_to_delete.parent();
+    this._setupRemovableFields();
 
-    e.preventDefault();
+    return newContents;
+  },
+  removeNode: function(node) {
+    var wrapperClass = node.data('wrapper-class') || 'nested-fields',
+      nodeToDelete = node.closest('.' + wrapperClass),
+      triggerNode = nodeToDelete.parent();
 
-    trigger_node.trigger('cocoon:before-remove', [node_to_delete]);
+    triggerNode.trigger('cocoon:before-remove', [nodeToDelete]);
 
-    var timeout = trigger_node.data('remove-timeout') || 0;
+    var timeout = triggerNode.data('remove-timeout') || 0;
 
     setTimeout(function() {
-      if ($this.hasClass('dynamic')) {
-          node_to_delete.remove();
+      if (node.hasClass('dynamic')) {
+        nodeToDelete.remove();
       } else {
-          $this.prev("input[type=hidden]").val("1");
-          node_to_delete.hide();
+        node.prev("input[type=hidden]").val("1");
+        nodeToDelete.hide();
       }
-      trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
+      triggerNode.trigger('cocoon:after-remove', [nodeToDelete]);
     }, timeout);
-  });
 
-  $('.remove_fields.existing.destroyed').each(function(i, obj) {
-    var $this = $(this),
-        wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+    this.element.find('.remove_fields.existing.destroyed').each(function () {
+      var $this = $(this),
+        wrapperClass = $this.data('wrapper-class') || 'nested-fields';
 
-    $this.closest('.' + wrapper_class).hide();
-  });
-
-})(jQuery);
+      $this.closest('.' + wrapperClass).hide();
+    });
+  }
+});
