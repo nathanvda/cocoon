@@ -99,11 +99,16 @@
     }, timeout);
   });
 
-  $('.remove_fields.existing.destroyed').each(function(i, obj) {
-    var $this = $(this),
-        wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
-    $this.closest('.' + wrapper_class).hide();
+  $(document).on("ready page:load", function() {
+    $('.remove_fields.existing.destroyed').each(function(i, obj) {
+      var $this = $(this),
+          wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+
+      $this.closest('.' + wrapper_class).hide();
+    });
   });
 
 })(jQuery);
+
+
