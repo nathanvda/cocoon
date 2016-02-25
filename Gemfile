@@ -3,7 +3,7 @@ source "http://rubygems.org"
 
 group :development, :test do
   gem "rails", ">=4.0.0"
-  gem "sqlite3", "1.3.8"
+  gem "sqlite3", "1.3.10"
   gem "json_pure"
   gem "jeweler"
   gem "rspec-rails", "~> 3.0.0"
