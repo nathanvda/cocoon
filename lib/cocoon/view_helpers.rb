@@ -49,8 +49,13 @@ module Cocoon
       method_name = ancestors.include?('SimpleForm::FormBuilder') ? :simple_fields_for : (ancestors.include?('Formtastic::FormBuilder') ? :semantic_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {form_name.to_sym => builder, :dynamic => true}.merge(locals)
-        render(partial, partial_options)
+        render_partial(partial, partial_options)
       end
+    end
+
+    # :nodoc:
+    def render_partial(partial, partial_options)
+      render(partial, partial_options)
     end
 
     # shows a link that will allow to dynamically add a new associated object.
