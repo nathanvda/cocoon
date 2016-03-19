@@ -52,27 +52,28 @@
       count -= 1;
     }
 
+    var insertionNodeElem;
     if (insertionNode){
       if (insertionTraversal){
         insertionNode = $this[insertionTraversal](insertionNode);
       } else {
-        insertionNode = insertionNode == "this" ? $this : $(insertionNode);
+        insertionNodeElem = insertionNode == "this" ? $this : $(insertionNode);
       }
     } else {
-      insertionNode = $this.parent();
+      insertionNodeElem = $this.parent();
     }
 
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
-      insertionNode.trigger('cocoon:before-insert', [contentNode]);
+      insertionNodeElem.trigger('cocoon:before-insert', [contentNode]);
 
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNode[insertionMethod](contentNode);
+      var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-      insertionNode.trigger('cocoon:after-insert', [contentNode]);
+      insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
     });
   });
 
