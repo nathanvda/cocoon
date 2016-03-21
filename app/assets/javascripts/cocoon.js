@@ -14,6 +14,29 @@
     return '_' + id + '_$1';
   }
 
+  var getInsertionNodeElem = function(insertionNode, insertionTraversal, $this){
+
+    if (!insertionNode){
+      return $this.parent();
+    }
+
+    if (typeof insertionNode == 'function'){
+      if(insertionTraversal){
+        console.warn('association-insertion-traversal is ignored, because association-insertion-node is given as a function.')
+      }
+      return insertionNode($this);
+    }
+
+    if(typeof insertionNode == 'string'){
+      if (insertionTraversal){
+        return $this[insertionTraversal](insertionNode);
+      }else{
+        return insertionNode == "this" ? $this : $(insertionNode);
+      }
+    }
+
+  }
+
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
     var $this                 = $(this),
@@ -52,27 +75,23 @@
       count -= 1;
     }
 
-    if (insertionNode){
-      if (insertionTraversal){
-        insertionNode = $this[insertionTraversal](insertionNode);
-      } else {
-        insertionNode = insertionNode == "this" ? $this : $(insertionNode);
-      }
-    } else {
-      insertionNode = $this.parent();
+    var insertionNodeElem = getInsertionNodeElem(insertionNode, insertionTraversal, $this)
+
+    if( !insertionNodeElem || (insertionNodeElem.length == 0) ){
+      console.warn("Couldn't find the element to insert the template. Make sure your `data-association-insertion-*` on `link_to_add_association` is correct.")
     }
 
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
-      insertionNode.trigger('cocoon:before-insert', [contentNode]);
+      insertionNodeElem.trigger('cocoon:before-insert', [contentNode]);
 
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNode[insertionMethod](contentNode);
+      var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-      insertionNode.trigger('cocoon:after-insert', [contentNode]);
+      insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
     });
   });
 
