@@ -77,6 +77,10 @@
 
     var insertionNodeElem = getInsertionNodeElem(insertionNode, insertionTraversal, $this)
 
+    if( !insertionNodeElem || (insertionNodeElem.length == 0) ){
+      console.warn("Couldn't find the element to insert the template. Make sure your `data-association-insertion-*` on `link_to_add_association` is correct.")
+    }
+
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
