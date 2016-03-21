@@ -14,6 +14,29 @@
     return '_' + id + '_$1';
   }
 
+  var getInsertionNodeElem = function(insertionNode, insertionTraversal, $this){
+
+    if (!insertionNode){
+      return $this.parent();
+    }
+
+    if (typeof insertionNode == 'function'){
+      if(insertionTraversal){
+        console.warn('association-insertion-traversal is ignored, because association-insertion-node is given as a function.')
+      }
+      return insertionNode($this);
+    }
+
+    if(typeof insertionNode == 'string'){
+      if (insertionTraversal){
+        return $this[insertionTraversal](insertionNode);
+      }else{
+        return insertionNode == "this" ? $this : $(insertionNode);
+      }
+    }
+
+  }
+
   $(document).on('click', '.add_fields', function(e) {
     e.preventDefault();
     var $this                 = $(this),
@@ -52,16 +75,7 @@
       count -= 1;
     }
 
-    var insertionNodeElem;
-    if (insertionNode){
-      if (insertionTraversal){
-        insertionNode = $this[insertionTraversal](insertionNode);
-      } else {
-        insertionNodeElem = insertionNode == "this" ? $this : $(insertionNode);
-      }
-    } else {
-      insertionNodeElem = $this.parent();
-    }
+    var insertionNodeElem = getInsertionNodeElem(insertionNode, insertionTraversal, $this)
 
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
