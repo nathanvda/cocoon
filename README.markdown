@@ -216,7 +216,7 @@ This should be called within the form builder.
 - html_options: extra html-options (see [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
   There are some special options, the first three allow to control the placement of the new link-data:
   - `data-association-insertion-traversal` : the jquery traversal method to allow node selection relative to the link. `closest`, `next`, `children`, etc. Default: absolute selection
-  - `data-association-insertion-node` : the jquery selector of the node. Default: parent node
+  - `data-association-insertion-node` : the jquery selector of the node as string, or a function that takes the `link_to_add_association` node as the parameter and returns a node. Default: parent node
   - `data-association-insertion-method` : jquery method that inserts the new data. `before`, `after`, `append`, `prepend`, etc. Default: `before`
   - `data-association-insertion-position` : old method specifying where to insert new data.
       - this setting still works but `data-association-insertion-method` takes precedence. may be removed in a future version.
@@ -441,11 +441,11 @@ $(document).ready(function() {
 });
 ```
 
-The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this (default it is the parent-container).
+The `association-insertion-node` will determine where to add it. You can choose any selector here, or specify this. Also, you can pass a function that returns an arbitrary node. The default is the parent-container, if you don't specify anything.
 
 The `association-insertion-method` will determine where to add it in relation with the node. Any jQuery DOM Manipulation method can be set but we recommend sticking to any of the following: `before`, `after`, `append`, `prepend`. It is unknown at this time what others would do.
 
-The `association-insertion-traversal` will allow node selection to be relative to the link.
+The `association-insertion-traversal` will allow node selection to be relative to the link. 
 
 For example:
 
@@ -457,6 +457,43 @@ $(document).ready(function() {
       data("association-insertion-node", '#parent_table');
 });
 ```
+
+(if you pass `association-insertion-node` as a function, this value will be ignored)
+
+
+Note, if you want to add templates to the specific location which is:
+
+- not a direct parent or sibling of the link
+- the link appears multiple times - for instance, inside a deeply nested form
+
+you need to specify `association-insertion-node` as a function.
+
+
+For example, suppose Task has many SubTasks in the [Example](#examples), and have subtask forms like the following.
+
+```haml
+.row
+  .col-lg-12
+    .add_sub_task= link_to_add_association 'add a new sub task', f, :sub_tasks
+.row
+  .col-lg-12
+    .sub_tasks_form
+      fields_for :sub_tasks do |sub_task_form|
+        = render 'sub_task_fields', f: sub_task_form
+```
+
+Then this will do the thing.
+
+```javascript
+$(document).ready(function() {
+    $(".add_sub_task a").
+      data("association-insertion-method", 'append').
+      data("association-insertion-node", function(link){
+        return link.closest('.row').next('.row').find('.sub_tasks_form')
+      });
+});
+```
+
 
 ### Partial
 
