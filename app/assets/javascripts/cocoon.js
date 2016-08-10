@@ -118,15 +118,17 @@
     }, timeout);
   });
 
-
-  $(document).on("ready page:load", function() {
+  var hide_marked_for_destruction_fields = function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
       var $this = $(this),
           wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
       $this.closest('.' + wrapper_class).hide();
     });
-  });
+  };
+
+  $(hide_marked_for_destruction_fields);
+  $(document).on("page:load", hide_marked_for_destruction_fields);
 
 })(jQuery);
 
