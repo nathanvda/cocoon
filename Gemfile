@@ -23,6 +23,8 @@ group :development, :test do
     gem 'psych'
     gem 'racc'
     gem 'rubinius-developer_tools'
+    gem 'rubinius-coverage', '< 2.1'
+    gem 'rubysl-coverage', '< 2.1'
   end
 
 end
