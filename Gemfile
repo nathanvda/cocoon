@@ -11,6 +11,7 @@ group :development, :test do
   gem "actionpack",  ">=4.0.0"
   gem "simplecov", :require => false
   gem "rack", "< 2"
+  gem "mime-types", "< 3"
 
   gem 'nokogiri'
 
