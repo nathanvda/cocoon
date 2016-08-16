@@ -10,6 +10,7 @@ group :development, :test do
   gem "rspec",       "~> 3.0.0"
   gem "actionpack",  ">=4.0.0"
   gem "simplecov", :require => false
+  gem "rack", "< 2"
 
   gem 'nokogiri'
 
