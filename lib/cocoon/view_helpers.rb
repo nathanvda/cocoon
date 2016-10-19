@@ -58,6 +58,11 @@ module Cocoon
       render(partial, partial_options)
     end
 
+    # :nodoc:
+    def insertion_template(association, f, new_object, form_parameter_name, render_options, override_partial)
+      CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
+    end
+
     # shows a link that will allow to dynamically add a new associated object.
     #
     # - *name* :         the text to show in the link
@@ -100,7 +105,7 @@ module Cocoon
         new_object = create_object(f, association, force_non_association_create)
         new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
 
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
+        html_options[:'data-association-insertion-template'] = insertion_template(association, f, new_object, form_parameter_name, render_options, override_partial)
 
         html_options[:'data-count'] = count if count > 0
 
