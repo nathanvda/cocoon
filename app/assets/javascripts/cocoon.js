@@ -119,7 +119,7 @@
   });
 
 
-  $(document).on("ready page:load", function() {
+  $(document).on("ready page:load turbolinks:load", function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
       var $this = $(this),
           wrapper_class = $this.data('wrapper-class') || 'nested-fields';
