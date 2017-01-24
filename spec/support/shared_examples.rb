@@ -4,6 +4,7 @@ shared_examples_for "a correctly rendered add link" do |options|
     before do
       default_options = {
           href: '#',
+          name: 'button',
           class: 'add_fields',
           template: "form<tag>",
           association: 'comment',
@@ -14,13 +15,13 @@ shared_examples_for "a correctly rendered add link" do |options|
       @options = default_options.merge options
 
       doc = Nokogiri::HTML(@html)
-      @link = doc.at('a')
-    end
-    it 'has a correct href' do
-      expect(@link.attribute('href').value).to eq(@options[:href])
+      @link = doc.at('button')
     end
     it 'has a correct class' do
       expect(@link.attribute('class').value).to eq(@options[:class])
+    end
+    it 'has a correct name' do
+      expect(@link.attribute('name').value).to eq(@options[:name])
     end
     it 'has a correct template' do
       expect(@link.attribute('data-association-insertion-template').value).to eq(@options[:template])
@@ -46,6 +47,7 @@ shared_examples_for "a correctly rendered remove link" do |options|
     before do
       default_options = {
           href: '#',
+          name: 'button',
           class: 'remove_fields dynamic',
           text: 'remove something',
           extra_attributes: {}
@@ -53,13 +55,13 @@ shared_examples_for "a correctly rendered remove link" do |options|
       @options = default_options.merge options
 
       doc = Nokogiri::HTML(@html)
-      @link = doc.at('a')
-    end
-    it 'has a correct href' do
-      expect(@link.attribute('href').value).to eq(@options[:href])
+      @link = doc.at('button')
     end
     it 'has a correct class' do
       expect(@link.attribute('class').value).to eq(@options[:class])
+    end
+    it 'has a correct name' do
+      expect(@link.attribute('name').value).to eq(@options[:name])
     end
     it 'has the correct text' do
       expect(@link.text).to eq(@options[:text])
