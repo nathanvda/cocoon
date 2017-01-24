@@ -99,7 +99,7 @@ module Cocoon
 
         html_options[:'data-count'] = count if count > 0
 
-        link_to(name, '#', html_options)
+        button_tag(name, html_options)
       end
     end
 
