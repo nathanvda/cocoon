@@ -14,31 +14,11 @@ module Cocoon
     # - *&block*:        the output of the block will be show in the link, see <tt>link_to</tt>
 
     def link_to_remove_association(*args, &block)
-      if block_given?
-        link_to_remove_association(capture(&block), *args)
-      elsif args.first.respond_to?(:object)
-        form = args.first
-        association = form.object.class.to_s.tableize
-        name = I18n.translate("cocoon.#{association}.remove", default: I18n.translate('cocoon.defaults.remove'))
+      remove_association('link_to', *args, &block)
+    end
 
-        link_to_remove_association(name, *args)
-      else
-        name, f, html_options = *args
-        html_options ||= {}
-
-        is_dynamic = f.object.new_record?
-
-        classes = []
-        classes << "remove_fields"
-        classes << (is_dynamic ? 'dynamic' : 'existing')
-        classes << 'destroyed' if f.object.marked_for_destruction?
-        html_options[:class] = [html_options[:class], classes.join(' ')].compact.join(' ')
-
-        wrapper_class = html_options.delete(:wrapper_class)
-        html_options[:'data-wrapper-class'] = wrapper_class if wrapper_class.present?
-
-        hidden_field_tag("#{f.object_name}[_destroy]", f.object._destroy) + link_to(name, '#', html_options)
-      end
+    def button_to_remove_association(*args, &block)
+      remove_association('button_to', *args, &block)
     end
 
     # :nodoc:
@@ -69,6 +49,61 @@ module Cocoon
     # - *&block*:        see <tt>link_to</tt>
 
     def link_to_add_association(*args, &block)
+      add_association('link_to', *args, &block)
+    end
+
+    def button_to_add_association(*args, &block)
+      add_association('button_to', *args, &block)
+    end
+
+    # creates new association object with its conditions, like
+    # `` has_many :admin_comments, class_name: "Comment", conditions: { author: "Admin" }
+    # will create new Comment with author "Admin"
+
+    def create_object(f, association, force_non_association_create=false)
+      assoc = f.object.class.reflect_on_association(association)
+
+      assoc ? create_object_on_association(f, association, assoc, force_non_association_create) : create_object_on_non_association(f, association)
+    end
+
+    def get_partial_path(partial, association)
+      partial ? partial : association.to_s.singularize + "_fields"
+    end
+
+    private
+
+    def remove_association(link_type, *args, &block)
+      if block_given?
+        link_to_remove_association(capture(&block), *args)
+      elsif args.first.respond_to?(:object)
+        form = args.first
+        association = form.object.class.to_s.tableize
+        name = I18n.translate("cocoon.#{association}.remove", default: I18n.translate('cocoon.defaults.remove'))
+
+        link_to_remove_association(name, *args)
+      else
+        name, f, html_options = *args
+        html_options ||= {}
+
+        is_dynamic = f.object.new_record?
+
+        classes = []
+        classes << "remove_fields"
+        classes << (is_dynamic ? 'dynamic' : 'existing')
+        classes << 'destroyed' if f.object.marked_for_destruction?
+        html_options[:class] = [html_options[:class], classes.join(' ')].compact.join(' ')
+
+        wrapper_class = html_options.delete(:wrapper_class)
+        html_options[:'data-wrapper-class'] = wrapper_class if wrapper_class.present?
+
+        links = {:button_to => button_tag(name, html_options),
+          :link_to => link_to(name, '#', html_options)}
+
+        hidden_field_tag("#{f.object_name}[_destroy]", f.object._destroy) + links[link_type.to_sym]
+      end
+    end
+
+    def add_association(link_type, *args, &block)
       if block_given?
         link_to_add_association(capture(&block), *args)
       elsif args.first.respond_to?(:object)
@@ -99,25 +134,12 @@ module Cocoon
 
         html_options[:'data-count'] = count if count > 0
 
-        link_to(name, '#', html_options)
+        links = {:button_to => button_tag(name, html_options),
+          :link_to => link_to(name, '#', html_options)}
+
+        links[link_type.to_sym]
       end
     end
-
-    # creates new association object with its conditions, like
-    # `` has_many :admin_comments, class_name: "Comment", conditions: { author: "Admin" }
-    # will create new Comment with author "Admin"
-
-    def create_object(f, association, force_non_association_create=false)
-      assoc = f.object.class.reflect_on_association(association)
-
-      assoc ? create_object_on_association(f, association, assoc, force_non_association_create) : create_object_on_non_association(f, association)
-    end
-
-    def get_partial_path(partial, association)
-      partial ? partial : association.to_s.singularize + "_fields"
-    end
-
-    private
 
     def create_object_on_non_association(f, association)
       builder_method = %W{build_#{association} build_#{association.to_s.singularize}}.select { |m| f.object.respond_to?(m) }.first
