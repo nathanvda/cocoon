@@ -303,7 +303,7 @@ describe Cocoon do
         before do
           args = ['remove something', @form_obj]
           @html = @tester.link_to_remove_association(*args)
-          @button_html = @tester.link_to_remove_association(*args)
+          @button_html = @tester.button_to_remove_association(*args)
         end
 
         it "is rendered inside a input element" do
@@ -323,6 +323,7 @@ describe Cocoon do
             I18n.backend.store_translations(:en, :cocoon => { :posts => { :remove => 'Remove post' } })
 
             @html = @tester.link_to_remove_association(@form_obj)
+            @button_html = @tester.button_to_remove_association(@form_obj)
           end
 
           it_behaves_like "a correctly rendered remove link", { text: 'Remove post' }
@@ -333,6 +334,7 @@ describe Cocoon do
             I18n.backend.store_translations(:en, :cocoon => { :defaults => { :remove => 'Remove' } })
 
             @html = @tester.link_to_remove_association(@form_obj)
+            @button_html = @tester.button_to_remove_association(@form_obj)
           end
 
           it_behaves_like "a correctly rendered remove link", { text: 'Remove' }
@@ -342,6 +344,7 @@ describe Cocoon do
       context "accepts html options and pass them to link_to" do
         before do
           @html = @tester.link_to_remove_association('remove something', @form_obj, {:class => 'add_some_class', :'data-something' => 'bla'})
+          @button_html = @tester.button_to_remove_association('remove something', @form_obj, {:class => 'add_some_class', :'data-something' => 'bla'})
         end
         it_behaves_like "a correctly rendered remove link", {class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
@@ -356,10 +359,19 @@ describe Cocoon do
         @post_marked_for_destruction.mark_for_destruction
         @form_obj_destroyed = double(:object => @post_marked_for_destruction, :object_name => @post_marked_for_destruction.class.name)
         @html = @tester.link_to_remove_association('remove something', @form_obj_destroyed)
+        @button_html = @tester.button_to_remove_association('remove something', @form_obj_destroyed)
       end
 
-      it "is rendered inside a input element" do
+      it "is rendered as link inside a input element" do
         doc = Nokogiri::HTML(@html)
+        removed = doc.at('input')
+        expect(removed.attribute('id').value).to eq("Post__destroy")
+        expect(removed.attribute('name').value).to eq("Post[_destroy]")
+        expect(removed.attribute('value').value).to eq("true")
+      end
+
+      it "is rendered as button inside a input element" do
+        doc = Nokogiri::HTML(@button_html)
         removed = doc.at('input')
         expect(removed.attribute('id').value).to eq("Post__destroy")
         expect(removed.attribute('name').value).to eq("Post[_destroy]")
@@ -372,18 +384,16 @@ describe Cocoon do
     context "with a block" do
       context "the block gives the name" do
         before do
-          @html = @tester.link_to_remove_association(@form_obj) do
-            "remove some long name"
-          end
+          @html = @tester.link_to_remove_association(@form_obj) { "remove some long name" }
+          @button_html = @tester.button_to_remove_association(@form_obj) { "remove some long name" }
         end
         it_behaves_like "a correctly rendered remove link", {text: 'remove some long name'}
       end
 
       context "accepts html options and pass them to link_to" do
         before do
-          @html = @tester.link_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) do
-            "remove some long name"
-          end
+          @html = @tester.link_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) { "remove some long name" }
+          @button_html = @tester.button_to_remove_association(@form_obj, {:class => 'add_some_class', :'data-something' => 'bla'}) { "remove some long name" }
         end
         it_behaves_like "a correctly rendered remove link", {text: 'remove some long name', class: 'add_some_class remove_fields dynamic', extra_attributes: {'data-something' => 'bla'}}
       end
@@ -392,7 +402,9 @@ describe Cocoon do
     context 'when changing the wrapper class' do
       context 'should use the default nested-fields class' do
         before do
-          @html = @tester.link_to_remove_association('remove something', @form_obj)
+          args = ['remove something', @form_obj]
+          @html = @tester.link_to_remove_association(*args)
+          @button_html = @tester.button_to_remove_association(*args)
         end
 
         it_behaves_like "a correctly rendered remove link", { }
@@ -401,6 +413,7 @@ describe Cocoon do
       context 'should use the given wrapper class' do
         before do
           @html = @tester.link_to_remove_association('remove something', @form_obj, { wrapper_class: 'another-class' })
+          @button_html = @tester.button_to_remove_association('remove something', @form_obj, { wrapper_class: 'another-class' })
         end
 
         it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-wrapper-class' => 'another-class' } }
