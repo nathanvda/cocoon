@@ -10,6 +10,8 @@ describe Cocoon do
 
   it { is_expected.to respond_to(:link_to_add_association) }
   it { is_expected.to respond_to(:link_to_remove_association) }
+  it { is_expected.to respond_to(:button_to_add_association) }
+  it { is_expected.to respond_to(:button_to_remove_association) }
 
   before(:each) do
     @tester = TestClass.new
@@ -20,14 +22,16 @@ describe Cocoon do
 
   context "link_to_add_association" do
     before(:each) do
-      allow(@tester).to receive(:render_association).and_return('form<tag>')
+      allow(@tester).to receive(:render_association).twice.and_return('form<tag>')
     end
 
     context "without a block" do
 
       context "and given a name" do
         before do
-          @html = @tester.link_to_add_association('add something', @form_obj, :comments)
+          args = ['add something', @form_obj, :comments]
+          @html = @tester.link_to_add_association(*args)
+          @button_html = @tester.button_to_add_association(*args)
         end
 
         it_behaves_like "a correctly rendered add link", {}
@@ -39,6 +43,7 @@ describe Cocoon do
             I18n.backend.store_translations(:en, :cocoon => { :comments => { :add => 'Add comment' } })
 
             @html = @tester.link_to_add_association(@form_obj, :comments)
+            @button_html = @tester.button_to_add_association(@form_obj, :comments)
           end
 
           it_behaves_like "a correctly rendered add link", { text: 'Add comment' }
@@ -49,6 +54,7 @@ describe Cocoon do
             I18n.backend.store_translations(:en, :cocoon => { :defaults => { :add => 'Add' } })
 
             @html = @tester.link_to_add_association(@form_obj, :comments)
+            @button_html = @tester.button_to_add_association(@form_obj, :comments)
           end
 
           it_behaves_like "a correctly rendered add link", { text: 'Add' }
@@ -58,6 +64,7 @@ describe Cocoon do
       context "and given html options to pass them to link_to" do
         before do
           @html = @tester.link_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :comments, {:class => 'something silly'})
         end
 
         it_behaves_like "a correctly rendered add link", {class: 'something silly add_fields' }
@@ -65,25 +72,28 @@ describe Cocoon do
 
       context "and explicitly specifying the wanted partial" do
         before do
-          allow(@tester).to receive(:render_association).and_call_original
-          expect(@tester).to receive(:render_association).with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
+          allow(@tester).to receive(:render_association).twice.and_call_original
+          expect(@tester).to receive(:render_association).twice.with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
           @html = @tester.link_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :comments, :partial => "shared/partial")
         end
 
         it_behaves_like "a correctly rendered add link", {template: "partiallll"}
       end
 
       it "gives an opportunity to wrap/decorate created objects" do
-        allow(@tester).to receive(:render_association).and_call_original
-        expect(@tester).to receive(:render_association).with(anything(), anything(), kind_of(CommentDecorator), "f", anything(), anything()).and_return('partiallll')
+        allow(@tester).to receive(:render_association).twice.and_call_original
+        expect(@tester).to receive(:render_association).twice.with(anything(), anything(), kind_of(CommentDecorator), "f", anything(), anything()).and_return('partiallll')
         @tester.link_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
+        @tester.button_to_add_association('add something', @form_obj, :comments, :wrap_object => Proc.new {|comment| CommentDecorator.new(comment) })
       end
 
       context "force non association create" do
         context "default case: create object on association" do
           before do
-            expect(@tester).to receive(:create_object).with(anything, :comments , false)
+            expect(@tester).to receive(:create_object).twice.with(anything, :comments , false)
             @html = @tester.link_to_add_association('add something', @form_obj, :comments)
+            @button_html = @tester.button_to_add_association('add something', @form_obj, :comments)
           end
 
           it_behaves_like "a correctly rendered add link", {}
@@ -91,16 +101,18 @@ describe Cocoon do
 
         context "and explicitly specifying false is the same as default" do
           before do
-            expect(@tester).to receive(:create_object).with(anything, :comments , false)
+            expect(@tester).to receive(:create_object).twice.with(anything, :comments , false)
             @html = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => false)
+            @button_html = @tester.button_to_add_association('add something', @form_obj, :comments, :force_non_association_create => false)
           end
           it_behaves_like "a correctly rendered add link", {}
         end
 
         context "specifying true will not create objects on association but using the conditions" do
           before do
-            expect(@tester).to receive(:create_object).with(anything, :comments , true)
+            expect(@tester).to receive(:create_object).twice.with(anything, :comments , true)
             @html = @tester.link_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
+            @button_html = @tester.button_to_add_association('add something', @form_obj, :comments, :force_non_association_create => true)
           end
           it_behaves_like "a correctly rendered add link", {}
         end
@@ -110,18 +122,18 @@ describe Cocoon do
     context "with a block" do
       context "and the block specifies the link text" do
         before do
-          @html = @tester.link_to_add_association(@form_obj, :comments) do
-            "some long name"
-          end
+          name = "some long name"
+          @html = @tester.link_to_add_association(@form_obj, :comments) { name }
+          @button_html = @tester.button_to_add_association(@form_obj, :comments) { name }
         end
         it_behaves_like "a correctly rendered add link", {text: 'some long name'}
       end
 
       context "accepts html options and pass them to link_to" do
         before do
-          @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) do
-            "some long name"
-          end
+          name = "some long name"
+          @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) { name }
+          @button_html = @tester.button_to_add_association(@form_obj, :comments, {:class => 'floppy disk'}) { name }
         end
         it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name'}
       end
@@ -129,18 +141,19 @@ describe Cocoon do
       context "accepts extra attributes and pass them to link_to" do
         context 'when using the old notation' do
           before do
-            @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', 'data-something' => 'bla'}) do
-              "some long name"
-            end
+            name = "some long name"
+            args = []
+            @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', 'data-something' => 'bla'}) { name }
+            @button_html = @tester.button_to_add_association(@form_obj, :comments, {:class => 'floppy disk', 'data-something' => 'bla'}) { name }
           end
           it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name', :extra_attributes => {'data-something' => 'bla'}}
         end
         if Rails.rails4?
           context 'when using the new notation' do
             before do
-              @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', :data => {:'association-something' => 'foobar'}}) do
-                "some long name"
-              end
+              name = "some long name"
+              @html = @tester.link_to_add_association(@form_obj, :comments, {:class => 'floppy disk', :data => {:'association-something' => 'foobar'}}) { name }
+              @button_html = @tester.button_to_add_association(@form_obj, :comments, {:class => 'floppy disk', :data => {:'association-something' => 'foobar'}}) { name }
             end
             it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', text: 'some long name', :extra_attributes => {'data-association-something' => 'foobar'}}
           end
@@ -149,11 +162,11 @@ describe Cocoon do
 
       context "and explicitly specifying the wanted partial" do
         before do
-          allow(@tester).to receive(:render_association).and_call_original
-          expect(@tester).to receive(:render_association).with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
-          @html = @tester.link_to_add_association( @form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") do
-            "some long name"
-          end
+          allow(@tester).to receive(:render_association).twice.and_call_original
+          expect(@tester).to receive(:render_association).twice.with(anything(), anything(), anything(), "f", anything(), "shared/partial").and_return('partiallll')
+          name = "some long name"
+          @html = @tester.link_to_add_association(@form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") { name }
+          @button_html = @tester.button_to_add_association(@form_obj, :comments, :class => 'floppy disk', :partial => "shared/partial") { name }
         end
 
         it_behaves_like "a correctly rendered add link", {class: 'floppy disk add_fields', template: "partiallll", text: 'some long name'}
@@ -163,7 +176,9 @@ describe Cocoon do
     context "with an irregular plural" do
       context "uses the correct plural" do
         before do
-          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+          args = ['add something', @form_obj, :people]
+          @html = @tester.link_to_add_association(*args)
+          @button_html = @tester.button_to_add_association(*args)
         end
         it_behaves_like "a correctly rendered add link", {association: 'person', associations: 'people' }
       end
@@ -172,7 +187,9 @@ describe Cocoon do
     context "when using aliased association and class-name" do
       context "uses the correct name" do
         before do
-          @html = @tester.link_to_add_association('add something', @form_obj, :admin_comments)
+          args = ['add something', @form_obj, :admin_comments]
+          @html = @tester.link_to_add_association(*args)
+          @button_html = @tester.button_to_add_association(*args)
         end
         it_behaves_like "a correctly rendered add link", {association: 'admin_comment', associations: 'admin_comments'}
       end
@@ -185,8 +202,9 @@ describe Cocoon do
     context "with extra render-options for rendering the child relation" do
       context "uses the correct plural" do
         before do
-          expect(@tester).to receive(:render_association).with(:people, @form_obj, anything, "f", {:wrapper => 'inline'}, nil)
+          expect(@tester).to receive(:render_association).twice.with(:people, @form_obj, anything, "f", {:wrapper => 'inline'}, nil)
           @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
         end
         it_behaves_like "a correctly rendered add link", {association: 'person', associations: 'people' }
       end
@@ -195,19 +213,21 @@ describe Cocoon do
     context "passing locals to the partial" do
       context "when given: passes the locals to the partials" do
         before do
-          allow(@tester).to receive(:render_association).and_call_original
-          expect(@form_obj).to receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
-          expect(@tester).to receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
+          allow(@tester).to receive(:render_association).twice.and_call_original
+          expect(@form_obj).to receive(:fields_for).twice { | association, new_object, options_hash, &block| block.call }
+          expect(@tester).to receive(:render).twice.with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
           @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
         end
         it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
       end
       context "if no locals are given it still works" do
         before do
-          allow(@tester).to receive(:render_association).and_call_original
-          expect(@form_obj).to receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
-          expect(@tester).to receive(:render).with("person_fields", {:f=>nil, :dynamic=>true}).and_return ("partiallll")
+          allow(@tester).to receive(:render_association).twice.and_call_original
+          expect(@form_obj).to receive(:fields_for).twice { | association, new_object, options_hash, &block| block.call }
+          expect(@tester).to receive(:render).twice.with("person_fields", {:f=>nil, :dynamic=>true}).and_return ("partiallll")
           @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline'})
         end
         it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
 
@@ -218,10 +238,11 @@ describe Cocoon do
     context "overruling the form parameter name" do
       context "when given a form_name it passes it correctly to the partials" do
         before do
-          allow(@tester).to receive(:render_association).and_call_original
-          expect(@form_obj).to receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
-          expect(@tester).to receive(:render).with("person_fields", {:people_form => nil, :dynamic=>true}).and_return ("partiallll")
+          allow(@tester).to receive(:render_association).twice.and_call_original
+          expect(@form_obj).to receive(:fields_for).twice { | association, new_object, options_hash, &block| block.call }
+          expect(@tester).to receive(:render).twice.with("person_fields", {:people_form => nil, :dynamic=>true}).and_return ("partiallll")
           @html = @tester.link_to_add_association('add something', @form_obj, :people, :form_name => 'people_form')
+          @button_html = @tester.button_to_add_association('add something', @form_obj, :people, :form_name => 'people_form')
         end
         it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
       end
@@ -230,23 +251,25 @@ describe Cocoon do
 
     context "when using formtastic" do
       before(:each) do
-        allow(@tester).to receive(:render_association).and_call_original
-        allow(@form_obj).to receive(:semantic_fields_for).and_return('form<tagzzz>')
+        allow(@tester).to receive(:render_association).twice.and_call_original
+        allow(@form_obj).to receive(:semantic_fields_for).twice.and_return('form<tagzzz>')
       end
       context "calls semantic_fields_for and not fields_for" do
         before do
           allow(@form_obj).to receive_message_chain(:class, :ancestors) { ['Formtastic::FormBuilder'] }
-          expect(@form_obj).to receive(:semantic_fields_for)
+          expect(@form_obj).to receive(:semantic_fields_for).twice
           expect(@form_obj).to receive(:fields_for).never
-          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+          args = ['add something', @form_obj, :people]
+          @html = @tester.link_to_add_association(*args)
+          @button_html = @tester.button_to_add_association(*args)
         end
         it_behaves_like "a correctly rendered add link", {template: 'form<tagzzz>', association: 'person', associations: 'people' }
       end
     end
     context "when using simple_form" do
       before(:each) do
-        allow(@tester).to receive(:render_association).and_call_original
-        allow(@form_obj).to receive(:simple_fields_for).and_return('form<tagxxx>')
+        allow(@tester).to receive(:render_association).twice.and_call_original
+        allow(@form_obj).to receive(:simple_fields_for).twice.and_return('form<tagxxx>')
       end
       it "responds_to :simple_fields_for" do
         expect(@form_obj).to respond_to(:simple_fields_for)
@@ -256,7 +279,9 @@ describe Cocoon do
           allow(@form_obj).to receive_message_chain(:class, :ancestors) { ['SimpleForm::FormBuilder'] }
           expect(@form_obj).to receive(:simple_fields_for)
           expect(@form_obj).to receive(:fields_for).never
-          @html = @tester.link_to_add_association('add something', @form_obj, :people)
+          args = ['add something', @form_obj, :people]
+          @html = @tester.link_to_add_association(*args)
+          @button_html = @tester.button_to_add_association(*args)
         end
         it_behaves_like "a correctly rendered add link", {template: 'form<tagxxx>', association: 'person', associations: 'people' }
       end
@@ -265,6 +290,7 @@ describe Cocoon do
     context 'when adding a count' do
       before do
         @html = @tester.link_to_add_association('add something', @form_obj, :comments, { :count => 3 })
+        @button_html = @tester.button_to_add_association('add something', @form_obj, :comments, { :count => 3 })
       end
       it_behaves_like "a correctly rendered add link", { :extra_attributes => { 'data-count' => '3' } }
     end
@@ -275,7 +301,9 @@ describe Cocoon do
     context "without a block" do
       context "accepts a name" do
         before do
-          @html = @tester.link_to_remove_association('remove something', @form_obj)
+          args = ['remove something', @form_obj]
+          @html = @tester.link_to_remove_association(*args)
+          @button_html = @tester.link_to_remove_association(*args)
         end
 
         it "is rendered inside a input element" do
@@ -374,7 +402,7 @@ describe Cocoon do
         before do
           @html = @tester.link_to_remove_association('remove something', @form_obj, { wrapper_class: 'another-class' })
         end
-  
+
         it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-wrapper-class' => 'another-class' } }
       end
     end
