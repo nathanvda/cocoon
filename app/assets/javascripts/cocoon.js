@@ -84,14 +84,14 @@
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
-      insertionNodeElem.trigger('cocoon:before-insert', [contentNode]);
+      insertionNodeElem.on('cocoon:before-insert', [contentNode]);
 
       // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
       // to be called on the node.  allows the insertion node to be the parent of the inserted
       // code and doesn't force it to be a sibling like after/before does. default: 'before'
       var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-      insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
+      insertionNodeElem.on('cocoon:after-insert', [contentNode]);
     });
   });
 
@@ -103,7 +103,7 @@
 
     e.preventDefault();
 
-    trigger_node.trigger('cocoon:before-remove', [node_to_delete]);
+    trigger_node.on('cocoon:before-remove', [node_to_delete]);
 
     var timeout = trigger_node.data('remove-timeout') || 0;
 
@@ -114,18 +114,8 @@
           $this.prev("input[type=hidden]").val("1");
           node_to_delete.hide();
       }
-      trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
+      trigger_node.on('cocoon:after-remove', [node_to_delete]);
     }, timeout);
-  });
-
-
-  $(document).on("ready page:load", function() {
-    $('.remove_fields.existing.destroyed').each(function(i, obj) {
-      var $this = $(this),
-          wrapper_class = $this.data('wrapper-class') || 'nested-fields';
-
-      $this.closest('.' + wrapper_class).hide();
-    });
   });
 
   function clearForPageLoad(){
