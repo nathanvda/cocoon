@@ -1,17 +1,33 @@
 language: ruby
-script: "bundle exec rake"
 rvm:
   - 2.0.0
   - 2.1.5
   - 2.2.6
   - 2.3.2
-  - 2.4.0
   - rbx-2
 gemfile:
   - gemfiles/Gemfile.rails-3.2.13
+  - gemfiles/Gemfile.rails-4-r2
   - Gemfile
 
 matrix:
   fast_finish: true
+  exclude:
+  - rvm: 2.0.0
+    gemfile: Gemfile
+  - rvm: 2.1.5
+    gemfile: Gemfile
+  - rvm: 2.2.6
+    gemfile: gemfiles/Gemfile.rails-3.2.13
+  - rvm: 2.2.6
+    gemfile: gemfiles/Gemfile.rails-4-r2
+  - rvm: 2.3.2
+    gemfile: gemfiles/Gemfile.rails-3.2.13
+  - rvm: 2.3.2
+    gemfile: gemfiles/Gemfile.rails-4-r2
+  - rvm: 2.4.0
+    gemfile: gemfiles/Gemfile.rails-3.2.13
+  - rvm: 2.4.0
+    gemfile: gemfiles/Gemfile.rails-4-r2
   allow_failures:
     - rvm: rbx-2
