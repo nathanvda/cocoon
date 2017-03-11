@@ -27,7 +27,7 @@ gem "cocoon"
 
 > Please note that for rails 4 you will need at least v1.2.0 or later.
 
-### Rails 3.1+/Rails 4
+### Rails 3.1+/Rails 4/Rails 5
 
 Add the following to `application.js` so it compiles to the asset pipeline:
 
@@ -67,7 +67,7 @@ Your models are associated like this:
 
 ```ruby
 class Project < ActiveRecord::Base
-  has_many :tasks
+  has_many :tasks, inverse_of: :project
   accepts_nested_attributes_for :tasks, reject_if: :all_blank, allow_destroy: true
 end
 
@@ -75,6 +75,14 @@ class Task < ActiveRecord::Base
   belongs_to :project
 end
 ```
+
+> *Rails 5 Note*: since rails 5 a `belongs_to` relation is by default required. While this absolutely makes sense, this also means
+> associations have to be declared more explicitly. 
+> When saving nested items, theoretically the parent is not yet saved on validation, so rails needs help to know
+> the link between relations. There are two ways: either declare the `belongs_to` as `optional: false`, but the
+> cleanest way is to specify the `inverse_of:` on the `has_many`. That is why we write : `has_many :tasks, inverse_of: :project` 
+ 
+ 
 
 Now we want a project form where we can add and remove tasks dynamically.
 To do this, we need the fields for a new or existing `task` to be defined in a partial
