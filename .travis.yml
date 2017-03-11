@@ -1,9 +1,17 @@
 language: ruby
 script: "bundle exec rake"
 rvm:
-  - 1.9.3
   - 2.0.0
+  - 2.1.5
+  - 2.2.6
+  - 2.3.2
+  - 2.4.0
   - rbx-2
 gemfile:
   - gemfiles/Gemfile.rails-3.2.13
   - Gemfile
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: rbx-2
