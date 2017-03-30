@@ -4,7 +4,7 @@ module Cocoon
   class Engine < ::Rails::Engine
 
     config.before_initialize do
-      if config.action_view.javascript_expansions
+      if config.action_view.javascript_expansions.present?
         config.action_view.javascript_expansions[:cocoon] = %w(cocoon)
       end
     end
