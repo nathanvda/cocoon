@@ -11,7 +11,9 @@ module Cocoon
 
     # configure our plugin on boot
     initializer "cocoon.initialize" do |app|
-      ActionView::Base.send :include, Cocoon::ViewHelpers
+      ActiveSupport.on_load :action_view do
+        ActionView::Base.send :include, Cocoon::ViewHelpers
+      end
     end
 
   end
