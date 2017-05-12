@@ -555,6 +555,21 @@ Note that `link_to_remove_association` does not require `association` name as an
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+## RailsScript
+
+To use Cocoon with [RailsScript](https://github.com/gemgento/rails_script/), you should include `cocoon/rails_script` 
+instead of `cocoon` in your JavaScript manifest:
+
+```coffeescript
+#= require cocoon/rails_script
+```
+
+Now you can initialize Cocoon when needed:
+
+```coffeescript
+Element.Cocoon.new()
+```
+
 
 ## Contributors
 
