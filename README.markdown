@@ -207,6 +207,11 @@ In our `_task_fields` partial we'd write:
   = link_to_remove_association "remove task", f
 ```
 
+### Turbolinks
+
+The simpliest way is to add [gem jquery.turbolinks](https://github.com/kossnocorp/jquery.turbolinks)
+(Cocoon depends on jQuery)
+
 ## How it works
 
 Cocoon defines two helper functions:
