@@ -18,7 +18,7 @@ module Cocoon
         link_to_remove_association(capture(&block), *args)
       elsif args.first.respond_to?(:object)
         form = args.first
-        association = form.object.class.to_s.tableize
+        association = form.object.model.class.to_s.tableize
         name = I18n.translate("cocoon.#{association}.remove", default: I18n.translate('cocoon.defaults.remove'))
 
         link_to_remove_association(name, *args)
@@ -108,7 +108,7 @@ module Cocoon
     # will create new Comment with author "Admin"
 
     def create_object(f, association, force_non_association_create=false)
-      assoc = f.object.class.reflect_on_association(association)
+      assoc = f.object.model.class.reflect_on_association(association)
 
       assoc ? create_object_on_association(f, association, assoc, force_non_association_create) : create_object_on_non_association(f, association)
     end
@@ -120,9 +120,9 @@ module Cocoon
     private
 
     def create_object_on_non_association(f, association)
-      builder_method = %W{build_#{association} build_#{association.to_s.singularize}}.select { |m| f.object.respond_to?(m) }.first
-      return f.object.send(builder_method) if builder_method
-      raise "Association #{association} doesn't exist on #{f.object.class}"
+      builder_method = %W{build_#{association} build_#{association.to_s.singularize}}.select { |m| f.object.model.respond_to?(m) }.first
+      return f.object.model.send(builder_method) if builder_method
+      raise "Association #{association} doesn't exist on #{f.object.model.class}"
     end
 
     def create_object_on_association(f, association, instance, force_non_association_create)
@@ -133,11 +133,11 @@ module Cocoon
 
         # assume ActiveRecord or compatible
         if instance.collection?
-          assoc_obj = f.object.send(association).build
-          f.object.send(association).delete(assoc_obj)
+          assoc_obj = f.object.model.send(association).build
+          f.object.model.send(association).delete(assoc_obj)
         else
-          assoc_obj = f.object.send("build_#{association}")
-          f.object.send(association).delete
+          assoc_obj = f.object.model.send("build_#{association}")
+          f.object.model.send(association).delete
         end
 
         assoc_obj = assoc_obj.dup if assoc_obj.frozen?
