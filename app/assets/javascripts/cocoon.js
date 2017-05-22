@@ -37,7 +37,7 @@
 
   }
 
-  $(document).on('click', '.add_fields', function(e) {
+  $('.add_fields').on('click', function(e) {
     e.preventDefault();
     var $this                 = $(this),
         assoc                 = $this.data('association'),
