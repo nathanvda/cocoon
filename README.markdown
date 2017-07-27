@@ -8,13 +8,13 @@ Nested forms are forms that handle nested models and attributes in one form;
 e.g. a project with its tasks or an invoice with its line items.
 
 Cocoon is form builder-agnostic, so it works with standard Rails, [Formtastic](https://github.com/justinfrench/formtastic), or [SimpleForm](https://github.com/plataformatec/simple_form).
-It is compatible with rails 3 and rails 4.
+It is compatible with rails 3, 4 and 5.
 
 This project is not related to [Apache Cocoon](http://cocoon.apache.org/).
 
 ## Prerequisites
 
-This gem depends on jQuery, so it's most useful in a Rails 3 project where you are already using jQuery.
+This gem depends on jQuery, so it's most useful in a Rails project where you are already using jQuery.
 Furthermore, I would advise you to use either [Formtastic](https://github.com/justinfrench/formtastic) or [SimpleForm](https://github.com/plataformatec/simple_form).
 
 ## Installation
