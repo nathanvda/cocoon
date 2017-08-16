@@ -77,12 +77,12 @@ end
 ```
 
 > *Rails 5 Note*: since rails 5 a `belongs_to` relation is by default required. While this absolutely makes sense, this also means
-> associations have to be declared more explicitly. 
+> associations have to be declared more explicitly.
 > When saving nested items, theoretically the parent is not yet saved on validation, so rails needs help to know
 > the link between relations. There are two ways: either declare the `belongs_to` as `optional: false`, but the
-> cleanest way is to specify the `inverse_of:` on the `has_many`. That is why we write : `has_many :tasks, inverse_of: :project` 
- 
- 
+> cleanest way is to specify the `inverse_of:` on the `has_many`. That is why we write : `has_many :tasks, inverse_of: :project`
+
+
 
 Now we want a project form where we can add and remove tasks dynamically.
 To do this, we need the fields for a new or existing `task` to be defined in a partial
@@ -389,7 +389,7 @@ This will either let you select an owner from the list of persons, or show the f
 The callbacks can be added as follows:
 
 ```javascript
-$(document).ready(function() {
+$(function() {
     $('#owner')
       .on('cocoon:before-insert', function() {
         $("#owner_from_list").hide();
@@ -442,7 +442,7 @@ The default insertion location is at the back of the current container. But we h
 For example:
 
 ```javascript
-$(document).ready(function() {
+$(function() {
     $("#owner a.add_fields").
       data("association-insertion-method", 'before').
       data("association-insertion-node", 'this');
@@ -453,12 +453,12 @@ The `association-insertion-node` will determine where to add it. You can choose 
 
 The `association-insertion-method` will determine where to add it in relation with the node. Any jQuery DOM Manipulation method can be set but we recommend sticking to any of the following: `before`, `after`, `append`, `prepend`. It is unknown at this time what others would do.
 
-The `association-insertion-traversal` will allow node selection to be relative to the link. 
+The `association-insertion-traversal` will allow node selection to be relative to the link.
 
 For example:
 
 ```javascript
-$(document).ready(function() {
+$(function() {
     $("#owner a.add_fields").
       data("association-insertion-method", 'append').
       data("association-insertion-traversal", 'closest').
@@ -493,7 +493,7 @@ For example, suppose Task has many SubTasks in the [Example](#examples), and hav
 Then this will do the thing.
 
 ```javascript
-$(document).ready(function() {
+$(function() {
     $(".add_sub_task a").
       data("association-insertion-method", 'append').
       data("association-insertion-node", function(link){
