@@ -118,15 +118,16 @@
     }, timeout);
   });
 
-
-  $(document).on("ready page:load turbolinks:load", function() {
+  var hideRemoveFields = function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
       var $this = $(this),
           wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
       $this.closest('.' + wrapper_class).hide();
     });
-  });
+  }
+  $(hideRemoveFields); // On page load
+  $(document).on('page:load turbolinks:load', hideRemoveFields); // On custom load events
 
 })(jQuery);
 
