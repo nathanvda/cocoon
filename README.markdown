@@ -358,9 +358,9 @@ Example:
 
 On insertion or removal the following events are triggered:
 
-* `cocoon:before-insert`: called before inserting a new nested child
+* `cocoon:before-insert`: called before inserting a new nested child, can be [canceled](#canceling-a-callback)
 * `cocoon:after-insert`: called after inserting
-* `cocoon:before-remove`: called before removing the nested child
+* `cocoon:before-remove`: called before removing the nested child, can be [canceled](#canceling-a-callback)
 * `cocoon:after-remove`: called after removal
 
 To listen to the events in your JavaScript:
@@ -434,6 +434,21 @@ $(this).data('remove-timeout', 1000);
 ```
 
 You could also immediately add this to your view, on the `.nested-fields` container (or the `wrapper_class` element you are using).
+
+#### Canceling a Callback
+
+You can cancel an action from occurring, either an insertion or removal, within the `before-<action>` callback by calling `event.preventDefault()` anywhere within the callback.
+
+For example:
+
+```javascript
+  $('#container').on('cocoon:before-insert', function(event, insertedItem) {
+    var confirmation = confirm("Are you sure?");
+    if( confirmation === false ){
+      event.preventDefault();
+    }
+  });
+```
 
 ### Control the Insertion Behaviour
 
