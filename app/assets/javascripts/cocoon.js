@@ -84,14 +84,17 @@
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
-      insertionNodeElem.trigger('cocoon:before-insert', [contentNode]);
+      var before_insert = jQuery.Event('cocoon:before-insert');
+      insertionNodeElem.trigger(before_insert, [contentNode]);
 
-      // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
-      // to be called on the node.  allows the insertion node to be the parent of the inserted
-      // code and doesn't force it to be a sibling like after/before does. default: 'before'
-      var addedContent = insertionNodeElem[insertionMethod](contentNode);
+      if (!before_insert.isDefaultPrevented()) {
+        // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
+        // to be called on the node.  allows the insertion node to be the parent of the inserted
+        // code and doesn't force it to be a sibling like after/before does. default: 'before'
+        var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-      insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
+        insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
+      }
     });
   });
 
@@ -103,19 +106,22 @@
 
     e.preventDefault();
 
-    trigger_node.trigger('cocoon:before-remove', [node_to_delete]);
+    var before_remove = jQuery.Event('cocoon:before-remove');
+    trigger_node.trigger(before_remove, [node_to_delete]);
 
-    var timeout = trigger_node.data('remove-timeout') || 0;
+    if (!before_remove.isDefaultPrevented()) {
+      var timeout = trigger_node.data('remove-timeout') || 0;
 
-    setTimeout(function() {
-      if ($this.hasClass('dynamic')) {
-          node_to_delete.remove();
-      } else {
-          $this.prev("input[type=hidden]").val("1");
-          node_to_delete.hide();
-      }
-      trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
-    }, timeout);
+      setTimeout(function() {
+        if ($this.hasClass('dynamic')) {
+            node_to_delete.remove();
+        } else {
+            $this.prev("input[type=hidden]").val("1");
+            node_to_delete.hide();
+        }
+        trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
+      }, timeout);
+    }
   });
 
 
