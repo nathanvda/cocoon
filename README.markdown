@@ -318,8 +318,9 @@ a new nested object.
 This used to have a side-effect: for each call of `link_to_add_association` a new element was added to the association.
 This is no longer the case.
 
-For backward compatibility we keep this option for now. Or if for some specific reason you would
-really need an object to be _not_ created on the association.
+For backward compatibility we keep this option for now. Or if for some specific reason you would really need an object
+to be _not_ created on the association, for example if you did not want `after_add` callback to be triggered on
+the association.
 
 Example use:
 
