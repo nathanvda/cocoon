@@ -41,18 +41,28 @@
     e.preventDefault();
     var $this                 = $(this),
         assoc                 = $this.data('association'),
-        assocs                = $this.data('associations'),
         content               = $this.data('association-insertion-template'),
+        count                 = parseInt($this.data('count'), 10),
+        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
+        new_id                = null,
+        new_content           = null;
+
+    count = (isNaN(count) ? 1 : Math.max(count, 1));
+
+    new_id = create_new_id();
+    new_content = content.replace(regexp_braced, newcontent_braced(new_id));
+    add_fields($this, assoc, content, count, regexp_braced, new_id, new_content)
+  })
+
+
+  /* Complete event click on .add_fields once we know new_id */
+  function add_fields($this, assoc, content, count, regexp_braced, new_id, new_content)  {
+    var assocs                = $this.data('associations'),
         insertionMethod       = $this.data('association-insertion-method') || $this.data('association-insertion-position') || 'before',
         insertionNode         = $this.data('association-insertion-node'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
-        count                 = parseInt($this.data('count'), 10),
-        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
         regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
-        new_id                = create_new_id(),
-        new_content           = content.replace(regexp_braced, newcontent_braced(new_id)),
         new_contents          = [];
-
 
     if (new_content == content) {
       regexp_braced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
@@ -63,7 +73,6 @@
     new_content = new_content.replace(regexp_underscord, newcontent_underscord(new_id));
     new_contents = [new_content];
 
-    count = (isNaN(count) ? 1 : Math.max(count, 1));
     count -= 1;
 
     while (count) {
@@ -96,7 +105,8 @@
         insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
       }
     });
-  });
+  }
+
 
   $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
     var $this = $(this),
