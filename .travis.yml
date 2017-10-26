@@ -7,7 +7,7 @@ rvm:
 gemfile:
   - gemfiles/Gemfile.rails-3.2.13
   - gemfiles/Gemfile.rails-4-r2
-  - Gemfile
+  - gemfiles/Gemfile.default
 
 matrix:
   fast_finish: true
