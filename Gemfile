@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 
 group :development, :test do
-  gem "rails", ">=4.0.0"
+  gem "rails", "~> 4.2"
   gem "sqlite3", '1.3.13'
   gem "json_pure"
   gem "jeweler", "~> 2.3"
