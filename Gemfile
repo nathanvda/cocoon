@@ -3,9 +3,9 @@ source "http://rubygems.org"
 
 group :development, :test do
   gem "rails", ">=4.0.0"
-  gem "sqlite3"
+  gem "sqlite3", '1.3.13'
   gem "json_pure"
-  gem "jeweler", "~> 1.8"
+  gem "jeweler", "~> 2.3"
   gem "rspec-rails", "~> 3.0.0"
   gem "rspec",       "~> 3.0.0"
   gem "actionpack",  ">=4.0.0"
@@ -19,7 +19,7 @@ group :development, :test do
   platforms :rbx do
     gem 'rubysl'
     gem 'rubysl-test-unit'
-    gem 'psych'
+    gem 'psych', '~> 2.2'
     gem 'racc'
     gem 'rubinius-developer_tools'
   end
