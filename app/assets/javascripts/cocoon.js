@@ -84,7 +84,7 @@
     $.each(new_contents, function(i, node) {
       var contentNode = $(node);
 
-      var before_insert = jQuery.Event('cocoon:before-insert', { assoc: assoc, link: $this });
+      var before_insert = jQuery.Event('cocoon:before-insert', { link: $this });
       insertionNodeElem.trigger(before_insert, [contentNode]);
 
       if (!before_insert.isDefaultPrevented()) {
@@ -93,7 +93,7 @@
         // code and doesn't force it to be a sibling like after/before does. default: 'before'
         var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-        var after_insert = jQuery.Event('cocoon:after-insert', { assoc: assoc, link: $this });
+        var after_insert = jQuery.Event('cocoon:after-insert', { link: $this });
         insertionNodeElem.trigger(after_insert, [contentNode]);
       }
     });
