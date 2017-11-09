@@ -26,7 +26,7 @@ module Cocoon
         name, f, html_options = *args
         html_options ||= {}
 
-        is_dynamic = f.object.new_record?
+        is_dynamic = f.object.new_record? && !html_options[:'data-existing']
 
         classes = []
         classes << "remove_fields"
