@@ -109,7 +109,7 @@ E.g. in your `ProjectsController`:
 Cocoon's default configuration requires `link_to_add_association` and associated partials to
 be properly wrapped with elements. The examples below illustrate simple layouts.
 
-Please note these examples rely on the `haml` gem (instead of the default `erb` views).
+Please note these examples rely on the `haml` gem ([click here](https://github.com/nathanvda/cocoon/wiki/ERB-examples) for the default `erb` views).
 
 ### Formtastic
 
