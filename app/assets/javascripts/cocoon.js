@@ -114,7 +114,7 @@
 
       setTimeout(function() {
         if ($this.hasClass('dynamic')) {
-            node_to_delete.remove();
+            node_to_delete.detach();
         } else {
             $this.prev("input[type=hidden]").val("1");
             node_to_delete.hide();
