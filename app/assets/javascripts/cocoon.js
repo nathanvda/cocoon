@@ -67,7 +67,7 @@
         if (typeof pnew_id == "string" || typeof pnew_id == "number") {
           new_content = content.replace(regexp_inputid, 
             '$& value="' + pnew_id + '" ');
-          new_content = content.replace(regexp_inputid2, 
+          new_content = new_content.replace(regexp_inputid2, 
             '$& value="' + pnew_id + '" ');
 	  new_id = pnew_id;
         } else {
@@ -78,7 +78,7 @@
           new_id = pnew_id[assoc]
           new_content = content.replace(regexp_inputid, 
             '$& value="' + new_id + '" ');
-          new_content = content.replace(regexp_inputid2, 
+          new_content = new_content.replace(regexp_inputid2, 
             '$& value="' + new_id + '" ');
           for (var i in pnew_id) {
             if (i != assoc) {
