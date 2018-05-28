@@ -45,6 +45,7 @@
         content               = $this.data('association-insertion-template'),
         count                 = parseInt($this.data('count'), 10),
         regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
+        regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
         new_id                = null,
         new_content           = null;
 
@@ -104,9 +105,13 @@
             } 
           }
         }
-        new_content = new_content.replace(regexp_braced, newcontent_braced(new_id));
-    	add_fields($this, assoc, assocs, new_content, count, regexp_braced, 
-			new_id, new_content);
+        new_content2 = new_content.replace(regexp_braced, newcontent_braced(new_id));
+        if (new_content2 != new_content) {
+          new_content2 = new_content2.replace(regexp_underscord,
+              newcontent_underscord(new_id));
+        }
+	add_fields($this, assoc, assocs, new_content2, count, regexp_braced,
+			new_id, new_content2);
       }).fail(function(jqXHR, textStatus) {
         alert( "Cocoon request failed: " + textStatus );
       });
