@@ -117,7 +117,7 @@
             node_to_delete.detach();
         } else {
             $this.prev("input[type=hidden]").val("1");
-            node_to_delete.hide();
+            node_to_delete.attr('style', 'display: none !important');
         }
         trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
       }, timeout);
@@ -130,7 +130,7 @@
       var $this = $(this),
           wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
-      $this.closest('.' + wrapper_class).hide();
+      $this.closest('.' + wrapper_class).attr('style', 'display: none !important');
     });
   });
 
