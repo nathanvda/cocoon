@@ -378,6 +378,24 @@ describe Cocoon do
         it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-wrapper-class' => 'another-class' } }
       end
     end
+
+    context 'when change display hide method' do
+      context 'should use the default display: none style' do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj)
+        end
+
+        it_behaves_like "a correctly rendered remove link", { }
+      end
+
+      context 'should use the given hide method' do
+        before do
+          @html = @tester.link_to_remove_association('remove something', @form_obj, { hide_style: 'opacity: 0' })
+        end
+
+        it_behaves_like "a correctly rendered remove link", { extra_attributes: { 'data-hide-style' => 'opacity: 0' } }
+      end
+    end
   end
 
   context "create_object" do

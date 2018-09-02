@@ -101,6 +101,7 @@
   $(document).on('click', '.remove_fields.dynamic, .remove_fields.existing', function(e) {
     var $this = $(this),
         wrapper_class = $this.data('wrapper-class') || 'nested-fields',
+        hide_style = $this.data('hide-style') || 'display: none',
         node_to_delete = $this.closest('.' + wrapper_class),
         trigger_node = node_to_delete.parent();
 
@@ -117,7 +118,7 @@
             node_to_delete.detach();
         } else {
             $this.prev("input[type=hidden]").val("1");
-            node_to_delete.attr('style', 'display: none !important');
+            node_to_delete.attr('style', hide_style);
         }
         trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
       }, timeout);
@@ -128,9 +129,10 @@
   $(document).on("ready page:load turbolinks:load", function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
       var $this = $(this),
-          wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+          wrapper_class = $this.data('wrapper-class') || 'nested-fields',
+          hide_style = $this.data('hide-style') || 'display: none';
 
-      $this.closest('.' + wrapper_class).attr('style', 'display: none !important');
+      $this.closest('.' + wrapper_class).attr('style', hide_style);
     });
   });
 
