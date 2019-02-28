@@ -13,6 +13,16 @@
   var newcontent_underscord = function(id) {
     return '_' + id + '_$1';
   }
+  
+  // Moved regex maker to DRY & improve readability
+  var regexp_bracer = function(target_association) {
+    return new RegExp('\\[new_' + target_association + '\\](.*?\\s)', 'g')
+  }
+  
+  // Moved regex maker to DRY & improve readability
+  var regexp_underscorer = function(target_association) {
+    return new RegExp('_new_' + target_association + '_(\\w*)', 'g')
+  }
 
   var getInsertionNodeElem = function(insertionNode, insertionTraversal, $this){
 
@@ -34,7 +44,6 @@
         return insertionNode == "this" ? $this : $(insertionNode);
       }
     }
-
   }
 
   $(document).on('click', '.add_fields', function(e) {
@@ -47,16 +56,15 @@
         insertionNode         = $this.data('association-insertion-node'),
         insertionTraversal    = $this.data('association-insertion-traversal'),
         count                 = parseInt($this.data('count'), 10),
-        regexp_braced         = new RegExp('\\[new_' + assoc + '\\](.*?\\s)', 'g'),
-        regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
+        regexp_braced         = regexp_bracer(assoc),
+        regexp_underscord     = regexp_underscorer(assoc),
         new_id                = create_new_id(),
         new_content           = content.replace(regexp_braced, newcontent_braced(new_id)),
         new_contents          = [];
 
-
     if (new_content == content) {
-      regexp_braced     = new RegExp('\\[new_' + assocs + '\\](.*?\\s)', 'g');
-      regexp_underscord = new RegExp('_new_' + assocs + '_(\\w*)', 'g');
+      regexp_braced     = regexp_bracer(assocs);
+      regexp_underscord = regexp_underscorer(assocs);
       new_content       = content.replace(regexp_braced, newcontent_braced(new_id));
     }
 
@@ -123,7 +131,6 @@
       }, timeout);
     }
   });
-
 
   $(document).on("ready page:load turbolinks:load", function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
