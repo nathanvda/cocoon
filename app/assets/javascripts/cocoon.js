@@ -59,6 +59,11 @@
           regexp_inputid2     = new RegExp('<input .*id="[^"]*_' + assocs + 
 			  '_id"', 'g');
       mdata[cid] = $('#' + cid).val();
+      if (mdata[cid] == undefined) {
+      	mdata[cid] =  $(this).parent().parent().parent().
+		find('.' + cid + ' input').val();
+      }
+	      
 
       $.ajax($this.data("ajax"), {
         type: 'GET',
