@@ -60,7 +60,8 @@
 			  '_id"', 'g');
       mdata[cid] = $('#' + cid).val();
       if (mdata[cid] == undefined) {
-      	mdata[cid] =  $(this).parent().parent().parent().
+        wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+      	mdata[cid] =  $(this).closest('.' + wrapper_class).
 		find('.' + cid + ' input').val();
       }
 	      
