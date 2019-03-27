@@ -332,6 +332,38 @@ Example use:
 
 By default `:force_non_association_create` is `false`.
 
+#### :ajax and :ajaxdata
+
+Instead of using a random value to set the identification of a new association,
+use AJAX to create a record in a table and return its identification in the
+database.
+
+By default the partials added with the button `link_to_add_association` use
+an internal ranom identifications that doesn't correspond to the identification
+in the database.
+
+If you prefer to create a new record in a table and to use its identification
+in the partial added, then:
+* Add a method in a controller that will serve the AJAX request by
+  creating the record and returning its identification. 
+  In ```params``` it should receive the id of the parent record, 
+  it has to create the new object with default values, save it and 
+  return its identification.
+  Optionally if you want to return more identifications (for example 
+  of other objects created), return a hash that includes a key with the
+  name of the association and its new identification, and also the name
+  of other objects created and their new identifications.
+* Add a route to the method in ```config/routes.rb```
+* In the partial include the identification as a hidden field and in the 
+  ```link_to_remove_association``` helper add ```data-existing``` with value
+  ```true```.
+* In ```link_to_add_association``` add ```data-ajax``` with the route that will
+  create the record, ```data-ajaxdata``` with the html identification of the 
+  field with the id field of the parent record 
+
+Note that in this moment if you use :ajax, you cannot use :count (or must
+be 1).
+
 ### link_to_remove_association
 
 This function will add a link to your markup that, when clicked, dynamically removes the surrounding partial form.
@@ -347,6 +379,9 @@ Optionally you could also leave out the name and supply a block that is captured
 
 Optionally, you can add an html option called `wrapper_class` to use a different wrapper div instead of `.nested-fields`.
 The class should be added without a preceding dot (`.`).
+
+Optionally if you are using AJAX to receive identification of new associations, 
+use the html option `data-existing` in true.
 
 > Note: the javascript behind the generated link relies on the presence of a wrapper class (default `.nested-fields`) to function correctly.
 
