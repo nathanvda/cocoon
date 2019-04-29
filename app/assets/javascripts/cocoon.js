@@ -106,6 +106,7 @@
         trigger_node = node_to_delete.parent();
 
     e.preventDefault();
+    e.stopPropagation();
 
     var before_remove = jQuery.Event('cocoon:before-remove');
     trigger_node.trigger(before_remove, [node_to_delete]);
@@ -115,7 +116,7 @@
 
       setTimeout(function() {
         if ($this.hasClass('dynamic')) {
-            node_to_delete.remove();
+            node_to_delete.detach();
         } else {
             $this.prev("input[type=hidden]").val("1");
             node_to_delete.hide();
