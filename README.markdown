@@ -368,13 +368,14 @@ On insertion or removal the following events are triggered:
 To listen to the events in your JavaScript:
 
 ```javascript
-  $('#container').on('cocoon:before-insert', function(e, insertedItem) {
+  $('#container').on('cocoon:before-insert', function(e, insertedItem, originalEvent) {
     // ... do something
   });
 ```
 
 ...where `e` is the event and the second parameter is the inserted or removed item. This allows you to change markup, or
 add effects/animations (see example below).
+`originalEvent` is also passed and references the event that triggered an insertion or removal (e.g. the `click` event on the link to add an association)
 
 
 If in your view you have the following snippet to select an `owner`:

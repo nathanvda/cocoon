@@ -51,7 +51,8 @@
         regexp_underscord     = new RegExp('_new_' + assoc + '_(\\w*)', 'g'),
         new_id                = create_new_id(),
         new_content           = content.replace(regexp_braced, newcontent_braced(new_id)),
-        new_contents          = [];
+        new_contents          = [],
+        originalEvent         = e;
 
 
     if (new_content == content) {
@@ -85,7 +86,7 @@
       var contentNode = $(node);
 
       var before_insert = jQuery.Event('cocoon:before-insert');
-      insertionNodeElem.trigger(before_insert, [contentNode]);
+      insertionNodeElem.trigger(before_insert, [contentNode, originalEvent]);
 
       if (!before_insert.isDefaultPrevented()) {
         // allow any of the jquery dom manipulation methods (after, before, append, prepend, etc)
@@ -93,7 +94,8 @@
         // code and doesn't force it to be a sibling like after/before does. default: 'before'
         var addedContent = insertionNodeElem[insertionMethod](contentNode);
 
-        insertionNodeElem.trigger('cocoon:after-insert', [contentNode]);
+        insertionNodeElem.trigger('cocoon:after-insert', [contentNode,
+          originalEvent]);
       }
     });
   });
@@ -102,13 +104,14 @@
     var $this = $(this),
         wrapper_class = $this.data('wrapper-class') || 'nested-fields',
         node_to_delete = $this.closest('.' + wrapper_class),
-        trigger_node = node_to_delete.parent();
+        trigger_node = node_to_delete.parent(),
+        originalEvent = e;
 
     e.preventDefault();
     e.stopPropagation();
 
     var before_remove = jQuery.Event('cocoon:before-remove');
-    trigger_node.trigger(before_remove, [node_to_delete]);
+    trigger_node.trigger(before_remove, [node_to_delete, originalEvent]);
 
     if (!before_remove.isDefaultPrevented()) {
       var timeout = trigger_node.data('remove-timeout') || 0;
@@ -120,7 +123,8 @@
             $this.prev("input[type=hidden]").val("1");
             node_to_delete.hide();
         }
-        trigger_node.trigger('cocoon:after-remove', [node_to_delete]);
+        trigger_node.trigger('cocoon:after-remove', [node_to_delete,
+          originalEvent]);
       }, timeout);
     }
   });
