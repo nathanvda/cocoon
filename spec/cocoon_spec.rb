@@ -14,12 +14,12 @@ describe Cocoon do
   before(:each) do
     @tester = TestClass.new
     @post = Post.new
-    @form_obj = double(:object => @post, :object_name => @post.class.name)
   end
 
 
   context "link_to_add_association" do
     before(:each) do
+      @form_obj = double(:object => @post, :object_name => @post.class.name)
       allow(@tester).to receive(:render_association).and_return('form<tag>')
     end
 
@@ -272,6 +272,9 @@ describe Cocoon do
   end
 
   context "link_to_remove_association" do
+    before do
+      @form_obj = @tester.send(:instantiate_builder, @post.class.name, @post, {})
+    end
     context "without a block" do
       context "accepts a name" do
         before do
@@ -326,7 +329,7 @@ describe Cocoon do
       before do
         @post_marked_for_destruction = Post.new
         @post_marked_for_destruction.mark_for_destruction
-        @form_obj_destroyed = double(:object => @post_marked_for_destruction, :object_name => @post_marked_for_destruction.class.name)
+        @form_obj_destroyed = @tester.send(:instantiate_builder, @post_marked_for_destruction.class.name, @post_marked_for_destruction, {})
         @html = @tester.link_to_remove_association('remove something', @form_obj_destroyed)
       end
 
@@ -387,11 +390,11 @@ describe Cocoon do
       # I submitted a bug for this: https://github.com/rails/rails/issues/11376
       if Rails.rails4?
         @post = Post.create(title: 'Testing')
-        @form_obj = double(:object => @post, :object_name => @post.class.name)
       end
-      result = @tester.create_object(@form_obj, :admin_comments)
+      form_obj = double(:object => @post, :object_name => @post.class.name)
+      result = @tester.create_object(form_obj, :admin_comments)
       expect(result.author).to eq("Admin")
-      expect(@form_obj.object.admin_comments).to be_empty
+      expect(form_obj.object.admin_comments).to be_empty
     end
 
     it "creates correct association for belongs_to associations" do
@@ -420,7 +423,8 @@ describe Cocoon do
 
     it "can create using only conditions not the association" do
       expect(@tester).to receive(:create_object_with_conditions).and_return('flappie')
-      expect(@tester.create_object(@form_obj, :comments, true)).to eq('flappie')
+      form_obj = @tester.send(:instantiate_builder, @post.class.name, @post, {})
+      expect(@tester.create_object(form_obj, :comments, true)).to eq('flappie')
     end
   end
 
