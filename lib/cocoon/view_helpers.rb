@@ -42,8 +42,9 @@ module Cocoon
     end
 
     # :nodoc:
-    def render_association(association, f, new_object, form_name, render_options={}, custom_partial=nil)
+    def render_association(association, f, new_object, form_name, received_render_options={}, custom_partial=nil)
       partial = get_partial_path(custom_partial, association)
+      render_options = received_render_options.dup
       locals =  render_options.delete(:locals) || {}
       ancestors = f.class.ancestors.map{|c| c.to_s}
       method_name = ancestors.include?('SimpleForm::FormBuilder') ? :simple_fields_for : (ancestors.include?('Formtastic::FormBuilder') ? :semantic_fields_for : :fields_for)

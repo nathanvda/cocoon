@@ -198,9 +198,13 @@ describe Cocoon do
           allow(@tester).to receive(:render_association).and_call_original
           expect(@form_obj).to receive(:fields_for) { | association, new_object, options_hash, &block| block.call }
           expect(@tester).to receive(:render).with("person_fields", {:f=>nil, :dynamic=>true, :alfred=>"Judoka"}).and_return ("partiallll")
-          @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}})
+          @render_options = {:wrapper => 'inline', :locals => {:alfred => 'Judoka'}}
+          @html = @tester.link_to_add_association('add something', @form_obj, :people, :render_options => @render_options)
         end
         it_behaves_like "a correctly rendered add link", {template: 'partiallll', association: 'person', associations: 'people' }
+        it "does not afffect render-options" do
+          expect(@render_options[:locals]).to eq({alfred: 'Judoka'})
+        end
       end
       context "if no locals are given it still works" do
         before do
