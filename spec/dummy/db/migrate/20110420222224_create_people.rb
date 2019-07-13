@@ -5,7 +5,7 @@ class CreatePeople < ActiveRecord::Migration
       t.string :description
       t.integer :post_id
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 
