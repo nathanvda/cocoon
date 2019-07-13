@@ -8,7 +8,6 @@ group :development, :test do
   gem "jeweler"
   gem "rspec-rails", "~> 3.0.0"
   gem "rspec",       "~> 3.0.0"
-  gem "actionpack",  ">=4.0.0"
   gem "simplecov", :require => false
   gem "rake", "~> 10.1"
 
