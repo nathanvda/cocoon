@@ -218,10 +218,10 @@ This should be called within the form builder.
 
 `link_to_add_association` takes four parameters:
 
-- name: the text to show in the link
-- f: the form builder
-- association: the name of the association (plural) of which a new instance needs to be added (symbol or string).
-- html_options: extra html-options (see [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
+- **name**: the text to show in the link
+- **f**: the form builder
+- **association**: the name of the association (plural) of which a new instance needs to be added (symbol or string).
+- **html_options**: extra html-options (see [`link_to`](http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
   There are some special options, the first three allow to control the placement of the new link-data:
   - `data-association-insertion-traversal` : the jquery traversal method to allow node selection relative to the link. `closest`, `next`, `children`, etc. Default: absolute selection
   - `data-association-insertion-node` : the jquery selector of the node as string, or a function that takes the `link_to_add_association` node as the parameter and returns a node. Default: parent node
@@ -339,9 +339,9 @@ This should be placed inside the partial `_<association-object-singular>_fields`
 
 It takes three parameters:
 
-- name: the text to show in the link
-- f: referring to the containing form-object
-- html_options: extra html-options (see `link_to`)
+- **name**: the text to show in the link
+- **f**: referring to the containing form-object
+- **html_options**: extra html-options (see `link_to`)
 
 Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).
 
