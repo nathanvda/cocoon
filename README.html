@@ -1,0 +1,1180 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>@font-face {
+  font-family: octicons-anchor;
+  src: url(https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.woff) format('woff');
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 980px;
+    margin-right: auto;
+    margin-left: auto;
+    color:#333;
+    background:#fff;
+}
+
+body .markdown-body {
+    padding: 45px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    word-wrap: break-word;
+}
+
+pre {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.markdown-body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  color: #333;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body input {
+  font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.markdown-body a {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body hr:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.markdown-body .select::-ms-expand {
+  opacity: 0;
+}
+
+.markdown-body .octicon {
+  font: normal normal normal 16px/1 octicons-anchor;
+  display: inline-block;
+  text-decoration: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.markdown-body .octicon-link:before {
+  content: '\f05c';
+}
+
+.markdown-body:before {
+  display: table;
+  content: "";
+}
+
+.markdown-body:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body .anchor {
+  display: inline-block;
+  padding-right: 2px;
+  margin-left: -18px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #000;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h1 .anchor {
+  line-height: 1;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 .anchor {
+  line-height: 1;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h3 .anchor {
+  line-height: 1.2;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 .anchor {
+  line-height: 1.2;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h5 .anchor {
+  line-height: 1.1;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body h6 .anchor {
+  line-height: 1.1;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background-color: #fff;
+}
+
+.markdown-body code {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
+}
+
+.markdown-body .pl-c {
+  color: #969896;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #0086b3;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #795da3;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #333;
+}
+
+.markdown-body .pl-ent {
+  color: #63a35c;
+}
+
+.markdown-body .pl-k {
+  color: #a71d5d;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #183691;
+}
+
+.markdown-body .pl-v {
+  color: #ed6a43;
+}
+
+.markdown-body .pl-id {
+  color: #b52a1d;
+}
+
+.markdown-body .pl-ii {
+  background-color: #b52a1d;
+  color: #f8f8f8;
+}
+
+.markdown-body .pl-sr .pl-cce {
+  color: #63a35c;
+  font-weight: bold;
+}
+
+.markdown-body .pl-ml {
+  color: #693a17;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  color: #1d3e81;
+  font-weight: bold;
+}
+
+.markdown-body .pl-mq {
+  color: #008080;
+}
+
+.markdown-body .pl-mi {
+  color: #333;
+  font-style: italic;
+}
+
+.markdown-body .pl-mb {
+  color: #333;
+  font-weight: bold;
+}
+
+.markdown-body .pl-md {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.markdown-body .pl-mi1 {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.markdown-body .pl-mdr {
+  color: #795da3;
+  font-weight: bold;
+}
+
+.markdown-body .pl-mo {
+  color: #1d3e81;
+}
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb;
+}
+
+.markdown-body .plan-price-unit {
+  color: #767676;
+  font-weight: normal;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 0.35em 0.25em -1.6em;
+  vertical-align: middle;
+}
+
+.markdown-body .plan-choice {
+  padding: 15px;
+  padding-left: 40px;
+  display: block;
+  border: 1px solid #e0e0e0;
+  position: relative;
+  font-weight: normal;
+  background-color: #fafafa;
+}
+
+.markdown-body .plan-choice.open {
+  background-color: #fff;
+}
+
+.markdown-body .plan-choice.open .plan-choice-seat-breakdown {
+  display: block;
+}
+
+.markdown-body .plan-choice-free {
+  border-radius: 3px 3px 0 0;
+}
+
+.markdown-body .plan-choice-paid {
+  border-radius: 0 0 3px 3px;
+  border-top: 0;
+  margin-bottom: 20px;
+}
+
+.markdown-body .plan-choice-radio {
+  position: absolute;
+  left: 15px;
+  top: 18px;
+}
+
+.markdown-body .plan-choice-exp {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.markdown-body .plan-choice-seat-breakdown {
+  margin-top: 10px;
+  display: none;
+}
+
+.markdown-body :checked+.radio-label {
+  z-index: 1;
+  position: relative;
+  border-color: #4078c0;
+}
+
+@media print {
+  body .markdown-body {
+    padding: 0;
+    border: none;
+  }
+}
+</style><title>README</title></head><body><article class="markdown-body"><h1>
+<a id="user-content-cocoon" class="anchor" href="#cocoon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>cocoon</h1>
+<p><a href="https://travis-ci.org/nathanvda/cocoon" rel="nofollow"><img src="https://camo.githubusercontent.com/41b7075eb1513452e551828f21dffb34ed5b02ba/68747470733a2f2f7472617669732d63692e6f72672f6e617468616e7664612f636f636f6f6e2e706e673f6272616e63683d6d6173746572" alt="Build Status" data-canonical-src="https://travis-ci.org/nathanvda/cocoon.png?branch=master" style="max-width:100%;"></a></p>
+<p>Cocoon makes it easier to handle nested forms.</p>
+<p>Nested forms are forms that handle nested models and attributes in one form;
+e.g. a project with its tasks or an invoice with its line items.</p>
+<p>Cocoon is form builder-agnostic, so it works with standard Rails, <a href="https://github.com/justinfrench/formtastic">Formtastic</a>, or <a href="https://github.com/plataformatec/simple_form">SimpleForm</a>.
+It is compatible with rails 3, 4 and 5.</p>
+<p>This project is not related to <a href="http://cocoon.apache.org/" rel="nofollow">Apache Cocoon</a>.</p>
+<h2>
+<a id="user-content-prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h2>
+<p>This gem contains 2 javascript libraries.</p>
+<p><strong>cocoon</strong> depends on jQuery and <strong>cocoon.vanilla</strong> works without jQuery.</p>
+<p>Furthermore, I would advise you to use either <a href="https://github.com/justinfrench/formtastic">Formtastic</a> or <a href="https://github.com/plataformatec/simple_form">SimpleForm</a>.</p>
+<h2>
+<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+<p>Inside your <code>Gemfile</code> add the following:</p>
+<div class="highlight highlight-source-ruby"><pre>gem <span class="pl-s"><span class="pl-pds">"</span>cocoon<span class="pl-pds">"</span></span></pre></div>
+<blockquote>
+<p>Please note that for rails 4 you will need at least v1.2.0 or later.</p>
+</blockquote>
+<h3>
+<a id="user-content-rails-31rails-4rails-5" class="anchor" href="#rails-31rails-4rails-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rails 3.1+/Rails 4/Rails 5</h3>
+<p>Add the following to <code>application.js</code> so it compiles to the asset pipeline:</p>
+<p><strong>If you are using jQuery:</strong></p>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">/</span><span class="pl-k">/=</span> <span class="pl-k">require</span> cocoon</pre></div>
+<p><strong>If you are using vanilla Javascript:</strong></p>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">/</span><span class="pl-k">/=</span> <span class="pl-k">require</span> cocoon.vanilla</pre></div>
+<h3>
+<a id="user-content-rails-30x" class="anchor" href="#rails-30x" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rails 3.0.x</h3>
+<p>If you are using Rails 3.0.x, you need to run the installation task (since rails 3.1 this is no longer needed):</p>
+<div class="highlight highlight-source-shell"><pre>rails g cocoon:install</pre></div>
+<p>This will install the Cocoon JavaScript file. In your application layout, add the following below the default javascripts:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> javascript_include_tag :cocoon</span></pre></div>
+<h2>
+<a id="user-content-basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Usage</h2>
+<p>Suppose you have a <code>Project</code> model:</p>
+<div class="highlight highlight-source-shell"><pre>rails g scaffold Project name:string description:string</pre></div>
+<p>And a project has many <code>tasks</code>:</p>
+<div class="highlight highlight-source-shell"><pre>rails g model Task description:string done:boolean project:belongs_to</pre></div>
+<p>Your models are associated like this:</p>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Project<span class="pl-e"> &lt; ActiveRecord::Base</span></span>
+  has_many <span class="pl-c1">:tasks</span>, <span class="pl-c1">inverse_of:</span> <span class="pl-c1">:project</span>
+  accepts_nested_attributes_for <span class="pl-c1">:tasks</span>, <span class="pl-c1">reject_if:</span> <span class="pl-c1">:all_blank</span>, <span class="pl-c1">allow_destroy:</span> <span class="pl-c1">true</span>
+<span class="pl-k">end</span>
+
+<span class="pl-k">class</span> <span class="pl-en">Task<span class="pl-e"> &lt; ActiveRecord::Base</span></span>
+  belongs_to <span class="pl-c1">:project</span>
+<span class="pl-k">end</span></pre></div>
+<blockquote>
+<p><em>Rails 5 Note</em>: since rails 5 a <code>belongs_to</code> relation is by default required. While this absolutely makes sense, this also means
+associations have to be declared more explicitly.
+When saving nested items, theoretically the parent is not yet saved on validation, so rails needs help to know
+the link between relations. There are two ways: either declare the <code>belongs_to</code> as <code>optional: false</code>, but the
+cleanest way is to specify the <code>inverse_of:</code> on the <code>has_many</code>. That is why we write : <code>has_many :tasks, inverse_of: :project</code></p>
+</blockquote>
+<p>Now we want a project form where we can add and remove tasks dynamically.
+To do this, we need the fields for a new or existing <code>task</code> to be defined in a partial
+named <code>_task_fields.html</code>.</p>
+<h3>
+<a id="user-content-strong-parameters-gotcha" class="anchor" href="#strong-parameters-gotcha" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Strong Parameters Gotcha</h3>
+<p>To destroy nested models, rails uses a virtual attribute called <code>_destroy</code>.
+When <code>_destroy</code> is set, the nested model will be deleted. If the record is persisted, rails performs <code>id</code> field lookup to destroy the real record, so if <code>id</code> wasn't specified, it will treat current set of parameters like a parameters for a new record.</p>
+<p>When using strong parameters (default in rails 4), you need to explicitly
+add both <code>:id</code> and <code>:_destroy</code> to the list of permitted parameters.</p>
+<p>E.g. in your <code>ProjectsController</code>:</p>
+<div class="highlight highlight-source-ruby"><pre>  <span class="pl-k">def</span> <span class="pl-en">project_params</span>
+    params.require(<span class="pl-c1">:project</span>).permit(<span class="pl-c1">:name</span>, <span class="pl-c1">:description</span>, <span class="pl-c1">tasks_attributes:</span> [<span class="pl-c1">:id</span>, <span class="pl-c1">:description</span>, <span class="pl-c1">:done</span>, <span class="pl-c1">:_destroy</span>])
+  <span class="pl-k">end</span></pre></div>
+<h2>
+<a id="user-content-examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+<p>Cocoon's default configuration requires <code>link_to_add_association</code> and associated partials to
+be properly wrapped with elements. The examples below illustrate simple layouts.</p>
+<p>Please note these examples rely on the <code>haml</code> gem (<a href="https://github.com/nathanvda/cocoon/wiki/ERB-examples">click here</a> for the default <code>erb</code> views).</p>
+<h3>
+<a id="user-content-formtastic" class="anchor" href="#formtastic" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Formtastic</h3>
+<p>In our <code>projects/_form</code> partial we'd write:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> semantic_form_for @project do |f<span class="pl-s1">|</span></span>
+  =<span class="pl-sre"> f.inputs <span class="pl-k">do</span></span>
+    =<span class="pl-sre"> f.input :name</span>
+    =<span class="pl-sre"> f.input :description</span>
+    %<span class="pl-ent">h3</span> Tasks
+    <span class="pl-ent">#tasks</span>
+      =<span class="pl-sre"> f.semantic_fields_for :tasks do |task<span class="pl-s1">|</span></span>
+        =<span class="pl-sre"> render 'task_fields', f: task</span>
+      <span class="pl-ent">.links</span>
+        =<span class="pl-sre"> link_to_add_association 'add task', f, :tasks</span>
+    =<span class="pl-sre"> f.actions <span class="pl-k">do</span></span>
+      =<span class="pl-sre"> f.action :submit</span></pre></div>
+<p>And in our <code>_task_fields</code> partial we'd write:</p>
+<div class="highlight highlight-text-haml"><pre><span class="pl-ent">.nested-fields</span>
+  =<span class="pl-sre"> f.inputs <span class="pl-k">do</span></span>
+    =<span class="pl-sre"> f.input :description</span>
+    =<span class="pl-sre"> f.input :done, as: :boolean</span>
+    =<span class="pl-sre"> link_to_remove_association <span class="pl-s"><span class="pl-pds">"</span>remove task<span class="pl-pds">"</span></span>, f</span></pre></div>
+<p>The example project <a href="https://github.com/nathanvda/cocoon_formtastic_demo">cocoon_formtastic_demo</a> demonstrates this.</p>
+<h3>
+<a id="user-content-simpleform" class="anchor" href="#simpleform" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SimpleForm</h3>
+<p>In our <code>projects/_form</code> partial we'd write:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> simple_form_for @project do |f<span class="pl-s1">|</span></span>
+  =<span class="pl-sre"> f.input :name</span>
+  =<span class="pl-sre"> f.input :description</span>
+  %<span class="pl-ent">h3</span> Tasks
+  <span class="pl-ent">#tasks</span>
+    =<span class="pl-sre"> f.simple_fields_for :tasks do |task<span class="pl-s1">|</span></span>
+      =<span class="pl-sre"> render 'task_fields', f: task</span>
+    <span class="pl-ent">.links</span>
+      =<span class="pl-sre"> link_to_add_association 'add task', f, :tasks</span>
+  =<span class="pl-sre"> f.submit</span></pre></div>
+<p>In our <code>_task_fields</code> partial we write:</p>
+<div class="highlight highlight-text-haml"><pre><span class="pl-ent">.nested-fields</span>
+  =<span class="pl-sre"> f.input :description</span>
+  =<span class="pl-sre"> f.input :done, as: :boolean</span>
+  =<span class="pl-sre"> link_to_remove_association <span class="pl-s"><span class="pl-pds">"</span>remove task<span class="pl-pds">"</span></span>, f</span></pre></div>
+<p>The example project <a href="https://github.com/nathanvda/cocoon_simple_form_demo">cocoon_simple_form_demo</a> demonstrates this.</p>
+<h3>
+<a id="user-content-standard-rails-forms" class="anchor" href="#standard-rails-forms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Standard Rails forms</h3>
+<p>In our <code>projects/_form</code> partial we'd write:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> form_for @project do |f<span class="pl-s1">|</span></span>
+  <span class="pl-ent">.field</span>
+    =<span class="pl-sre"> f.label :name</span>
+    %<span class="pl-ent">br</span>
+    =<span class="pl-sre"> f.text_field :name</span>
+  <span class="pl-ent">.field</span>
+    =<span class="pl-sre"> f.label :description</span>
+    %<span class="pl-ent">br</span>
+    =<span class="pl-sre"> f.text_field :description</span>
+  %<span class="pl-ent">h3</span> Tasks
+  <span class="pl-ent">#tasks</span>
+    =<span class="pl-sre"> f.fields_for :tasks do |task<span class="pl-s1">|</span></span>
+      =<span class="pl-sre"> render 'task_fields', f: task</span>
+    <span class="pl-ent">.links</span>
+      =<span class="pl-sre"> link_to_add_association 'add task', f, :tasks</span>
+  =<span class="pl-sre"> f.submit</span></pre></div>
+<p>In our <code>_task_fields</code> partial we'd write:</p>
+<div class="highlight highlight-text-haml"><pre><span class="pl-ent">.nested-fields</span>
+  <span class="pl-ent">.field</span>
+    =<span class="pl-sre"> f.label :description</span>
+    %<span class="pl-ent">br</span>
+    =<span class="pl-sre"> f.text_field :description</span>
+  <span class="pl-ent">.field</span>
+    =<span class="pl-sre"> f.check_box :done</span>
+    =<span class="pl-sre"> f.label :done</span>
+  =<span class="pl-sre"> link_to_remove_association <span class="pl-s"><span class="pl-pds">"</span>remove task<span class="pl-pds">"</span></span>, f</span></pre></div>
+<h2>
+<a id="user-content-how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works</h2>
+<p>Cocoon defines two helper functions:</p>
+<h3>
+<a id="user-content-link_to_add_association" class="anchor" href="#link_to_add_association" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>link_to_add_association</h3>
+<p>This function adds a link to your markup that, when clicked, dynamically adds a new partial form for the given association.
+This should be called within the form builder.</p>
+<p><code>link_to_add_association</code> takes four parameters:</p>
+<ul>
+<li>
+<strong>name</strong>: the text to show in the link</li>
+<li>
+<strong>f</strong>: the form builder</li>
+<li>
+<strong>association</strong>: the name of the association (plural) of which a new instance needs to be added (symbol or string).</li>
+<li>
+<strong>html_options</strong>: extra html-options (see <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to" rel="nofollow"><code>link_to</code></a>
+There are some special options, the first three allow to control the placement of the new link-data:
+<ul>
+<li>
+<code>data-association-insertion-traversal</code> : the jquery traversal method to allow node selection relative to the link. <code>closest</code>, <code>next</code>, <code>children</code>, etc. Default: absolute selection</li>
+<li>
+<code>data-association-insertion-node</code> : the jquery selector of the node as string, or a function that takes the <code>link_to_add_association</code> node as the parameter and returns a node. Default: parent node</li>
+<li>
+<code>data-association-insertion-method</code> : jquery method that inserts the new data. <code>before</code>, <code>after</code>, <code>append</code>, <code>prepend</code>, etc. Default: <code>before</code>
+</li>
+<li>
+<code>data-association-insertion-position</code> : old method specifying where to insert new data.
+<ul>
+<li>this setting still works but <code>data-association-insertion-method</code> takes precedence. may be removed in a future version.</li>
+</ul>
+</li>
+<li>
+<code>partial</code>: explicitly declare the name of the partial that will be used</li>
+<li>
+<code>render_options</code> : options passed through to the form-builder function (e.g. <code>simple_fields_for</code>, <code>semantic_fields_for</code> or <code>fields_for</code>).
+If it contains a <code>:locals</code> option containing a hash, that is handed to the partial.</li>
+<li>
+<code>wrap_object</code> : a proc that will allow to wrap your object, especially useful if you are using decorators (e.g. draper). See example lower.</li>
+<li>
+<code>force_non_association_create</code>: if true, it will <em>not</em> create the new object using the association (see lower)</li>
+<li>
+<code>form_name</code> : the name of the form parameter in your nested partial. By default this is <code>f</code>.</li>
+<li>
+<code>count</code> : the number of nested items to insert at once. Default <code>1</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Optionally, you can omit the name and supply a block that is captured to render the link body (if you want to do something more complicated).</p>
+<h4>
+<a id="user-content-render_options" class="anchor" href="#render_options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>:render_options</h4>
+<p>Inside the <code>html_options</code> you can add an option <code>:render_options</code>, and the containing hash will be handed down to the form builder for the inserted
+form.</p>
+<p>When using Twitter Bootstrap and SimpleForm together, <code>simple_fields_for</code> needs the option <code>wrapper: 'inline'</code> which can
+be handed down as follows:</p>
+<p>(Note: In certain newer versions of simple_form, the option to use is <code>wrapper: 'bootstrap'</code>.)</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association 'add something', f, :something<span class="pl-s1">,</span></span>
+    render_options: { wrapper: 'inline' }</pre></div>
+<p>To specify locals that needed to handed down to the partial:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association 'add something', f, :something<span class="pl-s1">,</span></span>
+    render_options: {locals: { sherlock: 'Holmes' }}</pre></div>
+<h4>
+<a id="user-content-partial" class="anchor" href="#partial" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>:partial</h4>
+<p>To override the default partial name, e.g. because it shared between multiple views:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association 'add something', f, :something<span class="pl-s1">,</span></span>
+    partial: 'shared/something_fields'</pre></div>
+<h4>
+<a id="user-content-wrap_object" class="anchor" href="#wrap_object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>:wrap_object</h4>
+<p>If you are using decorators, the normal instantiation of the associated object will not be enough. You actually want to generate the decorated object.</p>
+<p>A simple decorator would look like:</p>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">CommentDecorator</span>
+  <span class="pl-k">def</span> <span class="pl-en">initialize</span>(<span class="pl-smi">comment</span>)
+    <span class="pl-smi">@comment</span> <span class="pl-k">=</span> comment
+  <span class="pl-k">end</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">formatted_created_at</span>
+    <span class="pl-smi">@comment</span>.created_at.to_formatted_s(<span class="pl-c1">:short</span>)
+  <span class="pl-k">end</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">method_missing</span>(<span class="pl-smi">method_sym</span>, <span class="pl-k">*</span><span class="pl-smi">args</span>)
+    <span class="pl-k">if</span> <span class="pl-smi">@comment</span>.respond_to?(method_sym)
+      <span class="pl-smi">@comment</span>.send(method_sym, <span class="pl-k">*</span>args)
+    <span class="pl-k">else</span>
+      <span class="pl-k">super</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+<p>To use this:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association('add something', @form_obj, :comments<span class="pl-s1">,</span></span>
+    wrap_object: Proc.new {|comment| CommentDecorator.new(comment) })</pre></div>
+<p>Note that the <code>:wrap_object</code> expects an object that is <em>callable</em>, so any <code>Proc</code> will do. So you could as well use it to do some fancy extra initialisation (if needed).
+But note you will have to return the (nested) object you want used.
+E.g.</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association('add something', @form_obj, :comments<span class="pl-s1">,</span></span>
+    wrap_object: Proc.new { |comment| comment.name = current_user.name; comment })</pre></div>
+<h4>
+<a id="user-content-force_non_association_create" class="anchor" href="#force_non_association_create" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>:force_non_association_create</h4>
+<p>In normal cases we create a new nested object using the association relation itself. This is the cleanest way to create
+a new nested object.</p>
+<p>This used to have a side-effect: for each call of <code>link_to_add_association</code> a new element was added to the association.
+This is no longer the case.</p>
+<p>For backward compatibility we keep this option for now. Or if for some specific reason you would really need an object
+to be <em>not</em> created on the association, for example if you did not want <code>after_add</code> callback to be triggered on
+the association.</p>
+<p>Example use:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association('add something', @form_obj, :comments<span class="pl-s1">,</span></span>
+    force_non_association_create: true)</pre></div>
+<p>By default <code>:force_non_association_create</code> is <code>false</code>.</p>
+<h3>
+<a id="user-content-link_to_remove_association" class="anchor" href="#link_to_remove_association" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>link_to_remove_association</h3>
+<p>This function will add a link to your markup that, when clicked, dynamically removes the surrounding partial form.
+This should be placed inside the partial <code>_&lt;association-object-singular&gt;_fields</code>.</p>
+<p>It takes three parameters:</p>
+<ul>
+<li>
+<strong>name</strong>: the text to show in the link</li>
+<li>
+<strong>f</strong>: referring to the containing form-object</li>
+<li>
+<strong>html_options</strong>: extra html-options (see <code>link_to</code>)</li>
+</ul>
+<p>Optionally you could also leave out the name and supply a block that is captured to give the name (if you want to do something more complicated).</p>
+<p>Optionally, you can add an html option called <code>wrapper_class</code> to use a different wrapper div instead of <code>.nested-fields</code>.
+The class should be added without a preceding dot (<code>.</code>).</p>
+<blockquote>
+<p>Note: the javascript behind the generated link relies on the presence of a wrapper class (default <code>.nested-fields</code>) to function correctly.</p>
+</blockquote>
+<p>Example:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_remove_association('remove this', @form_obj<span class="pl-s1">,</span></span>
+  { wrapper_class: 'my-wrapper-class' })</pre></div>
+<h3>
+<a id="user-content-callbacks-upon-insert-and-remove-of-items" class="anchor" href="#callbacks-upon-insert-and-remove-of-items" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Callbacks (upon insert and remove of items)</h3>
+<p>On insertion or removal the following events are triggered:</p>
+<ul>
+<li>
+<code>cocoon:before-insert</code>: called before inserting a new nested child, can be <a href="#canceling-a-callback">canceled</a>
+</li>
+<li>
+<code>cocoon:after-insert</code>: called after inserting</li>
+<li>
+<code>cocoon:before-remove</code>: called before removing the nested child, can be <a href="#canceling-a-callback">canceled</a>
+</li>
+<li>
+<code>cocoon:after-remove</code>: called after removal</li>
+</ul>
+<p>To listen to the events in your JavaScript:</p>
+<div class="highlight highlight-source-js"><pre>  <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:before-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">insertedItem</span>, <span class="pl-smi">originalEvent</span>) {
+    <span class="pl-c"><span class="pl-c">//</span> ... do something</span>
+  });</pre></div>
+<p>...where <code>e</code> is the event and the second parameter is the inserted or removed item. This allows you to change markup, or
+add effects/animations (see example below).
+<code>originalEvent</code> is also passed and references the event that triggered an insertion or removal (e.g. the <code>click</code> event on the link to add an association)</p>
+<p>If in your view you have the following snippet to select an <code>owner</code>:</p>
+<div class="highlight highlight-text-haml"><pre><span class="pl-ent">#owner</span>
+  <span class="pl-ent">#owner_from_list</span>
+    =<span class="pl-sre"> f.association :owner, collection: Person.all(order: 'name'), prompt: 'Choose an existing owner'</span>
+  =<span class="pl-sre"> link_to_add_association 'add a new person as owner', f, :owner</span></pre></div>
+<p>This will either let you select an owner from the list of persons, or show the fields to add a new person as owner.</p>
+<p>The callbacks can be added as follows:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-c1">document</span>).<span class="pl-en">ready</span>(<span class="pl-k">function</span>() {
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>#owner<span class="pl-pds">'</span></span>)
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:before-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner_from_list<span class="pl-pds">"</span></span>).<span class="pl-en">hide</span>();
+        <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner a.add_fields<span class="pl-pds">"</span></span>).<span class="pl-en">hide</span>();
+      })
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:after-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-c"><span class="pl-c">/*</span> ... do something ... <span class="pl-c">*/</span></span>
+      })
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>cocoon:before-remove<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner_from_list<span class="pl-pds">"</span></span>).<span class="pl-en">show</span>();
+        <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner a.add_fields<span class="pl-pds">"</span></span>).<span class="pl-en">show</span>();
+      })
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">"</span>cocoon:after-remove<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>() {
+        <span class="pl-c"><span class="pl-c">/*</span> e.g. recalculate order of child items <span class="pl-c">*/</span></span>
+      });
+
+    <span class="pl-c"><span class="pl-c">//</span> example showing manipulating the inserted/removed item</span>
+
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>#tasks<span class="pl-pds">'</span></span>)
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:before-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>,<span class="pl-smi">task_to_be_added</span>) {
+        <span class="pl-smi">task_to_be_added</span>.<span class="pl-en">fadeIn</span>(<span class="pl-s"><span class="pl-pds">'</span>slow<span class="pl-pds">'</span></span>);
+      })
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:after-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">added_task</span>) {
+        <span class="pl-c"><span class="pl-c">//</span> e.g. set the background of inserted task</span>
+        <span class="pl-smi">added_task</span>.<span class="pl-en">css</span>(<span class="pl-s"><span class="pl-pds">"</span>background<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>red<span class="pl-pds">"</span></span>);
+      })
+      .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:before-remove<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">task</span>) {
+        <span class="pl-c"><span class="pl-c">//</span> allow some time for the animation to complete</span>
+        <span class="pl-en">$</span>(<span class="pl-c1">this</span>).<span class="pl-c1">data</span>(<span class="pl-s"><span class="pl-pds">'</span>remove-timeout<span class="pl-pds">'</span></span>, <span class="pl-c1">1000</span>);
+        <span class="pl-smi">task</span>.<span class="pl-en">fadeOut</span>(<span class="pl-s"><span class="pl-pds">'</span>slow<span class="pl-pds">'</span></span>);
+      });
+});</pre></div>
+<p>Note that for the callbacks to work there has to be a surrounding container to which you can bind the callbacks.</p>
+<p>When adding animations and effects to make the removal of items more interesting, you will also have to provide a timeout.
+This is accomplished by the following line:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-c1">this</span>).<span class="pl-c1">data</span>(<span class="pl-s"><span class="pl-pds">'</span>remove-timeout<span class="pl-pds">'</span></span>, <span class="pl-c1">1000</span>);</pre></div>
+<p>You could also immediately add this to your view, on the <code>.nested-fields</code> container (or the <code>wrapper_class</code> element you are using).</p>
+<h4>
+<a id="user-content-canceling-a-callback" class="anchor" href="#canceling-a-callback" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Canceling a Callback</h4>
+<p>You can cancel an action from occurring, either an insertion or removal, within the <code>before-&lt;action&gt;</code> callback by calling <code>event.preventDefault()</code> anywhere within the callback.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-js"><pre>  <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>#container<span class="pl-pds">'</span></span>).<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>cocoon:before-insert<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-c1">event</span>, <span class="pl-smi">insertedItem</span>) {
+    <span class="pl-k">var</span> confirmation <span class="pl-k">=</span> <span class="pl-en">confirm</span>(<span class="pl-s"><span class="pl-pds">"</span>Are you sure?<span class="pl-pds">"</span></span>);
+    <span class="pl-k">if</span>( confirmation <span class="pl-k">===</span> <span class="pl-c1">false</span> ){
+      <span class="pl-c1">event</span>.<span class="pl-c1">preventDefault</span>();
+    }
+  });</pre></div>
+<h3>
+<a id="user-content-control-the-insertion-behaviour" class="anchor" href="#control-the-insertion-behaviour" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Control the Insertion Behaviour</h3>
+<p>The default insertion location is at the back of the current container. But we have added two <code>data-</code> attributes that are read to determine the insertion-node and -method.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-c1">document</span>).<span class="pl-en">ready</span>(<span class="pl-k">function</span>() {
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner a.add_fields<span class="pl-pds">"</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-method<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>before<span class="pl-pds">'</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-node<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>this<span class="pl-pds">'</span></span>);
+});</pre></div>
+<p>The <code>association-insertion-node</code> will determine where to add it. You can choose any selector here, or specify this. Also, you can pass a function that returns an arbitrary node. The default is the parent-container, if you don't specify anything.</p>
+<p>The <code>association-insertion-method</code> will determine where to add it in relation with the node. Any jQuery DOM Manipulation method can be set but we recommend sticking to any of the following: <code>before</code>, <code>after</code>, <code>append</code>, <code>prepend</code>. It is unknown at this time what others would do.</p>
+<p>The <code>association-insertion-traversal</code> will allow node selection to be relative to the link.</p>
+<p>For example:</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-c1">document</span>).<span class="pl-en">ready</span>(<span class="pl-k">function</span>() {
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>#owner a.add_fields<span class="pl-pds">"</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-method<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>append<span class="pl-pds">'</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-traversal<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>closest<span class="pl-pds">'</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-node<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>#parent_table<span class="pl-pds">'</span></span>);
+});</pre></div>
+<p>(if you pass <code>association-insertion-node</code> as a function, this value will be ignored)</p>
+<p>Note, if you want to add templates to the specific location which is:</p>
+<ul>
+<li>not a direct parent or sibling of the link</li>
+<li>the link appears multiple times - for instance, inside a deeply nested form</li>
+</ul>
+<p>you need to specify <code>association-insertion-node</code> as a function.</p>
+<p>For example, suppose Task has many SubTasks in the <a href="#examples">Example</a>, and have subtask forms like the following.</p>
+<div class="highlight highlight-text-haml"><pre><span class="pl-ent">.row</span>
+  <span class="pl-ent">.col-lg-12</span>
+    <span class="pl-ent">.add_sub_task</span>=<span class="pl-sre"> link_to_add_association 'add a new sub task', f, :sub_tasks</span>
+<span class="pl-ent">.row</span>
+  <span class="pl-ent">.col-lg-12</span>
+    <span class="pl-ent">.sub_tasks_form</span>
+      fields_for :sub_tasks do |sub_task_form|
+        =<span class="pl-sre"> render 'sub_task_fields', f: sub_task_form</span></pre></div>
+<p>Then this will do the thing.</p>
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-c1">document</span>).<span class="pl-en">ready</span>(<span class="pl-k">function</span>() {
+    <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">"</span>.add_sub_task a<span class="pl-pds">"</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-method<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>append<span class="pl-pds">'</span></span>).
+      <span class="pl-en">data</span>(<span class="pl-s"><span class="pl-pds">"</span>association-insertion-node<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">link</span>){
+        <span class="pl-k">return</span> <span class="pl-smi">link</span>.<span class="pl-c1">closest</span>(<span class="pl-s"><span class="pl-pds">'</span>.row<span class="pl-pds">'</span></span>).<span class="pl-c1">next</span>(<span class="pl-s"><span class="pl-pds">'</span>.row<span class="pl-pds">'</span></span>).<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.sub_tasks_form<span class="pl-pds">'</span></span>)
+      });
+});</pre></div>
+<h3>
+<a id="user-content-partial-1" class="anchor" href="#partial-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Partial</h3>
+<p>If no explicit partial name is given, <code>cocoon</code> looks for a file named <code>_&lt;association-object_singular&gt;_fields</code>.
+To override the default partial use the <code>:partial</code> option.</p>
+<p>For the JavaScript to behave correctly, the partial should start with a container (e.g. <code>div</code>) of class <code>.nested-fields</code>, or a class of your choice which you can define in the <code>link_to_remove_association</code> method.</p>
+<p>There is no limit to the amount of nesting, though.</p>
+<h2>
+<a id="user-content-i18n" class="anchor" href="#i18n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I18n</h2>
+<p>As you seen in previous sections, the helper method <code>link_to_add_association</code> treats the first parameter as a name. Additionally, if it's skipped and the <code>form</code> object is passed as the first one, then <strong>Cocoon</strong> names it using <strong>I18n</strong>.</p>
+<p>It allows to invoke helper methods like this:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association form_object, :tasks</span>
+=<span class="pl-sre"> link_to_remove_association form_object</span></pre></div>
+<p>instead of:</p>
+<div class="highlight highlight-text-haml"><pre>=<span class="pl-sre"> link_to_add_association <span class="pl-s"><span class="pl-pds">"</span>Add task<span class="pl-pds">"</span></span>, form_object, :tasks</span>
+=<span class="pl-sre"> link_to_remove_association <span class="pl-s"><span class="pl-pds">"</span>remove task<span class="pl-pds">"</span></span>, form_object</span></pre></div>
+<p><strong>Cocoon</strong> uses the name of <code>association</code> as a translations scope key. If custom translations for association is not present it fallbacks to default name. Example of translations tree:</p>
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">en</span>:
+  <span class="pl-ent">cocoon</span>:
+    <span class="pl-ent">defaults</span>:
+      <span class="pl-ent">add</span>: <span class="pl-s"><span class="pl-pds">"</span>Add record<span class="pl-pds">"</span></span>
+      <span class="pl-ent">remove</span>: <span class="pl-s"><span class="pl-pds">"</span>Remove record<span class="pl-pds">"</span></span>
+    <span class="pl-ent">tasks</span>:
+      <span class="pl-ent">add</span>: <span class="pl-s"><span class="pl-pds">"</span>Add new task<span class="pl-pds">"</span></span>
+      <span class="pl-ent">remove</span>: <span class="pl-s"><span class="pl-pds">"</span>Remove old task<span class="pl-pds">"</span></span></pre></div>
+<p>Note that <code>link_to_remove_association</code> does not require <code>association</code> name as an argument. In order to get correct translation key, <strong>Cocoon</strong> tableizes <code>class</code> name of the target object of form builder (<code>form_object.object</code> from previous example).</p>
+<h2>
+<a id="user-content-note-on-patchespull-requests" class="anchor" href="#note-on-patchespull-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note on Patches/Pull Requests</h2>
+<ul>
+<li>Fork the project.</li>
+<li>Make your feature addition or bug fix.</li>
+<li>Add tests for it. This is important so I don't break it in a
+future version unintentionally.</li>
+<li>Commit, do not mess with rakefile, version, or history.
+(if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)</li>
+<li>Send me a pull request. Bonus points for topic branches.</li>
+</ul>
+<h2>
+<a id="user-content-contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors</h2>
+<p>The list of contributors just keeps on growing. <a href="https://github.com/nathanvda/cocoon/graphs/contributors">Check it out!</a>
+I would really really like to thank all of them. They make cocoon more awesome every day. Thanks.</p>
+<h2>
+<a id="user-content-todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Todo</h2>
+<ul>
+<li>add more sample relations: <code>has_many :through</code>, <code>belongs_to</code>, ...</li>
+<li>improve the tests (test the javascript too)(if anybody wants to lend a hand ...?)</li>
+</ul>
+<h2>
+<a id="user-content-copyright" class="anchor" href="#copyright" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Copyright</h2>
+<p>Copyright (c) 2010 Nathan Van der Auwera. See LICENSE for details.</p>
+<h2>
+<a id="user-content-not-related-to-apache-cocoon" class="anchor" href="#not-related-to-apache-cocoon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Not Related To Apache Cocoon</h2>
+<p>Please note that this project is not related to the Apache Cocoon web framework project.</p>
+<p><a href="http://cocoon.apache.org/" rel="nofollow">Apache Cocoon</a>, Cocoon, and Apache are either registered trademarks or trademarks of the <a href="http://www.apache.org/" rel="nofollow">Apache Software Foundation</a> in the United States and/or other countries.</p>
+</article></body></html>

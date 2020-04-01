@@ -14,7 +14,10 @@ This project is not related to [Apache Cocoon](http://cocoon.apache.org/).
 
 ## Prerequisites
 
-This gem depends on jQuery, so it's most useful in a Rails project where you are already using jQuery.
+This gem contains 2 javascript libraries.
+
+**cocoon** depends on jQuery and **cocoon.vanilla** works without jQuery.
+
 Furthermore, I would advise you to use either [Formtastic](https://github.com/justinfrench/formtastic) or [SimpleForm](https://github.com/plataformatec/simple_form).
 
 ## Installation
@@ -31,9 +34,18 @@ gem "cocoon"
 
 Add the following to `application.js` so it compiles to the asset pipeline:
 
+**If you are using jQuery:**
+
 ```ruby
 //= require cocoon
 ```
+
+**If you are using vanilla Javascript:**
+
+```ruby
+//= require cocoon.vanilla
+```
+
 
 ### Rails 3.0.x
 
