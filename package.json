@@ -1,6 +1,6 @@
 {
   "name": "cocoon",
-  "version": "1.2.10",
+  "version": "1.2.14",
   "private": true,
   "description": "Dynamic nested forms using jQuery made easy; works with formtastic, simple_form or default forms",
   "main": "app/assets/javascripts/cocoon.js",

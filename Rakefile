@@ -12,6 +12,8 @@ require 'rdoc/task'
 require 'rspec/core'
 require 'rspec/core/rake_task'
 
+require_relative './lib/tasks/release'
+
 RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
