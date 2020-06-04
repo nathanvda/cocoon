@@ -2,7 +2,7 @@
   "name": "cocoon",
   "version": "1.2.14",
   "private": true,
-  "description": "Dynamic nested forms using jQuery made easy; works with formtastic, simple_form or default forms",
+  "description": "Dynamic nested forms using jQuery made easy; works with formtastic, simple_form or default forms. This package is designed solely to be used in conjunction with the cocoon gem for Rails application.",
   "main": "app/assets/javascripts/cocoon.js",
   "files": [
     "app/assets/javascripts"
