@@ -13,4 +13,12 @@ namespace :release do
   task :update_npm_version do
     system "npm version #{npm_version} --no-git-tag-version"
   end
+
+  task :publish_npm_package do
+    npm_tag = /[a-z]/.match?(version) ? "pre" : "latest"
+    system "npm publish --tag #{npm_tag}"
+  end
+
+  desc "Build and release cocoon.js as NPM package"
+  task npm: [:update_npm_version, :publish_npm_package]
 end
