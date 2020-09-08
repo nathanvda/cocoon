@@ -5,7 +5,8 @@ group :development, :test do
   gem "rails", "~> 4.2"
   gem "sqlite3", '1.3.13'
   gem "json_pure"
-  gem "jeweler", "~> 2.3"
+  gem "jeweler", git: 'git@github.com:technicalpickles/jeweler'
+  # gem "jeweler", "~> 2.3"
   gem "rspec-rails", "~> 3.0.0"
   gem "rspec",       "~> 3.0.0"
   gem "actionpack",  ">=4.0.0"
