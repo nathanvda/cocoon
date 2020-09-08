@@ -27,6 +27,23 @@ gem "cocoon"
 
 > Please note that for rails 4 you will need at least v1.2.0 or later.
 
+### Rails 6/Webpacker 
+
+Add the componanion package
+
+    yarn add @nathanvda/cocoon 
+    
+and then in your `app/javascripts/packs/application.js` you should add
+
+    require("jquery")
+    require("@nathanvda/cocoon")
+
+
+> Note: there are alternative npm packages, which might better suit your needs. 
+E.g. some offer the cocoon functionality without using jquery (search for `cocoon + vanilla` --I found three packages on npm already). 
+Obviously you are free to use those, however the code samples in this README will (still) rely on jquery.
+ 
+
 ### Rails 3.1+/Rails 4/Rails 5
 
 Add the following to `application.js` so it compiles to the asset pipeline:

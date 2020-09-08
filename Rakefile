@@ -11,6 +11,9 @@ require 'rdoc/task'
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
+require 'erb'
+require 'JSON'
+
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -40,3 +43,47 @@ begin
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
+
+
+require 'bundler/gem_tasks'
+
+spec = Bundler.load_gemspec('./cocoon.gemspec')
+
+
+npm_src_dir = './npm'
+npm_dest_dir = './dist'
+CLOBBER.include 'dist'
+
+assets_dir = './app/assets/'
+
+npm_files = {
+    File.join(npm_dest_dir, 'cocoon.js') => File.join(assets_dir, 'javascripts', 'cocoon.js'),
+    File.join(npm_dest_dir, 'README.md') => File.join(npm_src_dir, 'README.md'),
+    File.join(npm_dest_dir, 'LICENSE') => './LICENSE'
+}
+
+namespace :npm do
+  npm_files.each do |dest, src|
+    file dest => src do
+      cp src, dest
+    end
+  end
+
+  task :'package-json' do
+    template = ERB.new(File.read(File.join(npm_src_dir, 'package.json.erb')))
+    content = template.result_with_hash(spec: spec)
+    File.write(File.join(npm_dest_dir, 'package.json'),
+               JSON.pretty_generate(JSON.parse(content)))
+  end
+
+  desc "Build nathanvda-cocoon-#{spec.version}.tgz into the pkg directory"
+  task build: (%i[package-json] + npm_files.keys) do
+    system("cd #{npm_dest_dir} && npm pack && mv ./nathanvda-cocoon-#{spec.version}.tgz ../pkg/")
+  end
+
+  desc "Build and push nathanvda-cocoon-#{spec.version}.tgz to https://npmjs.org"
+  task release: %i[build] do
+    system("npm publish ./pkg/nathanvda-cocoon-#{spec.version}.tgz --access public")
+  end
+end
+
