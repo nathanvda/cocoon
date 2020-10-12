@@ -338,10 +338,10 @@ use AJAX to create a record in a table and return its identification in the
 database.
 
 By default the partials added with the button `link_to_add_association` use
-an internal ranom identifications that doesn't correspond to the identification
+an internal random identifications that doesn't correspond to the identification
 in the database.
 
-If you prefer to create a new record in a table and to use its identification
+If you prefer to create a new record in a the database and to use its identification
 in the partial added, then:
 * Add a method in a controller that will serve the AJAX request by
   creating the record and returning its identification. 
@@ -358,7 +358,11 @@ in the partial added, then:
   ```true```.
 * In ```link_to_add_association``` add ```data-ajax``` with the route that will
   create the record, ```data-ajaxdata``` with the html identification of the 
-  field with the id field of the parent record 
+  field with the id field of the parent record
+* Since you add a record to the database dynamically from javasctipt, you may need 
+  also to remove it more on less dynamically.  You could remove the record in
+  the update method of your form and remove the parameter before rails process it.
+ 
 
 Note that in this moment if you use :ajax, you cannot use :count (or must
 be 1).
