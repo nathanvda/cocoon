@@ -12,7 +12,7 @@ require 'rdoc/task'
 require 'rspec/core'
 require 'rspec/core/rake_task'
 require 'erb'
-require 'JSON'
+require 'json'
 
 
 RSpec::Core::RakeTask.new(:spec)
