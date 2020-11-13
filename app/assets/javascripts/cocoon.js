@@ -131,15 +131,15 @@
     }
   });
 
+  var remove_fields_existing_destroyed = function() {
+    var $this = $(this),
+        wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
-  $(document).on("ready page:load turbolinks:load", function() {
-    $('.remove_fields.existing.destroyed').each(function(i, obj) {
-      var $this = $(this),
-          wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+    $this.closest('.' + wrapper_class).hide();
+  };
 
-      $this.closest('.' + wrapper_class).hide();
-    });
-  });
+  $(remove_fields_existing_destroyed);
+  $(document).on("page:load turbolinks:load", remove_fields_existing_destroyed);
 
 })(jQuery);
 
