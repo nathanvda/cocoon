@@ -29,7 +29,7 @@ gem "cocoon"
 
 ### Rails 6/Webpacker 
 
-Add the componanion package
+Add the companion package
 
     yarn add @nathanvda/cocoon 
     
