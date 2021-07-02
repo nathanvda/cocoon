@@ -24,7 +24,7 @@ Rails.backtrace_cleaner.remove_silencers!
 #Capybara.default_selector = :css
 
 # Run any available migration
-ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
+ActiveRecord::MigrationContext.new(File.expand_path("../dummy/db/migrate/", __FILE__)).migrate
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
