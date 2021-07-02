@@ -1,0 +1,17 @@
+{
+  "name": "cocoon",
+  "version": "1.2.10",
+  "private": true,
+  "description": "Dynamic nested forms using jQuery made easy; works with formtastic, simple_form or default forms",
+  "main": "app/assets/javascripts/cocoon.js",
+  "files": [
+    "app/assets/javascripts"
+  ],
+  "repository": "https://github.com/nathanvda/cocoon",
+  "author": "Nathan Van der Auwera <nathan@dixis.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nathanvda/cocoon/issues"
+  },
+  "homepage": "https://github.com/nathanvda/cocoon#readme"
+}
