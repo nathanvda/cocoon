@@ -50,8 +50,18 @@ module Cocoon
       method_name = ancestors.include?('SimpleForm::FormBuilder') ? :simple_fields_for : (ancestors.include?('Formtastic::FormBuilder') ? :semantic_fields_for : :fields_for)
       f.send(method_name, association, new_object, {:child_index => "new_#{association}"}.merge(render_options)) do |builder|
         partial_options = {form_name.to_sym => builder, :dynamic => true}.merge(locals)
-        render(partial, partial_options)
+        render_partial(partial, partial_options)
       end
+    end
+
+    # :nodoc:
+    def render_partial(partial, partial_options)
+      render(partial, partial_options)
+    end
+
+    # :nodoc:
+    def insertion_template(association, f, new_object, form_parameter_name, render_options, override_partial)
+      CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
     end
 
     # shows a link that will allow to dynamically add a new associated object.
@@ -96,7 +106,7 @@ module Cocoon
         new_object = create_object(f, association, force_non_association_create)
         new_object = wrap_object.call(new_object) if wrap_object.respond_to?(:call)
 
-        html_options[:'data-association-insertion-template'] = CGI.escapeHTML(render_association(association, f, new_object, form_parameter_name, render_options, override_partial).to_str).html_safe
+        html_options[:'data-association-insertion-template'] = insertion_template(association, f, new_object, form_parameter_name, render_options, override_partial)
 
         html_options[:'data-count'] = count if count > 0
 

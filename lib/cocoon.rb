@@ -1,4 +1,5 @@
 require 'cocoon/view_helpers'
+require 'cocoon/cells_helpers'
 
 module Cocoon
   class Engine < ::Rails::Engine
