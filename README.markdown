@@ -121,6 +121,14 @@ E.g. in your `ProjectsController`:
   end
 ```
 
+### Has One Gotcha
+
+If you have a `has_one` association, then you (probably) need to set `force_non_association_create: true` on `link_to_add_association`
+
+If you don't do this, then rails will automatically delete your existing association when you view the edit form!
+
+More details in the [wiki](https://github.com/nathanvda/cocoon/wiki/has_one-association)
+
 ## Examples
 
 Cocoon's default configuration requires `link_to_add_association` and associated partials to
