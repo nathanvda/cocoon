@@ -34,7 +34,7 @@ begin
     gem.summary = %Q{gem that enables easier nested forms with standard forms, formtastic and simple-form}
     gem.description = %Q{Unobtrusive nested forms handling, using jQuery. Use this and discover cocoon-heaven.}
     gem.email = "nathan@dixis.com"
-    gem.homepage = "http://github.com/nathanvda/cocoon"
+    gem.homepage = "https://github.com/nathanvda/cocoon"
     gem.authors = ["Nathan Van der Auwera"]
     gem.licenses = ["MIT"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
@@ -86,4 +86,3 @@ namespace :npm do
     system("npm publish ./pkg/nathanvda-cocoon-#{spec.version}.tgz --access public")
   end
 end
-
