@@ -84,7 +84,7 @@ Gem::Specification.new do |s|
     "spec/support/rails_version_helper.rb",
     "spec/support/shared_examples.rb"
   ]
-  s.homepage = "http://github.com/nathanvda/cocoon".freeze
+  s.homepage = "https://github.com/nathanvda/cocoon".freeze
   s.licenses = ["MIT".freeze]
   s.rubygems_version = "3.0.8".freeze
   s.summary = "gem that enables easier nested forms with standard forms, formtastic and simple-form".freeze
@@ -146,4 +146,3 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rubinius-developer_tools>.freeze, [">= 0"])
   end
 end
-
