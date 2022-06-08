@@ -1,5 +1,55 @@
 # Change History / Release Notes
 
+## Unreleased
+
+* Fix jquery deprecation. [Joseph Chen]
+* Add event listener for @hotwired/turbo. [Jeremiah]
+* Fix JSON import. [Gonçalo Morais]
+
+## Version 1.2.15
+
+* Rails 6 compatible: publish the js to npm. [nathanvda]
+* Remove side-effects on render_options. Fixes #478. [nathanvda]
+* Prevent propagation to parent elements on add field event. [Ashley Van De Poel]
+
+## Version 1.2.14
+
+* Use form builder to add hidden `_destroy` field. [Ranko Radonic]
+
+## Version 1.2.13
+
+* Add originalEvent extra param to insert and remove events. [Daniel Olivares]
+* Prevent propagation to parent elements. [Zmago Devetak]
+
+## Version 1.2.12
+
+* Fix compatibility for Mongoid 7. [Cyril Duchon-Doris]
+* Use .detach() instead of .remove() for removing dynamic assocs. [Jeremiah Megel]
+
+## Version 1.2.11
+
+* Allow events to be cancelled in the 'before' callbacks. [Will Gordon]
+
+## Version 1.2.10
+
+* Don't directly load AV::Base in the initializer, but use AS lazy load hook. [Akira Matsuda]
+* Correctly work with Turbolinks 5 events. [nathanvda]
+
+## Version 1.2.9
+
+* Allow passing a function to `data-association-insertion-node` that takes the
+  `link_to_add_association` node as the parameter and returns a node. [Ryo Yamada]
+
+## Version 1.2.8
+
+* Make turbolinks compliant. [nathanvda]
+
+## Version 1.2.7
+
+* Use I18n for link_to_*_association texts.
+* Check form class to more accurately render add association form partials. Fixes #291.
+* Move to rspec ~> 3.0.
+
 ## Version 1.2.6
 
 * added some explicit documentation we use haml. Fixed the formtastic example.
