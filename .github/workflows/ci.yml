@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version:
+          - 2.2
+          - 2.3
+          - 2.4
+          - 2.5
+          - 2.6
+        gemfile:
+          - gemfiles/Gemfile.default
+        include:
+          - ruby-version: 2.1
+            gemfile: gemfiles/Gemfile.rails-3.2.13
+          - ruby-version: 2.1
+            gemfile: gemfiles/Gemfile.rails-4-r2
+    env:
+      BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "${{ matrix.ruby-version }}"
+          bundler: 1.17.3
+          bundler-cache: true
+      - name: Run spec
+        run: bundle exec rake
