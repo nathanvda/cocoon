@@ -122,6 +122,9 @@
         if ($this.hasClass('dynamic')) {
             node_to_delete.detach();
         } else {
+            node_to_delete.find('input[required], select[required]').each(function(index, element){
+                $(element).removeAttr('required');
+            });
             $this.prev("input[type=hidden]").val("1");
             node_to_delete.hide();
         }
@@ -146,5 +149,3 @@
   });
   
 })(jQuery);
-
-
