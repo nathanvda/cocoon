@@ -88,7 +88,7 @@
   That option is for now still kept.
 * after validation errors, already deleted (but not saved) nested elements, will remain deleted
   (e.g. the state is remembered, and they remain hidden, and will be correctly deleted on next
-  succesfull save) (fixes #136).
+  successful save) (fixes #136).
 
 ## Version 1.2.0
 
